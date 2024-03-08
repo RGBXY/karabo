@@ -4,6 +4,8 @@ use App\Http\Controllers\AppController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
+use App\Models\Kategori;
+use App\Models\Post;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,13 +21,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [AppController::class, 'index'])->name('home');
 Route::get('/dashboard', [AppController::class, 'dashboard_post'])->middleware(['auth', 'verified', 'role:pengguna'])->name('dashboard');
-Route::get('/dashboard-kategori', [AppController::class, 'dashboard_kategori'])->middleware(['auth', 'verified', 'role:pengguna'])->name('dashboard.kategori');
-
-Route::get('/dashboard-kategori/add-kategori', [KategoriController::class, 'create'])->middleware(['auth', 'verified', 'role:pengguna|admin'])->name('post.kategori');
-Route::post('/kategori', [KategoriController::class, 'store'])->middleware(['auth', 'verified', 'role:pengguna|admin'])->name('iyah');
-Route::get('/kategori/{kategori}/edit', [KategoriController::class, 'edit'])->middleware(['auth', 'verified', 'role:pengguna|admin'])->name('kategori.edit');
-Route::put('/kategori/{kategori}/update', [KategoriController::class, 'update'])->middleware(['auth', 'verified', 'role:pengguna|admin'])->name('kategori.update');
-Route::delete('/kategori/{kategori}/destroy', [KategoriController::class, 'destroy'])->middleware(['auth', 'verified', 'role:pengguna|admin'])->name('kategori.destroy');
 
 Route::get('/dashboard/create', [PostController::class, 'create'])->middleware(['auth', 'verified', 'role:pengguna|admin'])->name('post.create');
 Route::post('/index', [PostController::class, 'store'])->middleware(['auth', 'verified', 'role:pengguna|admin'])->name('post.store');
@@ -33,14 +28,43 @@ Route::get('/dashboard/{post}/edit', [PostController::class, 'edit'])->middlewar
 Route::put('/dashboard/{post}/update', [PostController::class, 'update'])->middleware(['auth', 'verified', 'role:pengguna|admin'])->name('post.update');
 Route::delete('/dashboard/{post}/destroy', [PostController::class, 'destroy'])->middleware(['auth', 'verified', 'role:pengguna|admin'])->name('post.destroy');
 
-Route::get('/admin', function(){
+Route::get('/dashboard-admin', function(){
     return view('admin.index');
 })->middleware(['auth', 'verified', 'role:admin'])->name('dashboard.admin');
+Route::get('/dashboard-kategori', [AppController::class, 'dashboard_kategori'])->middleware(['auth', 'verified', 'role:admin'])->name('dashboard.kategori');
+
+Route::get('/dashboard-admin/add-kategori', [KategoriController::class, 'create'])->middleware(['auth', 'verified', 'role:admin'])->name('post.kategori');
+Route::post('/dashboard-kategori', [KategoriController::class, 'store'])->middleware(['auth', 'verified', 'role:admin'])->name('kategori.store');
+Route::get('/kategori/{kategori}/edit', [KategoriController::class, 'edit'])->middleware(['auth', 'verified', 'role:admin'])->name('kategori.edit');
+Route::put('/kategori/{kategori}/update', [KategoriController::class, 'update'])->middleware(['auth', 'verified', 'role:admin'])->name('kategori.update');
+Route::delete('/kategori/{kategori}/destroy', [KategoriController::class, 'destroy'])->middleware(['auth', 'verified', 'role:admin'])->name('kategori.destroy');
+
+Route::get('/kategori', function(){
+    return view('kategori',[
+        'title' => 'Post Kategori',
+        'kategoris' => Kategori::all(),
+    ]);
+});
+
+Route::get('/kategori/{kategori:slug}', function(Kategori $kategori){
+    return view('kategori_detail',[
+        'posts' => $kategori->post,
+        'kategoris' => $kategori->nama_kategori,
+    ]);
+});
+
+Route::get('/post/{post:slug}', function(Post $post){
+    return view('detail_post',[
+        'posts' => $post->judul_post,
+        'kategoris' => $post->nama_kategori,
+    ]);
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
 
 require __DIR__.'/auth.php';

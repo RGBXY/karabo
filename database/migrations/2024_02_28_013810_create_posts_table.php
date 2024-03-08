@@ -14,6 +14,9 @@ return new class extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->string('judul_post');
+            $table->string('slug')->unique();
+            $table->string('user_id');
+            $table->foreignId('kategori_id');
             $table->timestamps();
         });
     }

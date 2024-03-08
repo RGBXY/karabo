@@ -859,10 +859,8 @@
             <div class="bg-cyan-700">
                 @foreach ($posts as $post)
                 <p>{{$post->user->name}}</p>
-                <a href="/post/{{$post->slug}}">{{$post->judul_post}}</a>
-                <div>
-                    <a href="/kategori/{{$post->kategori->slug}}">{{$post->kategori->nama_kategori}}</a>
-                </div>
+                <h1>{{$post->judul_post}}</h1>
+                <a href="/kategori/{{$post->kategori->slug}}">{{$post->kategori->nama_kategori}}</a>
                 @endforeach
             </div>
         </div>

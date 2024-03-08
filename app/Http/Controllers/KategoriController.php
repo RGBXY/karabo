@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use App\Models\Kategori;
 
 class KategoriController extends Controller
 {
     public function create(){
-        return view('dashboard.kategori.add_kategori');
+        return view('admin.kategori.add_kategori');
     }    
 
     public function store(Request $request){
@@ -16,13 +17,15 @@ class KategoriController extends Controller
             'nama_kategori' => 'required',
         ]);  
 
+        $data['slug'] = Str::slug($request->nama_kategori);
+
          $newPost = Kategori::create($data);
         
          return redirect('/dashboard-kategori');
     }
 
     public function edit(Kategori $kategori){
-        return view('dashboard.kategori.edit', ['kategori' => $kategori]);
+        return view('admin.kategori.edit', ['kategori' => $kategori]);
     }
 
     public function update(Kategori $kategori, Request $request){

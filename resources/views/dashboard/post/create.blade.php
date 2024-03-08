@@ -7,11 +7,22 @@
     <title>Document</title>
 </head>
 <body>
+    @if($errors->any())
+    @foreach ($errors->all() as $errors)
+    <p>{{$errors}}</p>
+    @endforeach
+    @endif
+
     <form action="{{route('post.store')}}" method="post">
         @csrf
         @method('post')
         <label for="">Pertanyaan</label>
         <input type="text" name="judul_post">
+        <select name="kategori_id">
+            @foreach ($kategoris as $kategori)
+            <option value="{{$kategori->id}}" selected>{{$kategori->nama_kategori}}</option>
+            @endforeach
+        </select>
         <input type="submit" value="Kirim">
     </form>
 

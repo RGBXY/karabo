@@ -11,7 +11,19 @@ class Post extends Model
 
     protected $fillable = [
         'judul_post',
+        'kategori_id',
+        'slug',
+        'user_id',
     ];
+    
+    public function kategori(){
+        return $this->belongsTo(Kategori::class);
+    }
+
+    public function user(){
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
 }
 
 

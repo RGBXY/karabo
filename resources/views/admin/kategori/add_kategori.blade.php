@@ -13,7 +13,7 @@
         @endforeach
     @endif
 
-    <form action="{{route('iyah')}}" method="post">
+    <form action="{{route('kategori.store')}}" method="post">
         @csrf
         @method('post')
         <label for="">Kategori</label>

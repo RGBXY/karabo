@@ -854,15 +854,12 @@
         </div>
         @endif
 
+        
         <div>
-
+            <h1>Kategori</h1>
             <div class="bg-cyan-700">
-                @foreach ($posts as $post)
-                <p>{{$post->user->name}}</p>
-                <a href="/post/{{$post->slug}}">{{$post->judul_post}}</a>
-                <div>
-                    <a href="/kategori/{{$post->kategori->slug}}">{{$post->kategori->nama_kategori}}</a>
-                </div>
+                @foreach ($kategoris as $kategori)
+                <a href="/kategori/{{$kategori->slug}}">{{$kategori->nama_kategori}}</a>
                 @endforeach
             </div>
         </div>

@@ -17,12 +17,13 @@ class AppController extends Controller
 
     public function dashboard_post(){
         return view('dashboard.post.index', [
-            'posts' => Post::orderBy('id', 'desc')->get(),
+            'posts' => Post::where('user_id', auth()->user()->id)->get(),
         ]);
     }
 
     public function dashboard_kategori(){
-        return view('dashboard.kategori.index', [
+        return view('admin.kategori.index', [
+            'posts' => Post::orderBy('id', 'desc')->get(),
             'kategoris' => Kategori::orderBy('id', 'desc')->get(),
         ]);
     }
