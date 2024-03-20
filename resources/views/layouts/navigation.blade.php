@@ -1,63 +1,93 @@
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
+<nav x-data="{ open: false }" class="bg-white border-b border-gray-100 fixed right-0 left-0">
     <!-- Primary Navigation Menu -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
-            <div class="flex">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-14">
+        <div class="flex h-16">
+            @if (Route::has('login'))
+            @auth
+            <div class="flex items-center justify-between w-full">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('home') }}">
+                    <a class="flex items-center gap-2" href="{{ route('home') }}">
                         <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                        <span>Karabo</span>
                     </a>
                 </div>
 
-                <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    @if(auth()->user()->hasRole('admin'))
-                    <x-nav-link :href="route('dashboard.admin')" :active="request()->routeIs('dashboard.admin')">
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
-                    @endif
 
-                    @if(auth()->user()->hasRole('pengguna'))
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
-                    @endif
+                <!-- Navigation Links -->
+                <div class="flex gap-10 items-center">
+                    <a href="{{route('home')}}">
+                        <img width="25px" src="{{asset('assets/img/home.svg')}}" alt="">
+                    </a>
+                    <a href="">
+                        <img width="25px" src="{{asset('assets/img/jawab.svg')}}" alt="">
+                    </a>
+                    <a href="{{route('kategoris')}}">
+                        <img width="25px" src="{{asset('assets/img/kategori.svg')}}" alt="">
+                    </a>
+                </div>
+
+                <!-- Search Bar -->
+                <div class="relative w-[40%]">
+                    <input class="w-full rounded-xl pl-10" type="text" placeholder="Cari Pertanyaan">
+                    <button class="absolute left-3 top-3"><img class="w-4" src="{{asset('assets/img/search.svg')}}" alt=""></button>
+                </div>
+
+                {{-- Profil --}}
+                <div class="flex items-center gap-5">
+                    <div class="hidden sm:flex sm:items-center sm:ms-6">
+                        <x-dropdown align="right" width="48">
+                            <x-slot name="trigger">
+                                <button class="flex items-center border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
+                                    <div>
+                                        @if(auth()->user()->profile_image)
+                                        <img class="w-11 h-11 rounded-full border-[1px] border-black object-cover" src="{{ asset('storage/' . auth()->user()->profile_image) }}" alt="Profil">
+                                        @else
+                                        <img class="w-11 h-11 rounded-full border-2 border-white object-cover" src="{{ asset('assets/img/default-profile.png') }}" alt="Profile">
+                                    </div>
+                                    @endif
+                                </button>
+                            </x-slot>
+
+                            <x-slot name="content">
+                                <x-dropdown-link :href="route('profile.edit')">
+                                    {{ __('Profile') }}
+                                </x-dropdown-link>
+
+                                @if(auth()->user()->hasRole('admin'))
+                                <x-dropdown-link :href="('/dashboard-admin')">
+                                    {{ __('Dashboard') }}
+                                </x-dropdown-link>
+                                @endif
+
+                                @if(auth()->user()->hasRole('pengguna'))
+                                <x-dropdown-link :href="('/dashboard')">
+                                    {{ __('Dashboard') }}
+                                </x-dropdown-link>
+                                @endif
+
+                                <!-- Authentication -->
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+
+                                    <x-dropdown-link :href="route('logout')" onclick="event.preventDefault();
+                                                    this.closest('form').submit();">
+                                        {{ __('Log Out') }}
+                                    </x-dropdown-link>
+                                </form>
+                            </x-slot>
+                        </x-dropdown>
+                    </div>
+                    <a href="{{route('post.create')}}" class="flex items-center border-[1px] border-black p-1.5 rounded-lg gap-1">
+                        <img width="23px" src="{{asset('assets/img/tambah.svg')}}" alt="">
+                        <span class="text-sm">Tambah Pertanyaan</span>
+                    </a>
                 </div>
             </div>
 
+
             <!-- Settings Dropdown -->
-            <div class="hidden sm:flex sm:items-center sm:ms-6">
-                <x-dropdown align="right" width="48">
-                    <x-slot name="trigger">
-                        <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
-                            <div>{{ Auth::user()->name }}</div>
 
-                            <div class="ms-1">
-                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                        </button>
-                    </x-slot>
-
-                    <x-slot name="content">
-                        <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Profile') }}
-                        </x-dropdown-link>
-
-                        <!-- Authentication -->
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-
-                            <x-dropdown-link :href="route('logout')" onclick="event.preventDefault();
-                                                this.closest('form').submit();">
-                                {{ __('Log Out') }}
-                            </x-dropdown-link>
-                        </form>
-                    </x-slot>
-                </x-dropdown>
-            </div>
 
             <!-- Hamburger -->
             <div class="-me-2 flex items-center sm:hidden">
@@ -99,6 +129,10 @@
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
 
+                <x-responsive-nav-link :href="route('profile.edit')">
+                    {{ __('Jak') }}
+                </x-responsive-nav-link>
+
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
@@ -111,4 +145,46 @@
             </div>
         </div>
     </div>
+
+    @else
+    <div class="sm:fixed sm:top-0 sm:right-0 flex justify-between items-center p-6 text-right z-10 w-full h-16 bg-white border-b border-gray-100">
+        <div class="flex items-center w-[87%] justify-between">
+            <a class="flex items-center" href="{{ route('home') }}">
+                <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                <span>Karabo</span>
+            </a>
+
+            <div class="flex gap-10 items-center">
+                <a href="{{route('home')}}">
+                    <img width="25px" src="{{asset('assets/img/home.svg')}}" alt="">
+                </a>
+                <a href="">
+                    <img width="25px" src="{{asset('assets/img/jawab.svg')}}" alt="">
+                </a>
+                <a href="{{route('kategoris')}}">
+                    <img width="25px" src="{{asset('assets/img/kategori.svg')}}" alt="">
+                </a>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="relative w-[40%]">
+                <input class="w-full rounded-xl pl-10" type="text" placeholder="Cari Pertanyaan">
+                <button class="absolute left-3 top-3"><img class="w-4" src="{{asset('assets/img/search.svg')}}" alt=""></button>
+            </div>
+
+            <a href="{{route('post.create')}}" class="flex items-center border-[1px] border-black p-1.5 rounded-lg gap-1">
+                <img width="23px" src="{{asset('assets/img/tambah.svg')}}" alt="">
+                <span class="text-sm">Tambah Pertanyaan</span>
+            </a>
+        </div>
+        <div class="flex items-center">
+            <a href="{{ route('login') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-slate-900 focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Log in</a>
+
+            @if (Route::has('register'))
+            <a href="{{ route('register') }}" class="ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-slate-900 focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Register</a>
+        </div>
+    </div>
+    @endif
+    @endauth
+    @endif
 </nav>

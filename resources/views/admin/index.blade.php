@@ -1,4 +1,5 @@
-<x-app-layout>
+
+
     Ini halaman Admin
-    <a href="{{route('post.kategori')}}">Tambah Kategori</a>
-</x-app-layout>
+    <a class="h-screen bg-cyan-600 w-full" href="{{route('post.kategori')}}">Tambah Kategori</a>
+

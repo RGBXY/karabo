@@ -13,9 +13,8 @@
     @endforeach
     @endif
 
-    <form action="{{route('post.store')}}" method="post">
+    <form action="{{route('post.store')}}" method="post" enctype="multipart/form-data">
         @csrf
-        @method('post')
         <label for="">Pertanyaan</label>
         <input type="text" name="judul_post">
         <select name="kategori_id">
@@ -23,6 +22,7 @@
             <option value="{{$kategori->id}}" selected>{{$kategori->nama_kategori}}</option>
             @endforeach
         </select>
+        <input type="file" name="image">
         <input type="submit" value="Kirim">
     </form>
 

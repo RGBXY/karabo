@@ -11,6 +11,7 @@ class Post extends Model
 
     protected $fillable = [
         'judul_post',
+        'image',
         'kategori_id',
         'slug',
         'user_id',
@@ -22,6 +23,10 @@ class Post extends Model
 
     public function user(){
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function jawaban(){
+        return $this->hasMany(Jawaban::class, 'post_id');
     }
 
 }

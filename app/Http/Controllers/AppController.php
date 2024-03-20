@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Kategori;
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Models\User;
 
 class AppController extends Controller
 {

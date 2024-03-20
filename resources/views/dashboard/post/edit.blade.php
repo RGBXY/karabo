@@ -13,7 +13,7 @@
     @endforeach
     @endif
     
-    <form action="{{route('post.update', ['post' => $post])}}" method="post">
+    <form action="{{route('post.update', ['post' => $post])}}" method="post" enctype="multipart/form-data">
         @csrf
         @method('put')
         <label for="">Pertanyaan</label>
@@ -23,6 +23,9 @@
             <option value="{{$kategori->id}}" selected>{{$kategori->nama_kategori}}</option>
             @endforeach
         </select>
+        <input type="file" name="image">
+        <img src="{{ asset('storage/' . auth()->user()->profile_image) }}" alt="Profil">
+        <img width="30px" src="{{asset('storage/' . $post->image)}}" alt="{{$post->kategori->nama_kategori}}">
         <input type="submit" value="Update">
     </form>
 

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AppController;
+use App\Http\Controllers\JawabanController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
@@ -28,6 +29,8 @@ Route::get('/dashboard/{post}/edit', [PostController::class, 'edit'])->middlewar
 Route::put('/dashboard/{post}/update', [PostController::class, 'update'])->middleware(['auth', 'verified', 'role:pengguna|admin'])->name('post.update');
 Route::delete('/dashboard/{post}/destroy', [PostController::class, 'destroy'])->middleware(['auth', 'verified', 'role:pengguna|admin'])->name('post.destroy');
 
+Route::post('/', [JawabanController::class, 'store'])->name('jawaban_store');
+
 Route::get('/dashboard-admin', function(){
     return view('admin.index');
 })->middleware(['auth', 'verified', 'role:admin'])->name('dashboard.admin');
@@ -44,7 +47,7 @@ Route::get('/kategori', function(){
         'title' => 'Post Kategori',
         'kategoris' => Kategori::all(),
     ]);
-});
+})->name('kategoris');
 
 Route::get('/kategori/{kategori:slug}', function(Kategori $kategori){
     return view('kategori_detail',[
@@ -55,8 +58,8 @@ Route::get('/kategori/{kategori:slug}', function(Kategori $kategori){
 
 Route::get('/post/{post:slug}', function(Post $post){
     return view('detail_post',[
-        'posts' => $post->judul_post,
-        'kategoris' => $post->nama_kategori,
+        'posts' => Post::orderBy('id', 'desc')->get(),
+        'kategoris' => Kategori::orderBy('id', 'desc')->get(),
     ]);
 });
 

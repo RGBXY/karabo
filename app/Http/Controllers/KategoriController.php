@@ -14,7 +14,7 @@ class KategoriController extends Controller
 
     public function store(Request $request){
         $data = $request->validate([
-            'nama_kategori' => 'required',
+            'nama_kategori' => 'required|unique:kategoris',
         ]);  
 
         $data['slug'] = Str::slug($request->nama_kategori);
@@ -30,7 +30,7 @@ class KategoriController extends Controller
 
     public function update(Kategori $kategori, Request $request){
         $data = $request->validate([
-            'nama_kategori' => 'required',
+            'nama_kategori' => 'required|unique:kategoris',
         ]);  
 
         $kategori->update($data);
