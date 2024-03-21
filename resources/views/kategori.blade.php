@@ -1,8 +1,8 @@
 <x-app-layout>
 <body class="antialiased">
     <div class="sm:flex min-h-screen">
-        <div class="pt-20 mx-20 flex items-center w-full flex-col">
-            <div class="bg-cyan-700 w-[500px] p-3 rounded-xl border-2 border-black">
+        <div class="pt-20 mx-auto flex items-center w-full flex-col">
+            <div class="bg-cyan-700 w-[90%] lg:w-[50%] p-3 rounded-xl border-2 border-black">
                 <h1 class="font-bold text-2xl mb-2">Kategori</h1>
                 <div class="flex flex-col rounded-xl overflow-hidden">
                     @foreach ($kategoris as $kategori)

@@ -56,9 +56,11 @@ Route::get('/kategori/{kategori:slug}', function(Kategori $kategori){
     ]);
 });
 
-Route::get('/post/{post:slug}', function(Post $post){
+Route::get('/post/{post:slug}', function($slug){
+    $post = Post::where('slug', $slug)->first();
     return view('detail_post',[
         'posts' => Post::orderBy('id', 'desc')->get(),
+        'post' => $post,
         'kategoris' => Kategori::orderBy('id', 'desc')->get(),
     ]);
 });

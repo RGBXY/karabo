@@ -45,27 +45,23 @@
                     <table class="border-2 border-red-600 w-full">
                         <thead>
                             <tr>
-                                <th class="py-3">Gambar</th>
                                 <th class="py-3">Pertanyaan</th>
                                 <th class="py-3">Kategori</th>
                                 <th class="py-3">Waktu</th>
+                                <th class="py-3">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($posts as $post)
                             <tr>
-                                <th class="w-[200px]">
-                                    @if($post->image)
-                                    <img width="200px" class="mb-3" src="{{asset('storage/' . $post->image)}}" alt="{{$post->kategori->nama_kategori}}">
-                                    @else
-                                    <img width="200px" class="mb-3" src="https://source.unsplash.com/1200x400?{{$post->kategori->nama_kategori}}" alt="{{$post->kategori->nama_kategori}}">
-                                    @endif
-                                </th>
                                 <th>
                                     <h1>{{$post->judul_post}}</h1>
                                 </th>
                                 <th>
                                     <p>{{$post->kategori->nama_kategori}}</p>
+                                </th>
+                                <th>
+                                    <p>{{$post->created_at }}</p>
                                 </th>
                                 <th>
                                     <a href="{{route('post.edit', ['post' => $post])}}">edit</a>
@@ -79,31 +75,10 @@
                             @endforeach
                         </tbody>
                     </table>
-                    {{-- @foreach ($posts as $post)
-                    <div class="mb-4 bg-red-500 min-h-10 p-3 flex">
-                        @if($post->image)
-                        <img width="250px" src="{{asset('storage/' . $post->image)}}" alt="{{$post->kategori->nama_kategori}}">
-                    @endif
-                    <div class="w-full">
-                        <div class="flex justify-between bg-slate-300 w-full">
-                            <p>{{$post->kategori->nama_kategori}}</p>
-                            <div class="flex gap-2">
-                                <a href="{{route('post.edit', ['post' => $post])}}">edit</a>
-                                <form method="post" action="{{route('post.destroy', ['post' => $post])}}">
-                                    @csrf
-                                    @method('delete')
-                                    <input type="submit" value="Delete">
-                                </form>
-                            </div>
-                        </div>
-                        <h1>{{$post->judul_post}}</h1>
-                    </div>
                 </div>
-                @endforeach --}}
             </div>
         </div>
     </div>
-</div>
 </div>
 </div>
 @endsection

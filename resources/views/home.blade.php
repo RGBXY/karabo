@@ -1,6 +1,6 @@
 <x-app-layout>
-    <div class="flex justify-between w-full bg-[#eaeaea] min-h-screen pt-20">
-        <div class="w-[20%] bg-white border-2 border-slate-300 rounded-se-xl rounded-ee-xl">
+    <div class="flex items-start justify-between w-full bg-[#eaeaea] min-h-screen pt-20">
+        <div class="w-[20%] bg-white top-20 sticky h-full border-2 border-slate-300 rounded-se-xl rounded-ee-xl">
             <a href="" class="flex items-center gap-2  mb-2 p-3 hover:bg-slate-400 transition-all">
                 <img width="25px" src="{{asset('assets/img/tambah.svg')}}" alt="">
                 <span>Buat Topik</span>
@@ -43,10 +43,10 @@
                 <!-- Modal toggle -->
                 <div class="flex items-center justify-between mt-3">
                     <button data-modal-target="crud-modal-{{$post->id}}" data-modal-toggle="crud-modal-{{$post->id}}" class=" block text-black font-extrabold border-2 border-black hover:bg-slate-300 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-3xl text-sm px-4 py-1 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 transition-all" type="button">
-                        Jawab
+                        Jawab 
                     </button>
                     <div class="flex gap-3 items-center">
-                        <p class="border-2 border-black py-1 text-sm px-4 rounded-3xl">Jawaban (0)</p>
+                        <p class="border-2 border-black py-1 text-sm px-4 rounded-3xl">Jawaban {{$jawabanPerPost[$post->id]}}</p>
                         <button class="hover:bg-pink-100 rounded-lg p-1">❤️ <span>0</span></button>
                     </div>
                 </div>
@@ -106,7 +106,7 @@
         @endforeach
     </div>
 
-    <div class="w-[27%] bg-white border-2 p-4 border-slate-300 rounded-ss-xl rounded-es-xl">
+    <div class="w-[27%] h-full sticky top-20 z-[1] bg-white border-2 p-4 border-slate-300 rounded-ss-xl rounded-es-xl">
         <h1 class="mb-3 text-xl font-bold">😎 Pengguna Teraktif</h1>
         <div class="flex items-center justify-between text-sm">
             <div class="flex items-center gap-2">
