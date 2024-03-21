@@ -13,7 +13,9 @@
     <div class="w-full h-20 bg-slate-500 fixed flex justify-between items-center px-5">
         <a href="{{route('home')}}" class="flex items-center gap-2"><img width="19px" src="{{asset('assets/img/back.svg')}}" alt=""><span class="font-bold text-lg">Home</span></a>
         <h1 class="font-bold text-2xl">Dashboard</h1>
-        <p class="text-lg font-bold">Userss ?</p>
+        <div class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+            <span class="font-medium text-gray-600 dark:text-gray-300">JL</span>
+        </div>
     </div>
 
     <div class="flex pt-20 h-full">

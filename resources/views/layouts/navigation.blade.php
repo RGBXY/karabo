@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-100 fixed right-0 left-0">
+<nav x-data="{ open: false }" class="bg-[#008EDA] shadow-lg border-b-[1px]  fixed right-0 left-0">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-14">
         <div class="flex h-16">
@@ -28,9 +28,9 @@
                 </div>
 
                 <!-- Search Bar -->
-                <div class="relative w-[40%]">
-                    <input class="w-full rounded-xl pl-10" type="text" placeholder="Cari Pertanyaan">
-                    <button class="absolute left-3 top-3"><img class="w-4" src="{{asset('assets/img/search.svg')}}" alt=""></button>
+                <div class="relative w-[30%]">
+                    <input class="w-full rounded-xl pl-10 py-1" type="text" placeholder="Cari Pertanyaan">
+                    <button class="absolute left-3 top-2"><img class="w-4" src="{{asset('assets/img/search.svg')}}" alt=""></button>
                 </div>
 
                 {{-- Profil --}}
