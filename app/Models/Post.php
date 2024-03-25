@@ -28,7 +28,6 @@ class Post extends Model
     public function jawaban(){
         return $this->hasMany(Jawaban::class, 'post_id');
     }
-
 }
 
 

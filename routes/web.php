@@ -42,19 +42,11 @@ Route::get('/kategori/{kategori}/edit', [KategoriController::class, 'edit'])->mi
 Route::put('/kategori/{kategori}/update', [KategoriController::class, 'update'])->middleware(['auth', 'verified', 'role:admin'])->name('kategori.update');
 Route::delete('/kategori/{kategori}/destroy', [KategoriController::class, 'destroy'])->middleware(['auth', 'verified', 'role:admin'])->name('kategori.destroy');
 
-Route::get('/kategori', function(){
-    return view('kategori',[
-        'title' => 'Post Kategori',
-        'kategoris' => Kategori::all(),
-    ]);
-})->name('kategoris');
+Route::get('/kategori', [KategoriController::class, 'kategori'])->name('kategoris');
 
-Route::get('/kategori/{kategori:slug}', function(Kategori $kategori){
-    return view('kategori_detail',[
-        'posts' => $kategori->post,
-        'kategoris' => $kategori->nama_kategori,
-    ]);
-});
+Route::get('/kategori/{kategori:slug}', [KategoriController::class, 'kategori_detail']);
+
+Route::get('/jawab', [AppController::class, 'jawab_view'])->name('jawab');
 
 Route::get('/post/{post:slug}', function($slug){
     $post = Post::where('slug', $slug)->first();

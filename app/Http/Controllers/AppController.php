@@ -45,4 +45,33 @@ class AppController extends Controller
             'kategoris' => Kategori::orderBy('id', 'desc')->get(),
         ]);
     }
+
+    public function jawab_view()
+    {
+        $posts = Post::orderBy('id', 'desc')->get();
+        
+        // Inisialisasi array untuk menyimpan jumlah jawaban berdasarkan post ID
+        $jawabanPerPost = [];
+    
+        // Menghitung jumlah jawaban untuk setiap post
+        foreach ($posts as $post) {
+            $jawabanPerPost[$post->id] = Jawaban::where('post_id', $post->id)->count();
+        }
+    
+        // Mengambil semua kategori
+        $kategoris = Kategori::orderBy('id', 'desc')->get();
+
+        // Ambil post yang belum memiliki jawaban
+        $jawab = Post::doesntHave('jawaban')->get();
+        
+        // Kirim data ke tampilan
+        return view('jawab', compact('jawab'), [
+            'jawabanPerPost' => $jawabanPerPost,
+            'posts' => $posts,
+            'kategoris' => $kategoris,
+        ]);
+    }
+
+
+
 }

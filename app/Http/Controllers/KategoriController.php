@@ -2,12 +2,49 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Jawaban;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\Kategori;
+use App\Models\Post;
 
 class KategoriController extends Controller
 {
+    public function kategori(){
+        $posts = Post::orderBy('id', 'desc')->get();
+        
+        // Inisialisasi array untuk menyimpan jumlah jawaban berdasarkan post ID
+        $jawabanPerPost = [];
+    
+        // Menghitung jumlah jawaban untuk setiap post
+        foreach ($posts as $post) {
+            $jawabanPerPost[$post->id] = Jawaban::where('post_id', $post->id)->count();
+        }
+
+        return view('kategori',[
+            'jawabanPerPost' => $jawabanPerPost,
+            'kategoris' => Kategori::all(),
+        ]);
+    }
+
+    public function kategori_detail (Kategori $kategori){
+        $posts = Post::orderBy('id', 'desc')->get();
+        
+        // Inisialisasi array untuk menyimpan jumlah jawaban berdasarkan post ID
+        $jawabanPerPost = [];
+    
+        // Menghitung jumlah jawaban untuk setiap post
+        foreach ($posts as $post) {
+            $jawabanPerPost[$post->id] = Jawaban::where('post_id', $post->id)->count();
+        }
+
+        return view('kategori_detail',[
+            'jawabanPerPost' => $jawabanPerPost,
+            'kategoris' => Kategori::all(),
+            'posts' => $kategori->post,
+        ]);
+    }
+
     public function create(){
         return view('admin.kategori.add_kategori');
     }    
