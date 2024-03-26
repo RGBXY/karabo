@@ -23,5 +23,9 @@ class Jawaban extends Model
     public function post(){
         return $this->belongsTo(Post::class);
     }
+
+    public function childs(){
+        return $this->hasMany(Jawaban::class, 'parent');
+    }
 }
 

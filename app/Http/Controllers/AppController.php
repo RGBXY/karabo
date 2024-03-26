@@ -72,6 +72,29 @@ class AppController extends Controller
         ]);
     }
 
+    public function detail_post($slug){
+        
+        $post = Post::where('slug', $slug)->first();
+    
+        $jawabanPerPost = [];
+        
+        if($post) {
+
+            $jawabanPerPost[$post->id] = $post->jawaban()->where('parent', 0)->count();
+    
+        }
+    
+        $kategoris = Kategori::orderBy('id', 'desc')->get();
+        
+        return view('detail_post', [
+            'post' => $post,
+            'kategoris' => $kategoris,
+            'jawabanPerPost' => $jawabanPerPost,
+        ]);
+    }
+    
+    
+
 
 
 }

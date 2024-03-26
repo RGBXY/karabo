@@ -2,7 +2,7 @@
     <div class="flex items-start justify-between w-full bg-[#eaeaea] min-h-screen pt-20">
         <div class="w-[20%] bg-white top-20 sticky h-full border-2 border-slate-300 rounded-se-xl rounded-ee-xl">
             <a href="" class="flex items-center gap-2  mb-2 p-3 hover:bg-slate-400 transition-all">
-                <img width="25px" src="{{asset('assets/img/tambah.svg')}}" alt="">
+                <img width="25px" src="{{asset('assets/img/tambah-black.svg')}}" alt="">
                 <span>Buat Topik</span>
             </a>
             @foreach($kategoris as $kategori)

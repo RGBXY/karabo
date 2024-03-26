@@ -14,6 +14,10 @@ class JawabanController extends Controller
     public function store(Request $request){
         $request->request->add(['user_id' => auth()->user()->id]);
         $jawaban = Jawaban::create($request->all());
-        return redirect()->route('home');
+        
+        $postSlug = $jawaban->post->slug;
+        
+         return redirect()->route('detail_post', ['post' => $postSlug]);
+
     }
 }

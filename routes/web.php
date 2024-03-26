@@ -29,7 +29,7 @@ Route::get('/dashboard/{post}/edit', [PostController::class, 'edit'])->middlewar
 Route::put('/dashboard/{post}/update', [PostController::class, 'update'])->middleware(['auth', 'verified', 'role:pengguna|admin'])->name('post.update');
 Route::delete('/dashboard/{post}/destroy', [PostController::class, 'destroy'])->middleware(['auth', 'verified', 'role:pengguna|admin'])->name('post.destroy');
 
-Route::post('/', [JawabanController::class, 'store'])->name('jawaban_store');
+Route::post('/', [JawabanController::class, 'store'])->middleware(['auth', 'verified', 'role:pengguna|admin'])->name('jawaban_store');
 
 Route::get('/dashboard-admin', function(){
     return view('admin.index');
@@ -48,14 +48,7 @@ Route::get('/kategori/{kategori:slug}', [KategoriController::class, 'kategori_de
 
 Route::get('/jawab', [AppController::class, 'jawab_view'])->name('jawab');
 
-Route::get('/post/{post:slug}', function($slug){
-    $post = Post::where('slug', $slug)->first();
-    return view('detail_post',[
-        'posts' => Post::orderBy('id', 'desc')->get(),
-        'post' => $post,
-        'kategoris' => Kategori::orderBy('id', 'desc')->get(),
-    ]);
-});
+Route::get('/post/{post:slug}', [AppController::class, 'detail_post'])->name('detail_post');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

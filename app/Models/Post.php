@@ -28,6 +28,10 @@ class Post extends Model
     public function jawaban(){
         return $this->hasMany(Jawaban::class, 'post_id');
     }
+
+    public function hasAnswer(){
+        return $this->jawaban()->count() > 0;
+    }
 }
 
 
