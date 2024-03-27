@@ -18,7 +18,7 @@ class KategoriController extends Controller
     
         // Menghitung jumlah jawaban untuk setiap post
         foreach ($posts as $post) {
-            $jawabanPerPost[$post->id] = Jawaban::where('post_id', $post->id)->count();
+            $jawabanPerPost[$post->id] = $post->jawaban()->where('parent', 0)->count();;
         }
 
         return view('kategori',[
@@ -35,7 +35,7 @@ class KategoriController extends Controller
     
         // Menghitung jumlah jawaban untuk setiap post
         foreach ($posts as $post) {
-            $jawabanPerPost[$post->id] = Jawaban::where('post_id', $post->id)->count();
+            $jawabanPerPost[$post->id] = $post->jawaban()->where('parent', 0)->count();;
         }
 
         return view('kategori_detail',[

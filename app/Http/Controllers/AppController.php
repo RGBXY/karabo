@@ -19,7 +19,7 @@ class AppController extends Controller
     
         // Menghitung jumlah jawaban untuk setiap post
         foreach ($posts as $post) {
-            $jawabanPerPost[$post->id] = Jawaban::where('post_id', $post->id)->count();
+            $jawabanPerPost[$post->id] = $post->jawaban()->where('parent', 0)->count();
         }
     
         // Mengambil semua kategori
@@ -55,7 +55,7 @@ class AppController extends Controller
     
         // Menghitung jumlah jawaban untuk setiap post
         foreach ($posts as $post) {
-            $jawabanPerPost[$post->id] = Jawaban::where('post_id', $post->id)->count();
+            $jawabanPerPost[$post->id] = $post->jawaban()->where('parent', 0)->count();
         }
     
         // Mengambil semua kategori
@@ -85,9 +85,12 @@ class AppController extends Controller
         }
     
         $kategoris = Kategori::orderBy('id', 'desc')->get();
+
+        $jawab = Post::doesntHave('jawaban')->limit(5)->get()->shuffle();
         
         return view('detail_post', [
             'post' => $post,
+            'posts' => $jawab,
             'kategoris' => $kategoris,
             'jawabanPerPost' => $jawabanPerPost,
         ]);
