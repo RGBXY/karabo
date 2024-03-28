@@ -91,7 +91,6 @@
 
             @if($post->hasAnswer())
             @foreach($post->jawaban()->where('parent', 0)->orderBy('created_at', 'desc')->get() as $jawaban)
-            <?php $jawaban_konten = html_entity_decode(strip_tags($jawaban->jawaban_konten));?>
             <div class="bg-white border-2 border-slate-200 rounded-xl mt-5">
                 <div class="border-b-2 p-4">
                     <p class="font-bold text-xl">Jawaban 📖</p>
@@ -111,7 +110,7 @@
                     </div>
 
                     <div class="my-4 min-h-20">
-                        <p class="text-base">{{$jawaban_konten}}</p>
+                        <p class="text-base">{!! $jawaban->jawaban_konten !!}</p>
                     </div>
 
                     <button onclick="toggleKomentarView({{$jawaban->id}})" class="komentar text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2 mb-5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
@@ -199,4 +198,17 @@
         }
 
     </script>
+
+<script>
+    ClassicEditor
+        .create(document.querySelector('#editor'), {
+            ckfinder: {
+                uploadUrl: "<?php echo route('ckeditor.upload' , ['post' => $post->slug], ['_token' => csrf_token()]); ?>",
+            }
+        })
+        .catch(error => {
+            console.error(error);
+        });
+</script>
+
 </x-app-layout>

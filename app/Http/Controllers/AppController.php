@@ -94,6 +94,8 @@ class AppController extends Controller
             'kategoris' => $kategoris,
             'jawabanPerPost' => $jawabanPerPost,
         ]);
+
+        
     }
     
     

@@ -48,6 +48,8 @@ Route::get('/kategori/{kategori:slug}', [KategoriController::class, 'kategori_de
 
 Route::get('/jawab', [AppController::class, 'jawab_view'])->name('jawab');
 
+route::post('/post/{post:slug}', [PostController::class, 'upload'])->name('ckeditor.upload');
+
 Route::get('/post/{post:slug}', [AppController::class, 'detail_post'])->name('detail_post');
 
 Route::middleware('auth')->group(function () {
