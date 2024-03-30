@@ -79,10 +79,10 @@
                             </x-slot>
                         </x-dropdown>
                     </div>
-                    <a href="{{route('post.create')}}" class="flex items-center border-[1px] border-white p-1.5 rounded-lg gap-1">
+                    <button data-modal-target="crud-modal" data-modal-toggle="crud-modal" type="button" class="flex items-center border-[1px] border-white p-1.5 rounded-lg gap-1">
                         <img width="23px" src="{{asset('assets/img/tambah.svg')}}" alt="">
                         <span class="text-sm text-white">Tambah Pertanyaan</span>
-                    </a>
+                    </button>
                 </div>
             </div>
 

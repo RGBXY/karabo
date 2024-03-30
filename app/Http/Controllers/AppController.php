@@ -24,18 +24,22 @@ class AppController extends Controller
     
         // Mengambil semua kategori
         $kategoris = Kategori::orderBy('id', 'desc')->get();
+
+        $user_top = User::withCount('jawaban')->orderByDesc('jawaban_count')->get(5);
     
         // Mengirim data ke view 'home'
         return view('home', [
             'jawabanPerPost' => $jawabanPerPost,
             'posts' => $posts,
             'kategoris' => $kategoris,
+            'user_top' => $user_top,
         ]);
     }
 
     public function dashboard_post(){
         return view('dashboard.post.index', [
             'posts' => Post::where('user_id', auth()->user()->id)->get(),
+            'kategoris' => Kategori::orderBy('id', 'desc')->get(),
         ]);
     }
 
@@ -79,9 +83,7 @@ class AppController extends Controller
         $jawabanPerPost = [];
         
         if($post) {
-
             $jawabanPerPost[$post->id] = $post->jawaban()->where('parent', 0)->count();
-    
         }
     
         $kategoris = Kategori::orderBy('id', 'desc')->get();

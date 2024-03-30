@@ -9,6 +9,7 @@
                     @else
                     <img class="w-11 h-11 rounded-full object-cover" src="{{ asset('assets/img/default-profile.png') }}" alt="{{$post->kategori->nama_kategori}}">
                     @endif
+
                     <div>
                         <p class="font-bold">{{$post->user->name}}</p>
                         <div class="flex items-center gap-1">
@@ -18,7 +19,7 @@
                     </div>
                 </div>
 
-                <h1 class="my-4 text-lg">{{$post->judul_post}}</h1>
+                <h1 class="my-4 text-lg">{!!$post->judul_post!!}</h1>
 
                 @if($post->image)
                 <div class="bg-neutral-700 rounded-lg overflow-hidden mb-4">
@@ -98,8 +99,8 @@
 
                 <div class="p-4">
                     <div class="flex gap-3">
-                        @if($post->user->profile_image)
-                        <img class="w-14 h-14 rounded-full border-2 border-white object-cover" src="{{ asset('storage/' . $post->user->profile_image) }}" alt="{{$post->kategori->nama_kategori}}">
+                        @if($jawaban->user->profile_image)
+                        <img class="w-14 h-14 rounded-full border-2 border-white object-cover" src="{{ asset('storage/' . $jawaban->user->profile_image) }}" alt="{{$post->kategori->nama_kategori}}">
                         @else
                         <img class="w-14 h-14 rounded-full border-2 border-white object-cover" src="{{ asset('assets/img/default-profile.png') }}" alt="{{$post->kategori->nama_kategori}}">
                         @endif
@@ -133,8 +134,8 @@
                         @foreach($jawaban->childs as $child)
                         <div class="px-2 py-5 ml-4 border-l-2 border-gray-300">
                             <div class="flex gap-3">
-                                @if($post->user->profile_image)
-                                <img class="w-14 h-14 rounded-full border-2 border-white object-cover" src="{{ asset('storage/' . $post->user->profile_image) }}" alt="{{$post->kategori->nama_kategori}}">
+                                @if($child->user->profile_image)
+                                <img class="w-14 h-14 rounded-full border-2 border-white object-cover" src="{{ asset('storage/' . $child->user->profile_image) }}" alt="{{$post->kategori->nama_kategori}}">
                                 @else
                                 <img class="w-14 h-14 rounded-full border-2 border-white object-cover" src="{{ asset('assets/img/default-profile.png') }}" alt="{{$post->kategori->nama_kategori}}">
                                 @endif
@@ -176,7 +177,7 @@
             <div class="flex justify-center flex-col">
                 @foreach($posts as $item)
                 <a href="#" class="hover:bg-slate-200 px-3 py-2 text-blue-600">
-                    {{$item->judul_post}}
+                    {!!$item->judul_post!!}
                 </a>
                 @endforeach
                 <a href="#" class="px-3 py-3 text-slate-500">Tambah pertanyaan</a>
@@ -199,16 +200,17 @@
 
     </script>
 
-<script>
-    ClassicEditor
-        .create(document.querySelector('#editor'), {
-            ckfinder: {
-                uploadUrl: "<?php echo route('ckeditor.upload' , ['post' => $post->slug], ['_token' => csrf_token()]); ?>",
-            }
-        })
-        .catch(error => {
-            console.error(error);
-        });
-</script>
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#editor'), {
+                ckfinder: {
+                    uploadUrl: "<?php echo route('ckeditor.upload' , ['post' => $post->slug], ['_token' => csrf_token()]); ?>"
+                , }
+            })
+            .catch(error => {
+                console.error(error);
+            });
+
+    </script>
 
 </x-app-layout>
