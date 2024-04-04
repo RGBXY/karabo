@@ -1,17 +1,13 @@
-<svg viewBox="0 0 163 141" fill="none" xmlns="http://www.w3.org/2000/svg" {{$attributes}}>
-    <g filter="url(#filter0_d_5_38)">
-        <path d="M62.125 40.3483L14.4327 51.5562L23.375 60.5225H41.2596L4 79.2022L77.0288 60.5225L85.226 45.5787L96.4038 60.5225L112.053 63.5112L102.365 77.7079V93.3989L85.226 87.4213L17.4135 118.056L58.399 109.837L44.2404 118.056V133L88.2067 114.32L132.918 133L129.192 84.4326L159 48.5674L112.053 40.3483L85.226 0L62.125 40.3483Z" fill="black" />
-    </g>
-    <defs>
-        <filter id="filter0_d_5_38" x="0" y="0" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-            <feFlood flood-opacity="0" result="BackgroundImageFix" />
-            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
-            <feOffset dy="4" />
-            <feGaussianBlur stdDeviation="2" />
-            <feComposite in2="hardAlpha" operator="out" />
-            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0" />
-            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_5_38" />
-            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_5_38" result="shape" />
-        </filter>
-    </defs>
+<svg viewBox="0 0 549 149" fill="none" xmlns="http://www.w3.org/2000/svg" {{$attributes}}>
+    <path d="M25.3956 4H4L4.32418 57.3589L92.5 140H121.676L25.3956 49.5502V4Z" fill="black" />
+    <path d="M92.5 4.65072L47.1154 57.3589L62.5 71L122 4L92.5 4.65072Z" fill="black" />
+    <path d="M37.2821 101.467L23 88L4.32418 108.44V140L37.2821 101.467Z" fill="black" />
+    <path d="M25.3956 4H4L4.32418 57.3589L92.5 140H121.676L25.3956 49.5502V4Z" stroke="black" stroke-width="6" />
+    <path d="M92.5 4.65072L47.1154 57.3589L62.5 71L122 4L92.5 4.65072Z" stroke="black" stroke-width="6" />
+    <path d="M37.2821 101.467L23 88L4.32418 108.44V140L37.2821 101.467Z" stroke="black" stroke-width="6" />
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M118 111L150.5 33H174.333L206.833 111H180.833L176.5 100.167H148.333L144 111H118ZM162.417 60.0835L153.75 82.8335H171.083L162.417 60.0835Z" fill="black" />
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M293 111L325.5 33H349.333L381.833 111H355.833L351.5 100.167H323.333L319 111H293ZM337.417 60.0835L328.75 82.8335H346.083L337.417 60.0835Z" fill="black" />
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M217.015 111.615H241.379V87.2514H247.47L258.636 111.615H283L269.803 82.1757C274.54 78.1151 283.609 67.5575 281.985 57.812C279.955 45.6302 272.848 34.4636 256.606 33.4484C243.612 32.6363 224.121 33.11 216 33.4484L217.015 111.615ZM258.411 57.8262C258.411 66.1014 246.687 66.791 240.826 66.1014V49.5509C246.687 48.8613 258.411 49.5509 258.411 57.8262Z" fill="black" />
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M429.452 33.0233H391L391.894 111H435.711C443.163 110.104 458.246 104.726 458.961 90.3854C459.677 76.0449 450.317 70.0696 445.548 68.8746C448.827 66.7833 455.027 59.5534 453.596 47.3639C452.165 35.1744 436.904 32.7246 429.452 33.0233ZM413 61.1954C418.666 61.8621 430 61.1954 430 53.1954C430 45.1954 418.666 44.5287 413 45.1954V61.1954ZM436 88.0004C436 98.7381 421.333 99.6329 414 98.7381V77.2627C421.333 76.3679 436 77.2627 436 88.0004Z" fill="black" />
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M511 111C531.987 111 549 93.5391 549 72C549 50.4609 531.987 33 511 33C490.013 33 473 50.4609 473 72C473 93.5391 490.013 111 511 111ZM512 95.0001C523.598 95.0001 533 85.1504 533 73.0001C533 60.8499 523.598 51.0001 512 51.0001C500.402 51.0001 491 60.8499 491 73.0001C491 85.1504 500.402 95.0001 512 95.0001Z" fill="black" />
 </svg>

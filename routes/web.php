@@ -31,9 +31,7 @@ Route::delete('/dashboard/{post}/destroy', [PostController::class, 'destroy'])->
 
 Route::post('/', [JawabanController::class, 'store'])->middleware(['auth', 'verified', 'role:pengguna|admin'])->name('jawaban_store');
 
-Route::get('/dashboard-admin', function(){
-    return view('admin.index');
-})->middleware(['auth', 'verified', 'role:admin'])->name('dashboard.admin');
+Route::get('/dashboard-admin', [AppController::class, 'dashboard_admin'])->middleware(['auth', 'verified', 'role:admin'])->name('dashboard.admin');
 Route::get('/dashboard-kategori', [AppController::class, 'dashboard_kategori'])->middleware(['auth', 'verified', 'role:admin'])->name('dashboard.kategori');
 
 Route::get('/dashboard-admin/add-kategori', [KategoriController::class, 'create'])->middleware(['auth', 'verified', 'role:admin'])->name('post.kategori');
@@ -44,11 +42,11 @@ Route::delete('/kategori/{kategori}/destroy', [KategoriController::class, 'destr
 
 Route::get('/kategori', [KategoriController::class, 'kategori'])->name('kategoris');
 
-Route::get('/kategori/{kategori:slug}', [KategoriController::class, 'kategori_detail']);
+Route::get('/kategori={kategori:slug}', [KategoriController::class, 'kategori_detail']);
 
 Route::get('/jawab', [AppController::class, 'jawab_view'])->name('jawab');
 
-route::post('/post/{post:slug}', [PostController::class, 'upload'])->name('ckeditor.upload');
+Route::get('ckeditor/upload/{post?}', [AppController::class, 'detail_post'])->name('ckeditor.upload');
 
 Route::get('/post/{post:slug}', [AppController::class, 'detail_post'])->name('detail_post');
 

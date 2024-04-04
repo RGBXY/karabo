@@ -21,7 +21,7 @@ class KategoriController extends Controller
             $jawabanPerPost[$post->id] = $post->jawaban()->where('parent', 0)->count();;
         }
 
-        return view('kategori',[
+        return view('kategori.kategori',[
             'jawabanPerPost' => $jawabanPerPost,
             'kategoris' => Kategori::all(),
         ]);
@@ -38,7 +38,7 @@ class KategoriController extends Controller
             $jawabanPerPost[$post->id] = $post->jawaban()->where('parent', 0)->count();;
         }
 
-        return view('kategori_detail',[
+        return view('kategori.kategori_detail',[
             'jawabanPerPost' => $jawabanPerPost,
             'kategoris' => Kategori::all(),
             'posts' => $kategori->post,

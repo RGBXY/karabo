@@ -110,7 +110,7 @@
                         </div>
                     </div>
 
-                    <div class="my-4 min-h-20">
+                    <div class="my-4 min-h-5">
                         <p class="text-base">{!! $jawaban->jawaban_konten !!}</p>
                     </div>
 

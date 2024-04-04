@@ -16,12 +16,11 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ["Figtree", ...defaultTheme.fontFamily.sans],
+                title: ["Nunito Sans", ...defaultTheme.fontFamily.sans],
+                sans: ["Figtree"],
             },
         },
     },
 
-    plugins: [
-        require('flowbite/plugin')
-    ],
+    plugins: [require("flowbite/plugin")],
 };

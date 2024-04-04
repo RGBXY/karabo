@@ -1,14 +1,13 @@
-<nav x-data="{ open: false }" class="bg-[#008EDA] shadow-lg border-b-[1px]  fixed right-0 left-0 z-40">
+<nav x-data="{ open: false }" class="bg-white border-b-[1px] border-slate-200 fixed right-0 left-0 z-40">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-14">
         <div class="flex h-16">
-           
+
             <div class="flex items-center justify-between w-full">
                 <!-- Logo -->
-                <div class="shrink-0 flex items-center">
+                <div class="flex items-center">
                     <a class="flex items-center gap-2" href="{{ route('home') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
-                        <span>Karabo</span>
+                        <x-application-logo class="block w-28 h-2w-28 fill-current text-gray-800" />
                     </a>
                 </div>
 
@@ -27,10 +26,15 @@
                 </div>
 
                 <!-- Search Bar -->
-                <div class="relative w-[30%]">
-                    <input class="w-full rounded-xl pl-10 py-1.5 text-sm" type="text" placeholder="Cari Pertanyaan">
-                    <button class="absolute left-3.5 top-2"><img class="w-3.5" src="{{asset('assets/img/search.svg')}}" alt=""></button>
-                </div>
+                <form action="/" class="w-[30%]">
+                    @if(request('kategori'))
+                    <input type="hidden" name="kategori" value="{{request('kategori')}}">
+                    @endif
+                    <div class="relative w-[100%]">
+                        <input class="w-full rounded-3xl pl-6 py-2.5 border-none focus:ring-0 text-sm bg-slate-100" type="text" placeholder="Cari Pertanyaan" name="search" value="{{request('search')}}">
+                        <button type="submit" class="absolute right-0 bg-slate-200 h-full w-14 rounded-e-3xl"><img class="w-5 mx-auto" src="{{asset('assets/img/search.svg')}}" alt=""></button>
+                    </div>
+                </form>
 
                 @if (Route::has('login'))
                 @auth
@@ -42,9 +46,9 @@
                                 <button class="flex items-center border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
                                     <div>
                                         @if(auth()->user()->profile_image)
-                                        <img class="w-10 h-10 rounded-full border-[1px] border-black object-cover" src="{{ asset('storage/' . auth()->user()->profile_image) }}" alt="Profil">
+                                        <img class="w-10 h-10 rounded-full object-cover border-[1px] border-slate-200" src="{{ asset('storage/' . auth()->user()->profile_image) }}" alt="Profil">
                                         @else
-                                        <img class="w-10 h-10 rounded-full border-2 border-white object-cover" src="{{ asset('assets/img/default-profile.png') }}" alt="Profile">
+                                        <img class="w-10 h-10 rounded-full object-cover" src="{{ asset('assets/img/default-profile.png') }}" alt="Profile">
                                     </div>
                                     @endif
                                 </button>
@@ -79,9 +83,8 @@
                             </x-slot>
                         </x-dropdown>
                     </div>
-                    <button data-modal-target="crud-modal" data-modal-toggle="crud-modal" type="button" class="flex items-center border-[1px] border-white p-1.5 rounded-lg gap-1">
-                        <img width="23px" src="{{asset('assets/img/tambah.svg')}}" alt="">
-                        <span class="text-sm text-white">Tambah Pertanyaan</span>
+                    <button data-modal-target="crud-modal" data-modal-toggle="crud-modal" type="button" class="hover:bg-slate-300 transition-all py-1.5 px-2 rounded-3xl">
+                        <span class="text-sm">Tambah Pertanyaan</span>
                     </button>
                 </div>
             </div>
@@ -148,11 +151,11 @@
     </div>
 
     @else
-    
+
     <div class="flex items-center gap-8">
         <div>
             <a href="{{ route('login') }}" class="font-semibold text-white hover:text-gray-900 dark:text-gray-400 dark:hover:text-slate-900 focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500 transition-all">Log in</a>
-            
+
             @if (Route::has('register'))
             <a href="{{ route('register') }}" class="ml-4 font-semibold text-white hover:text-gray-900 dark:text-gray-400 dark:hover:text-slate-900 focus:outline focus:outline-2 focus:rounded-sm focus:outline-white transition-all">Register</a>
         </div>
@@ -160,7 +163,7 @@
             <img width="23px" src="{{asset('assets/img/tambah.svg')}}" alt="">
             <span class="text-sm text-white">Tambah Pertanyaan</span>
         </a>
-        </div>
+    </div>
     </div>
     @endif
     @endauth

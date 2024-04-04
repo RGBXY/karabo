@@ -68,43 +68,6 @@
         </div>
     </div>
 
-
-
-    <script>
-        @isset($post)
-        ClassicEditor
-            .create(document.querySelector('#editor2'), {
-                ckfinder: {
-                    uploadUrl: "{{ route('ckeditor.upload', ['post' => $post->slug]) }}"
-                    , headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    }
-                }
-            })
-            .catch(error => {
-                console.error(error);
-            });
-        @endisset
-
-    </script>
-
-    @foreach ($posts as $post)
-    <script>
-        ClassicEditor
-            .create(document.querySelector('#editor-{{$post->id}}'), {
-                ckfinder: {
-                    uploadUrl: "{{ route('ckeditor.upload', ['post' => $post->slug]) }}"
-                    , headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    }
-                }
-            })
-            .catch(error => {
-                console.error(error);
-            });
-
-    </script>
-    @endforeach
     </div>
 
 </body>

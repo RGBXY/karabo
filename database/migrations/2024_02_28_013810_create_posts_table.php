@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->string('judul_post');
+            $table->longText('judul_post');
             $table->string('slug')->unique();
             $table->string('image')->nullable();
             $table->foreignId('user_id');

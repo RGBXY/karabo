@@ -17,6 +17,20 @@ class Post extends Model
         'user_id',
     ];
     
+    public function scopeFilter($query, array $filters)
+    {
+        $query->when($filters['search'] ?? false, function($query, $search){
+            return $query->where('judul_post', 'like', '%' . $search . '%');
+        });
+
+        $query->when($filters['kategori'] ?? false, function($query, $kategori){
+            return $query->whereHas('kategori', function($query) use ($kategori){
+                $query->where('slug', $kategori);
+            });
+        });
+    }
+    
+
     public function kategori(){
         return $this->belongsTo(Kategori::class);
     }
