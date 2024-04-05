@@ -1,8 +1,9 @@
 <x-app-layout>
-    <div class="pt-20 rounded-xl flex justify-center gap-5 w-full">
+    <div class="pt-20 rounded-xl flex flex-col items-center justify-center gap-5 w-full">
 
-        <div class="w-[50%]">
-            <div class="bg-white border-2 border-slate-200 rounded-xl p-4">
+        <div class="w-[700px] pt-4">
+            <div class="bg-white rounded-xl p-4">
+                <h1 class="text-4xl font-[900] font-title">{!!$post->judul_post!!}</h1>
                 <div class="flex gap-3 items-center">
                     @if($post->user->profile_image)
                     <img class="w-11 h-11 rounded-full object-cover" src="{{ asset('storage/' . $post->user->profile_image) }}" alt="{{$post->kategori->nama_kategori}}">
@@ -10,42 +11,43 @@
                     <img class="w-11 h-11 rounded-full object-cover" src="{{ asset('assets/img/default-profile.png') }}" alt="{{$post->kategori->nama_kategori}}">
                     @endif
 
-                    <div>
+                    <div class="py-8">
                         <p class="font-bold">{{$post->user->name}}</p>
                         <div class="flex items-center gap-1">
-                            <p class="text-sm">{{$post->created_at->diffForHumans()}}</p>
+                            <p class="text-sm">{{$post->created_at->format("d M Y")}}</p>
                             <a href="/kategori/{{$post->kategori->slug}}"><span class="text-sm">• {{$post->kategori->nama_kategori}}</span></a>
                         </div>
                     </div>
+
                 </div>
 
-                <h1 class="my-4 text-lg">{!!$post->judul_post!!}</h1>
-
-                @if($post->image)
-                <div class="bg-neutral-700 rounded-lg overflow-hidden mb-4">
-                    <img class="max-h-[500px] mx-auto object-contain" src="{{asset('storage/' . $post->image)}}" alt="{{$post->kategori->nama_kategori}}">
-                </div>
-                @endif
-
-                @if($post->hasAnswer())
-                <div class="flex items-center gap-3">
-                    <div class="py-2 px-3 bg-black text-sm rounded-3xl font-extrabold inline-block">
-                        <p class="text-white">Lihat Jawaban <span class="bg-white text-black py-0.5 rounded-full px-2">{{$jawabanPerPost[$post->id]}}</span></p>
+                <div class="mb-10 border-t border-b border-slate-200 py-3 px-1">
+                    @if($post->hasAnswer())
+                    <div class="flex items-center gap-3">
+                        <div class="py-2 px-3 bg-black text-sm rounded-3xl font-extrabold inline-block">
+                            <p class="text-white">Lihat Jawaban <span class="bg-white text-black py-0.5 rounded-full px-2">{{$jawabanPerPost[$post->id]}}</span></p>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <button data-modal-target="crud-modal-{{$post->id}}" data-modal-toggle="crud-modal-{{$post->id}}" class=" flex items-center py-1.5 px-3 bg-black text-white rounded-3xl font-bold gap-1 transition-all" type="button">
+                                <img class="w-5" src="{{asset('assets/img/tambah.svg')}}" alt="">
+                                <p>Tambahkan Jawaban</p>
+                            </button>
+                        </div>
                     </div>
+
+                    @else
                     <div class="flex items-center justify-between">
                         <button data-modal-target="crud-modal-{{$post->id}}" data-modal-toggle="crud-modal-{{$post->id}}" class=" flex items-center py-1.5 px-3 bg-black text-white rounded-3xl font-bold gap-1 transition-all" type="button">
                             <img class="w-5" src="{{asset('assets/img/tambah.svg')}}" alt="">
                             <p>Tambahkan Jawaban</p>
                         </button>
                     </div>
+                    @endif
                 </div>
 
-                @else
-                <div class="flex items-center justify-between">
-                    <button data-modal-target="crud-modal-{{$post->id}}" data-modal-toggle="crud-modal-{{$post->id}}" class=" flex items-center py-1.5 px-3 bg-black text-white rounded-3xl font-bold gap-1 transition-all" type="button">
-                        <img class="w-5" src="{{asset('assets/img/tambah.svg')}}" alt="">
-                        <p>Tambahkan Jawaban</p>
-                    </button>
+                @if($post->image)
+                <div class="bg-neutral-700 rounded-lg overflow-hidden mb-4">
+                    <img class="max-h-[500px] mx-auto object-contain" src="{{asset('storage/' . $post->image)}}" alt="{{$post->kategori->nama_kategori}}">
                 </div>
                 @endif
 
@@ -88,21 +90,24 @@
                     </div>
                 </div>
 
+                @include('components.create-modal')
+
             </div>
 
             @if($post->hasAnswer())
+            <div class="px-4 py-2 text-lg font-bold">Jawaban Terkait ({{$jawabanPerPost[$post->id]}})</div>
             @foreach($post->jawaban()->where('parent', 0)->orderBy('created_at', 'desc')->get() as $jawaban)
-            <div class="bg-white border-2 border-slate-200 rounded-xl mt-5">
-                <div class="border-b-2 p-4">
-                    <p class="font-bold text-xl">Jawaban 📖</p>
+            <div id="jawaban" class="bg-white border border-slate-200 mt-5 w-[670px] mx-auto">
+                <div class="border-b p-4">
+                    <p class="font-bold text-xl font-title">Jawaban 📖</p>
                 </div>
 
-                <div class="p-4">
-                    <div class="flex gap-3">
+                <div class="pt-4 px-4 pb-1">
+                    <div class="flex items-center gap-3">
                         @if($jawaban->user->profile_image)
-                        <img class="w-14 h-14 rounded-full border-2 border-white object-cover" src="{{ asset('storage/' . $jawaban->user->profile_image) }}" alt="{{$post->kategori->nama_kategori}}">
+                        <img class="w-9 h-9 rounded-full border-2 border-white object-cover" src="{{ asset('storage/' . $jawaban->user->profile_image) }}" alt="{{$post->kategori->nama_kategori}}">
                         @else
-                        <img class="w-14 h-14 rounded-full border-2 border-white object-cover" src="{{ asset('assets/img/default-profile.png') }}" alt="{{$post->kategori->nama_kategori}}">
+                        <img class="w-9 h-9 rounded-full border-2 border-white object-cover" src="{{ asset('assets/img/default-profile.png') }}" alt="{{$post->kategori->nama_kategori}}">
                         @endif
                         <div>
                             <p class="font-bold">{{$jawaban->user->name}}</p>
@@ -110,22 +115,22 @@
                         </div>
                     </div>
 
-                    <div class="my-4 min-h-5">
+                    <div class="mt-5 mb-2 min-h-5 border-b pb-4">
                         <p class="text-base">{!! $jawaban->jawaban_konten !!}</p>
                     </div>
 
-                    <button onclick="toggleKomentarView({{$jawaban->id}})" class="komentar text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2 mb-5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                        Komentar
+                    <button onclick="toggleKomentarView({{$jawaban->id}})" class="komentar flex items-center gap-1 pb-2">
+                        <img class="w-5 h-5" src="{{asset("assets/img/komen.svg")}}" alt=""><span>Komentar</span>
                     </button>
 
                     <div class="hidden " id="komentar_view-{{$jawaban->id}}">
-                        <form action="{{route('jawaban_store')}}" method="post" class="pt-4 border-t-2 ">
+                        <form action="{{route('jawaban_store')}}" method="post" class="pt-4 pb-2 border-t ">
                             @csrf
                             <input type="hidden" name="post_id" value="{{ $post->id }}">
                             <input type="hidden" name="parent" value="{{ $jawaban->id }}">
-                            <div class="flex justify-between">
-                                <textarea name="jawaban_konten" id="editor" class="p-2.5 w-[87%] h-9 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Komen"></textarea>
-                                <button type="submit" class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2 mb-5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                            <div class="flex justify-between items-center">
+                                <textarea name="jawaban_konten" id="editor" class="p-3 w-[87%] min-h-4 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-0 focus:border-slate-300" placeholder="Komen"></textarea>
+                                <button type="submit" class="bg-green-500 py-2 px-4 max-h-12 text-white rounded-3xl">
                                     Kirim
                                 </button>
                             </div>
@@ -133,14 +138,14 @@
 
                         @foreach($jawaban->childs as $child)
                         <div class="px-2 py-5 ml-4 border-l-2 border-gray-300">
-                            <div class="flex gap-3">
+                            <div class="flex items-center gap-2">
                                 @if($child->user->profile_image)
-                                <img class="w-14 h-14 rounded-full border-2 border-white object-cover" src="{{ asset('storage/' . $child->user->profile_image) }}" alt="{{$post->kategori->nama_kategori}}">
+                                <img class="w-9 h-9 rounded-full border-2 border-white object-cover" src="{{ asset('storage/' . $child->user->profile_image) }}" alt="{{$post->kategori->nama_kategori}}">
                                 @else
-                                <img class="w-14 h-14 rounded-full border-2 border-white object-cover" src="{{ asset('assets/img/default-profile.png') }}" alt="{{$post->kategori->nama_kategori}}">
+                                <img class="w-9 h-9 rounded-full border-2 border-white object-cover" src="{{ asset('assets/img/default-profile.png') }}" alt="{{$post->kategori->nama_kategori}}">
                                 @endif
                                 <div>
-                                    <p class="font-bold">{{ $child->user->name }}</p>
+                                    <p class="font-bold text-sm">{{ $child->user->name }}</p>
                                     <p class="text-sm">{{ $child->created_at->diffForHumans()}}</p>
                                 </div>
                             </div>
@@ -156,24 +161,25 @@
             @endforeach
 
             @else
-            <div>
-                <div class="flex justify-center items-center flex-col h-52 gap-3 bg-white border-2 border-slate-200 rounded-xl mt-5">
-                    <h1 class="font-bold text-2xl w-">{{$post->user->name}} menunggu bantuanmu</h1>
-                    <p>Beri jawaban</p>
-                    <div class="flex items-center justify-between">
-                        <button data-modal-target="crud-modal-{{$post->id}}" data-modal-toggle="crud-modal-{{$post->id}}" class=" flex items-center py-1.5 px-3 bg-black text-white rounded-3xl font-bold gap-1 transition-all" type="button">
-                            <img class="w-5" src="{{asset('assets/img/tambah.svg')}}" alt="">
-                            <p>Tambahkan Jawaban</p>
-                        </button>
-                    </div>
+
+            <div class="flex justify-center items-center flex-col w-[670px] mx-auto gap-4 pb-10 bg-slate-100 rounded-xl mt-5">
+                <img class="w-[350px] object-cover" src="{{ asset('assets/img/no_answer.svg') }}" alt="{{$post->kategori->nama_kategori}}">
+                <h1 class="font-bold font-title text-3xl">{{$post->user->name}} menunggu bantuanmu</h1>
+                <p class="text-lg">Bantu {{$post->user->name}} agar dia bisa mendapat jawaban</p>
+                <div class="flex items-center justify-between">
+                    <button data-modal-target="crud-modal-{{$post->id}}" data-modal-toggle="crud-modal-{{$post->id}}" class=" flex items-center py-1.5 px-3 bg-black text-white rounded-3xl font-bold gap-1 transition-all" type="button">
+                        <img class="w-5" src="{{asset('assets/img/tambah.svg')}}" alt="">
+                        <p>Tambahkan Jawaban</p>
+                    </button>
                 </div>
             </div>
+
             @endif
 
         </div>
 
-        <div class="w-[25%] h-full bg-white border-2 border-slate-200 rounded-xl overflow-hidden">
-            <p class="border-b-2 p-2 font-bold">Pertanyaan lainnya</p>
+        <div class="w-[670px] h-full bg-white border-y py-5 my-5 border-slate-200">
+            <p class="p-3 mb-3 font-bold">Pertanyaan lainnya</p>
             <div class="flex justify-center flex-col">
                 @foreach($posts as $item)
                 <a href="#" class="hover:bg-slate-200 px-3 py-2 text-blue-600">
@@ -191,11 +197,7 @@
             const komentarView = document.getElementById(`komentar_view-${jawaban_id}`);
             komentarView.classList.toggle('hidden');
             const button = document.querySelector(`[onclick="toggleKomentarView(${jawaban_id})"]`);
-            if (komentarView.classList.contains('hidden')) {
-                button.textContent = 'Komentar'; // Ubah teks tombol menjadi 'Komentar'
-            } else {
-                button.textContent = 'Sembunyikan Komentar'; // Ubah teks tombol menjadi 'Sembunyikan Komentar'
-            }
+
         }
 
     </script>

@@ -25,6 +25,10 @@
             min-height: 200px;
         }
 
+        .body {
+            scroll-behavior: smooth;
+        }
+
     </style>
 
 

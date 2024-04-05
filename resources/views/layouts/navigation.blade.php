@@ -154,15 +154,14 @@
 
     <div class="flex items-center gap-8">
         <div>
-            <a href="{{ route('login') }}" class="font-semibold text-white hover:text-gray-900 dark:text-gray-400 dark:hover:text-slate-900 focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500 transition-all">Log in</a>
+            <a href="{{ route('login') }}" class="font-semibold text-black hover:text-gray-600 dark:text-gray-400 dark:hover:text-slate-900  transition-all">Log in</a>
 
             @if (Route::has('register'))
-            <a href="{{ route('register') }}" class="ml-4 font-semibold text-white hover:text-gray-900 dark:text-gray-400 dark:hover:text-slate-900 focus:outline focus:outline-2 focus:rounded-sm focus:outline-white transition-all">Register</a>
+            <a href="{{ route('register') }}" class="ml-4 font-semibold text-black hover:text-gray-600 dark:text-gray-400 dark:hover:text-slate-900  transition-all">Register</a>
         </div>
-        <a href="{{route('post.create')}}" class="flex items-center border-[1px] border-white p-1.5 rounded-lg gap-1">
-            <img width="23px" src="{{asset('assets/img/tambah.svg')}}" alt="">
-            <span class="text-sm text-white">Tambah Pertanyaan</span>
-        </a>
+        <button data-modal-target="crud-modal" data-modal-toggle="crud-modal" type="button" class="hover:bg-slate-300 transition-all py-1.5 px-2 rounded-3xl">
+            <span class="text-sm">Tambah Pertanyaan</span>
+        </button>
     </div>
     </div>
     @endif

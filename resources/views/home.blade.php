@@ -27,9 +27,15 @@
                                 <a href="/?kategori={{$post->kategori->slug}}" class="bg-slate-200 py-1 text-sm font-medium px-2 rounded-3xl">
                                     <p class="text-sm">{{$post->kategori->nama_kategori}} </p>
                                 </a>
-                                <a href="/post/{{$post->slug}}" class=" bg-slate-200 py-1 text-sm px-4 rounded-3xl">
+                                @if($post->hasAnswer())
+                                <a href="/post/{{$post->slug}}/#jawaban" class="bg-slate-900 py-1 text-white text-sm px-4 rounded-3xl">
                                     Jawaban {{$jawabanPerPost[$post->id]}}
                                 </a>
+                                @else
+                                <a href="/post/{{$post->slug}}" class="bg-slate-900 py-1 text-white text-sm px-4 rounded-3xl">
+                                    Jawab Pertanyaan
+                                </a>
+                                @endif
                             </div>
                         </div>
                         @if($post->image)
@@ -49,9 +55,9 @@
         </div>
 
         {{-- Side-Content-Container --}}
-        <div class="w-[350px] h-full sticky top-16 py-4 px-10 bg-white border-l border-slate-200">
+        <div class="w-[350px] h-screen sticky top-16 py-4 px-10 bg-white border-l border-slate-200">
             <div class="Pengguna-Teraktif">
-                <h1 class="mb-3 text-xl font-bold">😎 Pengguna Teraktif</h1>
+                <h1 class="mb-4 font-bold">😎 Pengguna Teraktif</h1>
                 @foreach($user_top as $user)
                 <div class="flex items-center mb-2 justify-between text-sm">
                     <div class="flex items-center gap-2">
@@ -67,7 +73,16 @@
                 @endforeach
             </div>
 
-
+            <div class="mt-12">
+                <h1 class="mb-4 font-bold">📰 Rekomendasi Topik</h1>
+                <div class="flex flex-row flex-wrap mb-2 gap-2 text-sm">
+                    @foreach($kategori_top as $kategori)
+                    <a href="/?kategori={{$kategori->slug}}" class="bg-slate-200 py-1 text-sm font-medium px-2 rounded-3xl">
+                        <p class="text-sm">{{$kategori->nama_kategori}} </p>
+                    </a>
+                    @endforeach
+                </div>
+            </div>
         </div>
 
     </div>

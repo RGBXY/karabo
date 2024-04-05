@@ -30,12 +30,15 @@ class AppController extends Controller
         $kategoris = Kategori::orderBy('id', 'desc')->get();
 
         $user_top = User::withCount('jawaban')->orderByDesc('jawaban_count')->get(5);
+
+        $kategori_top = Kategori::withCount('post')->orderByDesc('post_count')->get(7);
     
         return view('home', [
             'posts' => Post::latest()->filter(request(['search', 'kategori']))->get(),
             'jawabanPerPost' => $jawabanPerPost,
             'kategoris' => $kategoris,
             'user_top' => $user_top,
+            'kategori_top' => $kategori_top,
         ]);
     }
 
