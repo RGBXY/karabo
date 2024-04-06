@@ -29,7 +29,7 @@ class AppController extends Controller
 
         $kategoris = Kategori::orderBy('id', 'desc')->get();
 
-        $user_top = User::withCount('jawaban')->orderByDesc('jawaban_count')->get(5);
+        $user_top = User::withCount('jawaban')-> orderByDesc('jawaban_count')->get(5);
 
         $kategori_top = Kategori::withCount('post')->orderByDesc('post_count')->get(7);
     
@@ -43,9 +43,29 @@ class AppController extends Controller
     }
 
     public function dashboard_post(){
+
+        $user_top = User::withCount('jawaban')->orderByDesc('jawaban_count')->get(5);
+        $kategori_top = Kategori::withCount('post')->orderByDesc('post_count')->get(7);
+
         return view('dashboard.post.index', [
             'posts' => Post::where('user_id', auth()->user()->id)->get(),
+            'user_top' => $user_top,
+            'kategori_top' => $kategori_top,
             'kategoris' => Kategori::orderBy('id', 'desc')->get(),
+        ]);
+    }
+
+    public function dashboard_jawaban(){
+
+        $user_top = User::withCount('jawaban')->orderByDesc('jawaban_count')->get(5);
+        $kategori_top = Kategori::withCount('post')->orderByDesc('post_count')->get(7);
+
+        return view('dashboard.post.jawaban', [
+            'posts' => Post::where('user_id', auth()->user()->id)->get(),
+            'jawabans' => Jawaban::where('user_id', auth()->user()->id)->where('parent', 0)->get(),
+            'kategoris' => Kategori::orderBy('id', 'desc')->get(),
+            'user_top' => $user_top,
+            'kategori_top' => $kategori_top,
         ]);
     }
 
@@ -81,16 +101,17 @@ class AppController extends Controller
     
         $kategoris = Kategori::orderBy('id', 'desc')->get();
 
+        $jawaban = Jawaban::orderBy('id', 'desc')->get();
+
         $jawab = Post::doesntHave('jawaban')->limit(5)->get()->shuffle();
         
         return view('post.detail_post', [
             'post' => $post,
             'posts' => $jawab,
             'kategoris' => $kategoris,
+            'jawabans' => $jawaban,
             'jawabanPerPost' => $jawabanPerPost,
-        ]);
-
-        
+        ]);        
     }
     
     // Admin

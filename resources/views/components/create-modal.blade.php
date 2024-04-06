@@ -20,7 +20,7 @@
                 <div class="flex flex-col gap-5 p-5">
                     <div class="">
                         <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Pertanyaan</label>
-                        <textarea id="editor4" name="judul_post" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Tulis pertanyaan"></textarea>
+                        <textarea id="editor4" name="judul_post" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg focus:shadow border-gray-300 focus:ring-0 focus:border-slate-300" placeholder="Tulis pertanyaan"></textarea>
                     </div>
                     <div class="flex items-end gap-5">
                         <div class="">
@@ -31,9 +31,9 @@
                                 @endforeach
                             </select>
                         </div>
-                        <input type="file" name="image">
+                        <input type="file" class="rounded-xl border" name="image">
                     </div>
-                    <button type="submit" class="text-white inline items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    <button type="submit" class="text-white inline items-center font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-slate-800">
                         Buat pertanyaan
                     </button>
                 </div>
@@ -42,4 +42,3 @@
         </div>
     </div>
 </div>
-

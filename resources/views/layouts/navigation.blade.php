@@ -66,7 +66,7 @@
                                 @endif
 
                                 @if(auth()->user()->hasRole('pengguna'))
-                                <x-dropdown-link :href="('/dashboard')">
+                                <x-dropdown-link :href="('/dashboard/jawaban')">
                                     {{ __('Dashboard') }}
                                 </x-dropdown-link>
                                 @endif

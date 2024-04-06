@@ -80,24 +80,4 @@ class PostController extends Controller
         $post->delete();
         return redirect(route('dashboard'));
     }
-
-    public function post_jawaban(Request $request){
-        // Validasi data yang dikirimkan
-        $request->validate([
-            'isi_jawaban' => 'required|string|max:255',
-            'post_id' => 'required|exists:posts,id',
-            'parent' => 'required'
-        ]);
-
-        // Simpan komentar ke dalam database
-        Jawaban::create([
-            'post_id' => $request->post_id,
-            'user_id' => auth()->id(), // ID pengguna yang saat ini diotentikasi
-            'isi_jawaban' => $request->isi_jawaban,
-            'parent' => $request->parent
-        ]);
-
-        // Redirect kembali ke halaman sebelumnya dengan pesan sukses
-        return back()->with('success', 'Komentar berhasil ditambahkan.');
-    }
 }

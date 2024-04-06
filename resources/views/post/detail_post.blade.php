@@ -2,7 +2,7 @@
     <div class="pt-20 rounded-xl flex flex-col items-center justify-center gap-5 w-full">
 
         <div class="w-[700px] pt-4">
-            <div class="bg-white rounded-xl p-4">
+                <div class="bg-white rounded-xl p-4">
                 <h1 class="text-4xl font-[900] font-title">{!!$post->judul_post!!}</h1>
                 <div class="flex gap-3 items-center">
                     @if($post->user->profile_image)
@@ -15,7 +15,7 @@
                         <p class="font-bold">{{$post->user->name}}</p>
                         <div class="flex items-center gap-1">
                             <p class="text-sm">{{$post->created_at->format("d M Y")}}</p>
-                            <a href="/kategori/{{$post->kategori->slug}}"><span class="text-sm">• {{$post->kategori->nama_kategori}}</span></a>
+                            <a href="/?kategori={{$post->kategori->slug}}"><span class="text-sm">• {{$post->kategori->nama_kategori}}</span></a>
                         </div>
                     </div>
 
@@ -75,15 +75,12 @@
                                 <input type="hidden" name="parent" value="0">
                                 <div class=" gap-4 mb-4 ">
                                     <div class="min-h-52">
-                                        <label for="jawaban" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jawaban</label>
                                         <textarea name="jawaban_konten" id="editor" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Jawaban Anda"></textarea>
                                     </div>
                                 </div>
-                                <button type="submit" class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                    <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path>
-                                    </svg>
-                                    Kirim
+                                <button type="submit" class="text-white inline-flex items-center gap-2 bg-black  font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                                    <img class="w-5" src="{{asset('assets/img/send.svg')}}" alt="">
+                                    <span>Kirim</span>
                                 </button>
                             </form>
                         </div>

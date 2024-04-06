@@ -21,7 +21,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [AppController::class, 'index'])->name('home');
-Route::get('/dashboard', [AppController::class, 'dashboard_post'])->middleware(['auth', 'verified', 'role:pengguna'])->name('dashboard');
+Route::get('/dashboard/pertanyaan', [AppController::class, 'dashboard_post'])->middleware(['auth', 'verified', 'role:pengguna'])->name('dashboard');
+Route::get('/dashboard/jawaban', [AppController::class, 'dashboard_jawaban'])->middleware(['auth', 'verified', 'role:pengguna'])->name('dashboard_jawaban');
 
 Route::get('/dashboard/create', [PostController::class, 'create'])->middleware(['auth', 'verified', 'role:pengguna|admin'])->name('post.create');
 Route::post('/index', [PostController::class, 'store'])->middleware(['auth', 'verified', 'role:pengguna|admin'])->name('post.store');
@@ -30,6 +31,8 @@ Route::put('/dashboard/{post}/update', [PostController::class, 'update'])->middl
 Route::delete('/dashboard/{post}/destroy', [PostController::class, 'destroy'])->middleware(['auth', 'verified', 'role:pengguna|admin'])->name('post.destroy');
 
 Route::post('/', [JawabanController::class, 'store'])->middleware(['auth', 'verified', 'role:pengguna|admin'])->name('jawaban_store');
+Route::put('/jawaban/{jawaban}/edit', [JawabanController::class, 'update'])->middleware(['auth', 'verified', 'role:pengguna|admin'])->name('jawaban.update');
+Route::delete('/jawaban/{jawaban}/destroy', [JawabanController::class, 'destroy'])->middleware(['auth', 'verified', 'role:pengguna|admin'])->name('jawaban.destroy');
 
 Route::get('/dashboard-admin', [AppController::class, 'dashboard_admin'])->middleware(['auth', 'verified', 'role:admin'])->name('dashboard.admin');
 Route::get('/dashboard-kategori', [AppController::class, 'dashboard_kategori'])->middleware(['auth', 'verified', 'role:admin'])->name('dashboard.kategori');
@@ -46,7 +49,7 @@ Route::get('/kategori={kategori:slug}', [KategoriController::class, 'kategori_de
 
 Route::get('/jawab', [AppController::class, 'jawab_view'])->name('jawab');
 
-Route::get('ckeditor/upload/{post?}', [AppController::class, 'detail_post'])->name('ckeditor.upload');
+Route::get('ckeditor/upload', [AppController::class, 'detail_post'])->name('ckeditor.upload');
 
 Route::get('/post/{post:slug}', [AppController::class, 'detail_post'])->name('detail_post');
 
