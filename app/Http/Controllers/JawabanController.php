@@ -51,7 +51,7 @@ class JawabanController extends Controller
 
     public function destroy(Jawaban $jawaban){
         $jawaban->delete();
-        return redirect(route('dashboard_jawaban'));
+        return redirect(route('dashboard_jawaban'))->with('success');
     }
 
 }

@@ -11,7 +11,7 @@ use App\Models\Post;
 class KategoriController extends Controller
 {
     public function kategori(){
-        $posts = Post::orderBy('id', 'desc')->get();
+        $posts = Post::orderBy('id', 'desc')->take(2)->get();
         
         // Inisialisasi array untuk menyimpan jumlah jawaban berdasarkan post ID
         $jawabanPerPost = [];
@@ -22,8 +22,8 @@ class KategoriController extends Controller
         }
 
         return view('kategori.kategori',[
-            'jawabanPerPost' => $jawabanPerPost,
             'kategoris' => Kategori::all(),
+            'posts' => $posts,
         ]);
     }
 

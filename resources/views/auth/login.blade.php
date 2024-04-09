@@ -4,13 +4,6 @@
 
     <form method="POST" class="" action="{{ route('login') }}">
         @csrf
-
-        {{-- <div class="mb-5 text-center">
-            <img class="mx-auto h-20 mb-4" src="{{asset('assets/img/profile-icon.svg')}}" alt="">
-            <h1 class="text-2xl font-bold">Login to your account</h1>
-            <p>Enter your details to login</p>
-        </div> --}}
-
         <!-- Email Address -->
         <div>
             <x-input-label for="email" :value="__('Email')" />

@@ -50,7 +50,7 @@ class PostController extends Controller
 
         $newPost = Post::create($data);
         
-        return redirect(route('dashboard'));
+        return redirect('/post/' . $newPost->slug)->with('success', 'Pertanyaan berhasil diunggah');
     }
 
     public function edit(Post $post){
@@ -73,11 +73,11 @@ class PostController extends Controller
 
          $post->update($data);
         
-         return redirect(route('dashboard'))->with('success');
-    }
+         return redirect('/post/' . $post->slug)->with('success', 'Pertanyaan berhasil di edit');
+        }
 
     public function destroy(Post $post){
         $post->delete();
-        return redirect(route('dashboard'));
+        return redirect(route('dashboard'))->with('success', 'Pertanyaan berhasil di hapus');
     }
 }

@@ -2,10 +2,15 @@
     <div class="flex items-start justify-evenly w-full lg:w-[1200px] min-h-screen pt-16 mx-auto">
 
         {{-- Post-Container --}}
-        <div class="flex flex-col gap-3 h-full w-[700px] items-center ">
+        <div class="flex flex-col gap-3 h-full w-[700px] ">
+            @if($title)
+            <h1 class="text-3xl font-extrabold text-title py-5 pl-3 border-b">{{$title}}</h1>
+            @endif
             @foreach ($posts as $post)
             @include('components.post-card')
             @endforeach
+
+            @include('components.create-modal')
         </div>
 
         {{-- Side-Content-Container --}}

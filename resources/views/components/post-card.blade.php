@@ -44,4 +44,5 @@
     <!-- Modal toggle -->
     @include('components.create-modal')
 
+
 </div>

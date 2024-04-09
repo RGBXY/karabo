@@ -45,7 +45,7 @@ Route::delete('/kategori/{kategori}/destroy', [KategoriController::class, 'destr
 
 Route::get('/kategori', [KategoriController::class, 'kategori'])->name('kategoris');
 
-Route::get('/kategori={kategori:slug}', [KategoriController::class, 'kategori_detail']);
+Route::get('/?kategori={kategori}', [KategoriController::class, 'kategori_detail']);
 
 Route::get('/jawab', [AppController::class, 'jawab_view'])->name('jawab');
 

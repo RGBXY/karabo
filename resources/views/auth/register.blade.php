@@ -1,12 +1,6 @@
 <x-guest-layout>
     <form method="POST" action="{{ route('register') }}">
         @csrf
-
-        {{-- <div class="mb-5 text-center">
-            <h1 class="text-2xl font-bold">Register to your account</h1>
-            <p>Enter your details to login</p>
-        </div> --}}
-
         <!-- Name -->
         <div>
             <x-input-label for="name" :value="__('Name')" />

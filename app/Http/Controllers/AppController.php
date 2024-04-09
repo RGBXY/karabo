@@ -13,8 +13,8 @@ class AppController extends Controller
 
     // User
     public function jawabanPerPost(){
-    $jawabanPerPost = []; // Mendefinisikan variabel sebelum penggunaan
-
+    $jawabanPerPost = [];
+    
     $posts = Post::latest()->get();
 
     foreach ($posts as $post) {
@@ -22,6 +22,7 @@ class AppController extends Controller
     }
 
     return $jawabanPerPost;
+
     }
 
     public function index(){
@@ -31,9 +32,16 @@ class AppController extends Controller
 
         $user_top = User::withCount('jawaban')-> orderByDesc('jawaban_count')->get(5);
 
-        $kategori_top = Kategori::withCount('post')->orderByDesc('post_count')->get(7);
+        $kategori_top = Kategori::withCount('post')->orderByDesc('post_count')->get(7); 
     
+        $title = "";
+        if(request('kategori')){
+            $kategori = Kategori::firstWhere('slug', request('kategori'));
+            $title = "Topik " . $kategori->nama_kategori;
+        }
+
         return view('home', [
+            'title' => $title,
             'posts' => Post::latest()->filter(request(['search', 'kategori']))->get(),
             'jawabanPerPost' => $jawabanPerPost,
             'kategoris' => $kategoris,
