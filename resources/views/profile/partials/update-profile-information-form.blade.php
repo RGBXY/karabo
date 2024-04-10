@@ -1,5 +1,5 @@
 <section>
-    <header class="">
+    <header class="border-b pb-4">
         <h2 class="text-lg font-medium text-gray-900">
             {{ __('Profile Information') }}
         </h2>
@@ -18,12 +18,12 @@
         @method('patch')
         <div>
             <x-input-label for="profile_image" :value="__('Profile Image')" />
-            <x-text-input id="profile_image" name="profile_image" type="file" class="mt-1 block w-full" :value="old('image', $user->profile_image)" />
             @if(auth()->user()->profile_image)
-            <img src="{{ asset('storage/' . auth()->user()->profile_image) }}" alt="Profil">
+            <img class="w-14 h-14 rounded-full border border-slate-400 object-cover my-5" src="{{ asset('storage/' . auth()->user()->profile_image) }}" alt="Profil">
             @else
-            <img class="w-14 h-14 rounded-full border-2 border-white object-cover" src="{{ asset('assets/img/default-profile.png') }}" alt="Profile">
+            <img class="w-14 h-14 rounded-full border border-slate-400 object-cover my-5" src="{{ asset('assets/img/default-profile.png') }}" alt="Profile">
             @endif
+            <x-text-input id="profile_image" name="profile_image" type="file" class="mt-1 block w-full border" :value="old('image', $user->profile_image)" />
         </div>
         <div>
             <x-input-label for="name" :value="__('Name')" />

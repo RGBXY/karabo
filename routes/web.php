@@ -44,12 +44,11 @@ Route::put('/kategori/{kategori}/update', [KategoriController::class, 'update'])
 Route::delete('/kategori/{kategori}/destroy', [KategoriController::class, 'destroy'])->middleware(['auth', 'verified', 'role:admin'])->name('kategori.destroy');
 
 Route::get('/kategori', [KategoriController::class, 'kategori'])->name('kategoris');
-
 Route::get('/?kategori={kategori}', [KategoriController::class, 'kategori_detail']);
 
 Route::get('/jawab', [AppController::class, 'jawab_view'])->name('jawab');
 
-Route::get('ckeditor/upload', [AppController::class, 'detail_post'])->name('ckeditor.upload');
+Route::post('/ckeditor/upload', [PostController::class, 'upload'])->name('ckeditor.upload');
 
 Route::get('/post/{post:slug}', [AppController::class, 'detail_post'])->name('detail_post');
 

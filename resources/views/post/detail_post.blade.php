@@ -286,7 +286,6 @@
             const komentarView = document.getElementById(`komentar_view-${jawaban_id}`);
             komentarView.classList.toggle('hidden');
             const button = document.querySelector(`[onclick="toggleKomentarView(${jawaban_id})"]`);
-
         }
 
     </script>
@@ -295,13 +294,14 @@
         ClassicEditor
             .create(document.querySelector('#editor'), {
                 ckfinder: {
-                    uploadUrl: "<?php echo route('ckeditor.upload' , ['post' => $post->slug], ['_token' => csrf_token()]); ?>"
-                , }
+                    uploadUrl: '{{ route('ckeditor.upload') }}?_token={{ csrf_token() }}'
+                }
             })
             .catch(error => {
                 console.error(error);
             });
 
     </script>
+
 
 </x-app-layout>

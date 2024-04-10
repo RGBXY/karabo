@@ -16,7 +16,7 @@ return new class extends Migration
             $table->longText('judul_post');
             $table->string('slug')->unique();
             $table->string('image')->nullable();
-            $table->foreignId('user_id');
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('kategori_id');
             $table->timestamps();
         });

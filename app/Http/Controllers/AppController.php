@@ -30,9 +30,9 @@ class AppController extends Controller
 
         $kategoris = Kategori::orderBy('id', 'desc')->get();
 
-        $user_top = User::withCount('jawaban')-> orderByDesc('jawaban_count')->get(5);
+        $user_top = User::withCount('jawaban')-> orderByDesc('jawaban_count')->limit(5)->get();
 
-        $kategori_top = Kategori::withCount('post')->orderByDesc('post_count')->get(7); 
+        $kategori_top = Kategori::withCount('post')->orderByDesc('post_count')->limit(7)->get(); 
     
         $title = "";
         if(request('kategori')){
