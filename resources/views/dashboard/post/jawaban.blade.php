@@ -7,10 +7,10 @@
         @endif
     </div>
 
-    <div class="w-[1200px] flex justify-evenly mx-auto">
-        <div class="w-[700px] pt-28">
+    <div class="lg:w-[1200px] h-full flex justify-evenly mx-auto">
+        <div class="w-[700px] pt-28 px-6 h-full">
             <div class="flex justify-between items-center w-full">
-                <h1 class="font-extrabold font-title text-4xl">Jawaban</h1>
+                <h1 class="font-extrabold font-title text-2xl md:text-4xl">Jawaban</h1>
                 <button data-modal-target="crud-modal" data-modal-toggle="crud-modal" class="py-2 px-3 gap-0.5 bg-[#1a8917] rounded-3xl" type="button">
                     <span class="text-white font-title text-sm">Tambah Pertanyaan</span>
                 </button>
@@ -118,7 +118,7 @@
 
         </div>
 
-        <div class="w-[350px] h-screen sticky top-16 pt-20 px-10 bg-white border-l border-slate-200">
+        <div class="w-[350px] h-screen sticky top-0 pt-20 px-10 bg-white border-l border-slate-200 hidden lg:block">
             @include('components.side-content')
         </div>
     </div>

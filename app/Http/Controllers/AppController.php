@@ -53,8 +53,7 @@ class AppController extends Controller
     public function dashboard_post(){
 
         $user_top = User::withCount('jawaban')->orderByDesc('jawaban_count')->get(5);
-        $kategori_top = Kategori::withCount('post')->orderByDesc('post_count')->get(7);
-
+        $kategori_top = Kategori::withCount('post')->orderByDesc('post_count')->limit(7)->get(); 
         return view('dashboard.post.index', [
             'posts' => Post::where('user_id', auth()->user()->id)->get(),
             'user_top' => $user_top,
@@ -66,7 +65,7 @@ class AppController extends Controller
     public function dashboard_jawaban(){
 
         $user_top = User::withCount('jawaban')->orderByDesc('jawaban_count')->get(5);
-        $kategori_top = Kategori::withCount('post')->orderByDesc('post_count')->get(7);
+        $kategori_top = Kategori::withCount('post')->orderByDesc('post_count')->limit(7)->get(); 
 
         return view('dashboard.post.jawaban', [
             'posts' => Post::where('user_id', auth()->user()->id)->get(),

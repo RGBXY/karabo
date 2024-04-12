@@ -1,10 +1,10 @@
 <x-app-layout>
     <div class="w-full h-full pt-20">
-        <div class="w-[670px] mx-auto">
+        <div class="md:w-[670px] w-[90%] mx-auto flex flex-col justify-center items-center md:block">
             <h1 class="text-2xl font-extrabold font-title border-b py-3 ">Pilih topik yang sesuai dengan mu 🤩</h1>
-            <div class="flex flex-wrap gap-5 justify-between my-7">
+            <div class="flex flex-wrap gap-5 justify-between mx-auto my-7">
                 @foreach ($kategoris as $kategori)
-                <a href="/?kategori={{$kategori->slug}}" class="w-[320px] h-36 flex bg-slate-200 justify-center rounded-xl overflow-hidden">
+                <a href="/?kategori={{$kategori->slug}}" class="md:w-[320px] w-full h-36 flex mx-auto bg-slate-200 justify-center rounded-xl overflow-hidden">
                     @foreach($kategori->post->take(1) as $item)
                     @if($item->image)
                     <div class="w-[40%]">

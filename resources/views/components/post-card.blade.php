@@ -12,12 +12,12 @@
             </div>
         </div>
 
-        <div class="flex justify-between w-full">
-            <div class="w-[70%]">
-                <a class=" text-xl font-extrabold font-title mb-10" href="/post/{{$post->slug}}">
+        <div class="flex flex-col-reverse lg:flex-row justify-between w-full">
+            <div class="lg:w-[70%]">
+                <a class=" text-lg lg:text-xl font-extrabold font-title mb-10" href="/post/{{$post->slug}}">
                     <p>{!!$post->judul_post!!} </p>
                 </a>
-                <div class="flex items-center gap-2 mt-7">
+                <div class="flex items-center gap-2 mt-5">
                     <a href="/?kategori={{$post->kategori->slug}}" class="bg-slate-200 py-1 text-sm font-medium px-2 rounded-3xl">
                         <p class="text-sm">{{$post->kategori->nama_kategori}} </p>
                     </a>
@@ -33,8 +33,8 @@
                 </div>
             </div>
             @if($post->image)
-            <div class="bg-neutral-700 h-[130px] w-[130px]">
-                <img class="h-full mx-auto object-cover" src="{{asset('storage/' . $post->image)}}" alt="{{$post->kategori->nama_kategori}}">
+            <div class="bg-slate-800 mb-2 h-[300px] w-full lg:h-[130px] lg:w-[130px] object-cover">
+                <img class="h-full object-cover mx-auto" src="{{asset('storage/' . $post->image)}}" alt="{{$post->kategori->nama_kategori}}">
             </div>
             @endif
         </div>
