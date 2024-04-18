@@ -34,7 +34,7 @@
             @foreach($posts->reverse() as $post)
             <div class="pb-7 mt-5 border-b">
                 <h1 class="font-title font-bold text-lg">{!!$post->judul_post!!}</h1>
-                <p class="text-slate-500 mb-1">{{$post->kategori->nama_kategori}}</p>
+                <p class="text-slate-600 mb-1">{{$post->kategori->nama_kategori}}</p>
                 <div class="flex items-center gap-3">
                     <p class="text-sm">{{$post->created_at->format('d M Y')}}</p>
                     <button id="dropdownDefaultButton-{{$post->id}}" data-dropdown-toggle="dropdown-{{$post->id}}" class="text-white" type="button">
@@ -53,7 +53,7 @@
                         </a>
                     </li>
                     <li>
-                        <button data-modal-target="edit-modal-pertanyaan" data-modal-toggle="edit-modal-pertanyaan" class="w-full text-start font-bold px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 " type="button">
+                        <button data-modal-target="edit-modal-{{$post->id}}" data-modal-toggle="edit-modal-{{$post->id}}" class="w-full text-start font-bold px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 " type="button">
                             Edit
                         </button>
                     </li>
@@ -94,16 +94,16 @@
             </div>
 
             <!-- Modal Edit -->
-            <div id="edit-modal-pertanyaan" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto fixed overflow-x-hiddop-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+            <div id="edit-modal-{{$post->id}}" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto fixed overflow-x-hidden top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
                 <div class="relative p-4 max-w-[700px] max-h-full">
                     <!-- Modal content -->
                     <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
                         <!-- Modal header -->
                         <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                             <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                                Buat Pertanyaan {{$post->id}}
+                                Buat Pertanyaan
                             </h3>
-                            <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="edit-modal-pertanyaan">
+                            <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="edit-modal-{{$post->id}}">
                                 <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
                                 </svg>
@@ -116,8 +116,8 @@
                             @method('put')
                             <div class="flex flex-col gap-5 p-5">
                                 <div>
-                                    <label for="editor-{{$post->id}}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Pertanyaan</label>
-                                    <textarea id="editor-pertanyaan" name="judul_post" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">{!!$post->judul_post!!}</textarea>
+                                    <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Pertanyaan</label>
+                                    <textarea id="editor4" name="judul_post" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg focus:shadow border-gray-300 focus:ring-0 focus:border-slate-300" placeholder="Tulis pertanyaan">{!!$post->judul_post!!}</textarea>
                                 </div>
                                 <div class="flex items-end gap-5">
                                     <div class="">
@@ -128,10 +128,10 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    <input type="file" name="image">
+                                    <input class="rounded-xl border" type="file" name="image">
                                     <img width="30px" src="{{asset('storage/' . $post->image)}}" alt="{{$post->kategori->nama_kategori}}">
                                 </div>
-                                <button type="submit" class="text-white inline items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                <button type="submit" class="text-white inline items-center bg-slate-800 hover:bg-slate-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
                                     Update
                                 </button>
                             </div>
@@ -166,23 +166,4 @@
             });
 
     </script>
-
-    @foreach ($posts as $post)
-    <script>
-        ClassicEditor
-            .create(document.querySelector('#editor-{{$post->id}}'), {
-                ckfinder: {
-                    uploadUrl: "{{ route('ckeditor.upload', ['post' => $post->slug]) }}"
-                    , headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    }
-                }
-            })
-            .catch(error => {
-                console.error(error);
-            });
-
-    </script>
-    @endforeach
-
 </x-app-layout>

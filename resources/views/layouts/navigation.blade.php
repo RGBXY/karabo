@@ -38,7 +38,7 @@
                 </div>
 
                 <!-- Search Bar -->
-                <form action="/" class="w-[30%] hidden lg:block">
+                <form action="/" class="md:w-[40%] lg:w-[30%] hidden md:block">
                     @if(request('kategori'))
                     <input type="hidden" name="kategori" value="{{request('kategori')}}">
                     @endif
@@ -51,6 +51,10 @@
                 {{-- Profil --}}
                 <div class="flex items-center gap-5">
 
+                    <button class="md:hidden" onclick="toggleComponent()">
+                        <img id="searchToggle" class="w-6" src="{{asset('assets/img/search.svg')}}" alt="">
+                    </button>
+
                     @if (Route::has('login'))
                     @auth
 
@@ -60,9 +64,9 @@
                                 <button class="flex items-center border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
                                     <div>
                                         @if(auth()->user()->profile_image)
-                                        <img class="w-10 h-10 rounded-full object-cover border-[1px] border-slate-200" src="{{ asset('storage/' . auth()->user()->profile_image) }}" alt="Profil">
+                                        <img class="w-8 h-8 lg:w-10 lg:h-10 rounded-full object-cover border-[1px] border-slate-200" src="{{ asset('storage/' . auth()->user()->profile_image) }}" alt="Profil">
                                         @else
-                                        <img class="w-10 h-10 rounded-full object-cover" src="{{ asset('assets/img/default-profile.png') }}" alt="Profile">
+                                        <img class="w-8 h-8 lg:w-10 lg:h-10 rounded-full object-cover" src="{{ asset('assets/img/default-profile.png') }}" alt="Profile">
                                         @endif
                                     </div>
                                 </button>
@@ -74,7 +78,7 @@
                                 </x-dropdown-link>
 
                                 @if(auth()->user()->hasRole('admin'))
-                                <x-dropdown-link :href="('/dashboard-admin')">
+                                <x-dropdown-link :href="('/dashboard/admin')">
                                     {{ __('Dashboard') }}
                                 </x-dropdown-link>
                                 @endif
@@ -84,6 +88,12 @@
                                     {{ __('Dashboard') }}
                                 </x-dropdown-link>
                                 @endif
+
+                                <x-dropdown-link class="md:hidden">
+                                    <button data-modal-target="crud-modal" data-modal-toggle="crud-modal" type="button">
+                                        <span class="text-sm">Tambah Pertanyaan</span>
+                                    </button>
+                                </x-dropdown-link>
 
                                 <!-- Authentication -->
                                 <form method="POST" action="{{ route('logout') }}">
@@ -100,18 +110,18 @@
 
                     @else
 
-                    <div class="block">
-                        <a href="{{ route('login') }}" class="font-semibold text-black hover:text-gray-600 dark:text-gray-400 dark:hover:text-slate-900  transition-all">Log in</a>
+                    <div class="hidden md:block">
+                        <a href="{{ route('login') }}" class="font-semibold text-black hover:text-gray-600 dark:text-gray-400 dark:hover:text-slate-900  transition-all">Masuk</a>
 
                         @if (Route::has('register'))
-                        <a href="{{ route('register') }}" class="ml-4 font-semibold text-black hover:text-gray-600 dark:text-gray-400 dark:hover:text-slate-900  transition-all">Register</a>
+                        <a href="{{ route('register') }}" class="ml-4 font-semibold text-black hover:text-gray-600 dark:text-gray-400 dark:hover:text-slate-900  transition-all">Daftar</a>
                         @endif
                     </div>
 
                     @endif
                     @endauth
 
-                    <button data-modal-target="crud-modal" data-modal-toggle="crud-modal" type="button" class="hidden lg:block hover:bg-slate-300 transition-all py-1.5 px-2 rounded-3xl">
+                    <button data-modal-target="crud-modal" data-modal-toggle="crud-modal" type="button" class="hidden md:block hover:bg-slate-300 transition-all py-1.5 px-2 rounded-3xl">
                         <span class="text-sm">Tambah Pertanyaan</span>
                     </button>
                 </div>
@@ -128,6 +138,32 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden lg:hidden">
         <div class="pt-2 pb-3 space-y-1">
+
+            @if(Route::has('login'))
+            @auth
+            <x-responsive-nav-link :href="route('home')">
+                <div class="flex items-center gap-2">
+                    <img class="w-5" src="{{asset('assets/img/home.svg')}}" alt="">
+                    <p class="font-bold">Home</p>
+                </div>
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('jawab')">
+                <div class="flex items-center gap-2">
+                    <img class="w-5" src="{{asset('assets/img/jawab.svg')}}" alt="">
+                    <p class="font-bold">Jawab</p>
+                </div>
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('kategoris')">
+                <div class="flex items-center gap-2">
+                    <img class="w-5" src="{{asset('assets/img/kategori.svg')}}" alt="">
+                    <p class="font-bold">Topik</p>
+                </div>
+            </x-responsive-nav-link>
+
+            @else
+
             <x-responsive-nav-link :href="route('home')">
                 <div class="flex items-center gap-2">
                     <img class="w-5" src="{{asset('assets/img/home.svg')}}" alt="">
@@ -152,17 +188,48 @@
             <x-responsive-nav-link :href="route('login')">
                 <div class="flex items-center gap-2">
                     <img class="w-5" src="{{asset('assets/img/log-in.svg')}}" alt="">
-                    <p class="font-bold">Login</p>
+                    <p class="font-bold">Masuk</p>
                 </div>
             </x-responsive-nav-link>
 
             <x-responsive-nav-link :href="route('register')">
                 <div class="flex items-center gap-2">
                     <img class="w-5" src="{{asset('assets/img/user-plus.svg')}}" alt="">
-                    <p class="font-bold">Register</p>
+                    <p class="font-bold">Daftar</p>
                 </div>
             </x-responsive-nav-link>
+
+            @endauth
+            @endif
         </div>
     </div>
 
+    <div id="searchBar" class="px-5 pb-3 md:hiddn" style="display: none">
+        <form action="/" class="md:w-[40%] lg:w-[30%] md:block">
+            @if(request('kategori'))
+            <input type="hidden" name="kategori" value="{{request('kategori')}}">
+            @endif
+            <div class="relative w-[100%] md:hidden">
+                <input class="w-full rounded-3xl pl-6 py-2.5 border-none focus:ring-0 text-sm bg-slate-100" type="text" placeholder="Cari Pertanyaan" name="search" value="{{request('search')}}">
+                <button type="submit" class="absolute right-0 bg-slate-200 h-full w-14 rounded-e-3xl"><img class="w-5 mx-auto" src="{{asset('assets/img/search.svg')}}" alt=""></button>
+            </div>
+        </form>
+    </div>
 </nav>
+
+<script>
+    function toggleComponent() {
+        const component = document.getElementById('searchBar');
+        const statusIcon = document.getElementById('searchToggle');
+        if (component.style.display === 'none') {
+            component.style.display = 'block';
+            statusIcon.src = "{{ asset('assets/img/x.svg') }}";
+            statusIcon.alt = "Tutup";
+        } else {
+            component.style.display = 'none';
+            statusIcon.src = "{{ asset('assets/img/search.svg') }}";
+            statusIcon.alt = "Buka";
+        }
+    }
+
+</script>

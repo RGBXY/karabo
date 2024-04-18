@@ -30,10 +30,15 @@
                                 <option value="{{$kategori->id}}" selected>{{$kategori->nama_kategori}}</option>
                                 @endforeach
                             </select>
+
+                            {{-- <label for="">Topik</label>
+                            <input type="text" name="kategori_id" id="kategori" placeholder="topik">
+                            <div id="topik_list">
+                            </div> --}}
                         </div>
                         <input type="file" class="rounded-xl border" name="image">
                     </div>
-                    <button type="submit" class="text-white inline items-center font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-slate-800">
+                    <button type="submit" class="text-white inline items-center font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-slate-800 hover:bg-slate-700">
                         Buat pertanyaan
                     </button>
                 </div>
@@ -42,3 +47,4 @@
         </div>
     </div>
 </div>
+

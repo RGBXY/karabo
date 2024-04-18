@@ -14,6 +14,7 @@ class Post extends Model
         'image',
         'kategori_id',
         'slug',
+        'status',
         'user_id',
     ];
     
@@ -46,11 +47,6 @@ class Post extends Model
     public function hasAnswer(){
         return $this->jawaban()->count() > 0;
     }
-
-    public function noAnswer(){
-        return $this->jawaban()->count() === 0;
-    }
-
 }
 
 

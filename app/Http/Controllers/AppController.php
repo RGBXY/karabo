@@ -25,7 +25,7 @@ class AppController extends Controller
 
     }
 
-    public function index(){
+    public function index(Request $request){
         $jawabanPerPost = $this->jawabanPerPost();
 
         $kategoris = Kategori::orderBy('id', 'desc')->get();
@@ -66,6 +66,13 @@ class AppController extends Controller
 
         $user_top = User::withCount('jawaban')->orderByDesc('jawaban_count')->get(5);
         $kategori_top = Kategori::withCount('post')->orderByDesc('post_count')->limit(7)->get(); 
+        
+        $userId = auth()->id();
+
+        $postsWithAnswers = Post::whereHas('jawaban', function ($query) use ($userId) {
+            $query->whereNotNull('jawaban_konten') // Memastikan jawaban memiliki konten
+                  ->where('user_id', $userId); // Memeriksa jawaban yang dibuat oleh pengguna saat ini
+        })->get();
 
         return view('dashboard.post.jawaban', [
             'posts' => Post::where('user_id', auth()->user()->id)->get(),
@@ -73,13 +80,7 @@ class AppController extends Controller
             'kategoris' => Kategori::orderBy('id', 'desc')->get(),
             'user_top' => $user_top,
             'kategori_top' => $kategori_top,
-        ]);
-    }
-
-    public function dashboard_kategori(){
-        return view('admin.kategori.index', [
-            'posts' => Post::orderBy('id', 'desc')->get(),
-            'kategoris' => Kategori::orderBy('id', 'desc')->get(),
+            'postsWithAnswers' => $postsWithAnswers,
         ]);
     }
 
@@ -91,7 +92,7 @@ class AppController extends Controller
     
         $kategoris = Kategori::orderBy('id', 'desc')->get();
 
-        $jawab = Post::doesntHave('jawaban')->get();
+         $jawab = Post::doesntHave('jawaban')->get();
         
         return view('post.jawab', compact('jawab'), [
             'jawabanPerPost' => $jawabanPerPost,
@@ -123,14 +124,20 @@ class AppController extends Controller
     
     // Admin
     public function dashboard_admin(){
-        $posts = Post::orderBy('id', 'desc')->get();
+        
         $kategoris = Kategori::orderBy('id', 'desc')->get();
         return view('admin.index', [
-            'posts' => $posts,
+            'posts' => Post::latest()->filter(request(['search', 'kategori']))->get(),
             'kategoris' => $kategoris,
         ]);
     }
 
+    public function dashboard_kategori(){
+        return view('admin.kategori', [
+            'kategoris' => Kategori::latest()->filter(request(['search', 'kategori']))->get(),
+            'jumlahPostKategori' => Kategori::withCount('post')->orderByDesc('post_count')->get(),
+        ]);
+    }
 
 
 }

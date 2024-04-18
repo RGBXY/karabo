@@ -21,13 +21,28 @@
             </div>
             @foreach($jawabans->reverse() as $jawaban)
             <div class="pb-7 mt-5 border-b">
-                <h1 class="font-title font-bold text-lg">{!!$jawaban->jawaban_konten!!}</h1>
-                <div class="flex items-center gap-3">
-                    <p class="text-sm">{{$jawaban->created_at->format('d M Y')}}</p>
-                    <button id="dropdownDefaultButton-{{$jawaban->id}}" data-dropdown-toggle="dropdown-{{$jawaban->id}}" class="text-white" type="button">
-                        <span class="text-black">•••</span>
-                    </button>
+                <div class="flex items-center gap-2">
+                    @if($jawaban->user->profile_image)
+                    <img class="w-11 h-11 rounded-full border-2 border-white object-cover" src="{{ asset('storage/' . $jawaban->user->profile_image) }}" alt="{{$jawaban->post->kategori->nama_kategori}}">
+                    @else
+                    <img class="w-11 h-11 rounded-full border-2 border-white object-cover" src="{{ asset('assets/img/default-profile.png') }}" alt="{{$jawaban->post->kategori->nama_kategori}}">
+                    @endif
+                    <div class="items-center gap-3">
+                        <p><span class="font-bold">Kamu</span> menjawab <a class="font-bold hover:underline" href="/post/{{$jawaban->post->slug}}">{{$jawaban->post->judul_post}}</a></p>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-1 text-slate-700">
+                                <p class="text-sm">{{$jawaban->created_at->format('d M Y')}} ·</p>
+                                <p>{{$jawaban->post->kategori->nama_kategori}}</p>
+                            </div>
+                            <button id="dropdownDefaultButton-{{$jawaban->id}}" data-dropdown-toggle="dropdown-{{$jawaban->id}}" class="text-white" type="button">
+                                <span class="text-black">•••</span>
+                            </button>
+                        </div>
+                    </div>
                 </div>
+
+                <h1 class="font-title font-semibold mt-3">{!!$jawaban->jawaban_konten!!}</h1>
+
             </div>
 
 
@@ -76,8 +91,8 @@
             </div>
 
             <!-- Modal Edit Jawaban -->
-            <div id="edit-modal-{{$jawaban->id}}" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto fixed overflow-x-hiddop-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-                <div class="relative p-4 max-w-[700px] max-h-full">
+            <div id="edit-modal-{{$jawaban->id}}" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto fixed overflow-x-hidden top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                <div class="relative p-4 w-full lg:w-[50rem] md:max-w-[80rem] max-h-full">
                     <!-- Modal content -->
                     <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
                         <!-- Modal header -->
@@ -101,7 +116,7 @@
                                     <label for="editor-{{$jawaban->id}}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jawaban</label>
                                     <textarea id="editor-{{$jawaban->id}}" name="jawaban_konten" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">{!!$jawaban->jawaban_konten!!}</textarea>
                                 </div>
-                                <button type="submit" class="text-white inline items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                <button type="submit" class="text-white inline items-center font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-slate-800 hover:bg-slate-700">
                                     Update
                                 </button>
                             </div>
@@ -123,31 +138,12 @@
         </div>
     </div>
 
-    <script>
-        ClassicEditor
-            .create(document.querySelector('#editor2'), {
-                ckfinder: {
-                    uploadUrl: "{{ isset($post) ? route('ckeditor.upload', ['post' => $post->slug]) : route('ckeditor.upload') }}"
-                    , headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    }
-                }
-            })
-            .catch(error => {
-                console.error(error);
-            });
-
-    </script>
-
     @foreach ($jawabans as $jawaban)
-    <script>
+     <script>
         ClassicEditor
             .create(document.querySelector('#editor-{{$jawaban->id}}'), {
                 ckfinder: {
-                    uploadUrl: "{{ route('ckeditor.upload') }}"
-                    , headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    }
+                    uploadUrl: '{{ route('ckeditor.upload') }}?_token={{ csrf_token() }}'
                 }
             })
             .catch(error => {

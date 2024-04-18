@@ -34,31 +34,32 @@
         @endif
 
         <!-- Page Content -->
-        <div>
-            @if(session()->has('success'))
-            <div>
-                {{session('success')}}
-            </div>
-            @endif
-        </div>
-
         <div class="h-full">
             <div class="w-full h-20 bg-[#008EDA] fixed flex justify-between items-center px-5">
-                <a href="{{route('home')}}" class="flex items-center gap-2"><img width="19px" src="{{asset('assets/img/back.svg')}}" alt=""><span class="font-bold text-lg">Home</span></a>
-                <h1 class="font-bold text-2xl">Dashboard</h1>
-                <div class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
-                    <span class="font-medium text-gray-600 dark:text-gray-300">JL</span>
-                </div>
+                <a href="{{route('home')}}" class="flex items-center gap-2 text-slate-900"><img width="19px" src="{{asset('assets/img/back.svg')}}" alt=""><span class="font-bold text-lg">Home</span></a>
+                <h1 class="font-extrabold font-title text-2xl uppercase text-slate-900">Dashboard Admin</h1>
+                @if(auth()->user()->profile_image)
+                <img class="w-9 h-9 rounded-full border-2 border-white object-cover" src="{{ asset('storage/' . auth()->user()->profile_image) }}" alt="{{auth()->user()->name}}">
+                @else
+                <img class="w-9 h-9 rounded-full border-2 border-white object-cover" src="{{ asset('assets/img/default-profile.png') }}" alt="{{auth()->user()->name}}">
+                @endif
             </div>
 
             <div class="flex pt-20 h-screen">
                 <div class="w-[25%] h-full border-r border-black bg-[#EEF6FF] ">
                     <h1 class="p-4 border-b border-black  font-extrabold text-xl">Content</h1>
                     <div class="mt-2 px-2">
-                        <a href="" class="flex justify-between px-2 py-3 rounded-lg bg-slate-500"><span class="font-bold text-slate-200">Post</span><img src="{{asset('assets/img/arrow.svg')}}" alt=""></a>
+                        <a href="/dashboard/admin" class="{{ Request::is('dashboard/admin*') ? 'bg-slate-500 text-slate-200' : '' }} flex justify-between px-2 py-3 rounded-lg">
+                            <span class="font-bold">Post</span>
+                            <img src="{{ asset('assets/img/arrow.svg') }}" alt="">
+                        </a>
                     </div>
+
                     <div class="mt-2 px-2">
-                        <a href="" class="flex justify-between px-2 py-3 rounded-lg"><span class="font-bold ">Jawaban</span><img src="{{asset('assets/img/arrow.svg')}}" alt=""></a>
+                        <a href="/dashboard/kategori" class="{{ Request::is('dashboard/kategori*') ? 'bg-slate-500 text-slate-200' : '' }} flex justify-between px-2 py-3 rounded-lg">
+                            <span class="font-bold">Kategori</span>
+                            <img src="{{ asset('assets/img/arrow.svg') }}" alt="">
+                        </a>
                     </div>
                 </div>
 

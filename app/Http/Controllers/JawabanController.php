@@ -3,12 +3,47 @@
 namespace App\Http\Controllers;
 
 use App\Models\Jawaban;
-use App\Models\Post;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class JawabanController extends Controller
 {
 
+    // Ckeditor Upload Image
+    public function upload(Request $request): JsonResponse
+    {
+        if ($request->hasFile('upload')) {
+            $originName = $request->file('upload')->getClientOriginalName();
+            $fileName = pathinfo($originName, PATHINFO_FILENAME);
+            $extension = $request->file('upload')->getClientOriginalExtension();
+            $fileName = $fileName . '_' . time() . '.' . $extension;
+      
+            $request->file('upload')->move(public_path('media'), $fileName);
+      
+            $url = '/media/' . $fileName;
+  
+            return response()->json(['fileName' => $fileName, 'uploaded'=> 1, 'url' => $url]);
+        }
+    }
+
+    // Verifikasi Jawaban
+    public function verifikasi($id)
+    {
+        $jawaban = Jawaban::findOrFail($id);
+        $jawaban->update(['verified' => '1']);
+
+        return redirect()->back()->with('success', 'Jawaban berhasil diverifikasi.');
+    }
+
+    public function batal_verifikasi($id)
+    {
+        $jawaban = Jawaban::findOrFail($id);
+        $jawaban->update(['verified' => '0']);
+
+        return redirect()->back()->with('success', 'Jawaban berhasil');
+    }
+
+    // Jawaban dan Komentar
     public function post_jawaban(Request $request){
         // Validasi data yang dikirimkan
         $request->validate([
@@ -29,6 +64,7 @@ class JawabanController extends Controller
         return back()->with('success', 'Komentar berhasil ditambahkan.');
     }
 
+    // Fungsi Store
     public function store(Request $request){
         $request->request->add(['user_id' => auth()->user()->id]);
         $jawaban = Jawaban::create($request->all());
@@ -39,6 +75,7 @@ class JawabanController extends Controller
 
     }
 
+    // Fungsi Update 
     public function update(Jawaban $jawaban, Request $request){
         $data = $request->validate([
             'jawaban_konten' => 'required',
@@ -46,12 +83,13 @@ class JawabanController extends Controller
 
          $jawaban->update($data);
         
-         return redirect(route('dashboard_jawaban'))->with('success');
+         return redirect()->back()->with('success', 'Jawaban berhasil diedit.');
     }
 
+    // Fungsi Hapus
     public function destroy(Jawaban $jawaban){
         $jawaban->delete();
-        return redirect(route('dashboard_jawaban'))->with('success');
+        return redirect()->back()->with('success', 'Jawaban berhasil dihapus.');
     }
 
 }

@@ -7,34 +7,19 @@ use App\Models\Kategori;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\Post;
-use Illuminate\Http\JsonResponse;
 
 class PostController extends Controller
 {
-    public function create(){
-        return view('dashboard.post.create', [
-            'kategoris' => Kategori::all(),
-        ]);
+    // Fungsi Ban
+    public function suspend($id){
+        $post = Post::findOrFail($id);
+        $post->update(['status' => '1']);
+
+        return redirect()->back()->with('success', 'Post Berhasil di Suspend.');
     }
 
-    public function upload(Request $request): JsonResponse
-    {
-        if ($request->hasFile('upload')) {
-            $originName = $request->file('upload')->getClientOriginalName();
-            $fileName = pathinfo($originName, PATHINFO_FILENAME);
-            $extension = $request->file('upload')->getClientOriginalExtension();
-            $fileName = $fileName . '_' . time() . '.' . $extension;
-      
-            $request->file('upload')->move(public_path('media'), $fileName);
-      
-            $url = asset('media/' . $fileName);
-  
-            return response()->json(['fileName' => $fileName, 'uploaded'=> 1, 'url' => $url]);
-        }
-    }
-
+    // Fungsi Store
     public function store(Request $request){
-
         $data = $request->validate([
             'judul_post' => 'required',
             'image' => 'image',
@@ -42,6 +27,7 @@ class PostController extends Controller
         ]);  
 
         $data['slug'] = Str::slug($request->judul_post);
+        $data['status'] = 0;
         $data['user_id'] = auth()->user()->id;
         
         if($request->file('image')){
@@ -53,13 +39,7 @@ class PostController extends Controller
         return redirect('/post/' . $newPost->slug)->with('success', 'Pertanyaan berhasil diunggah');
     }
 
-    public function edit(Post $post){
-        return view('dashboard.post.edit', [
-            'post' => $post,
-            'kategoris' => Kategori::all(),
-        ]);
-    }
-
+    // Fungsi Update
     public function update(Post $post, Request $request){
         $data = $request->validate([
             'judul_post' => 'required',
@@ -74,8 +54,9 @@ class PostController extends Controller
          $post->update($data);
         
          return redirect('/post/' . $post->slug)->with('success', 'Pertanyaan berhasil di edit');
-        }
+    }
 
+    // FUngsi Delete
     public function destroy(Post $post){
         $post->delete();
         return redirect(route('dashboard'))->with('success', 'Pertanyaan berhasil di hapus');

@@ -9,10 +9,19 @@ class Kategori extends Model
 {
     use HasFactory;
 
+    protected $table = 'kategoris';
+    
     protected $fillable = [
         'nama_kategori',
         'slug',
     ];
+
+    public function scopeFilter($query, array $filters)
+    {
+        $query->when($filters['search'] ?? false, function($query, $search){
+            return $query->where('nama_kategori', 'like', '%' . $search . '%');
+        });
+    }
 
     public function post(){
         return $this->hasMany(Post::class);

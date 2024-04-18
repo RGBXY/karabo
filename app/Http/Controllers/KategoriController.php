@@ -10,7 +10,7 @@ use App\Models\Post;
 
 class KategoriController extends Controller
 {
-    public function kategori(){
+    public function kategori(Request $request){
         $posts = Post::orderBy('id', 'desc')->take(2)->get();
         
         // Inisialisasi array untuk menyimpan jumlah jawaban berdasarkan post ID

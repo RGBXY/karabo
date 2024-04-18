@@ -11,6 +11,7 @@ class Jawaban extends Model
 
     protected $fillable = [
         'jawaban_konten',
+        'verified',
         'user_id',
         'post_id',
         'parent',
@@ -27,5 +28,7 @@ class Jawaban extends Model
     public function childs(){
         return $this->hasMany(Jawaban::class, 'parent');
     }
+
+   
 }
 

@@ -25,19 +25,21 @@ Route::get('/dashboard/pertanyaan', [AppController::class, 'dashboard_post'])->m
 Route::get('/dashboard/jawaban', [AppController::class, 'dashboard_jawaban'])->middleware(['auth', 'verified', 'role:pengguna'])->name('dashboard_jawaban');
 
 Route::get('/dashboard/create', [PostController::class, 'create'])->middleware(['auth', 'verified', 'role:pengguna|admin'])->name('post.create');
+Route::post('/suspend-post/{id}', [PostController::class, 'suspend'])->middleware(['auth', 'verified', 'role:admin'])->name('suspend.post');
 Route::post('/index', [PostController::class, 'store'])->middleware(['auth', 'verified', 'role:pengguna|admin'])->name('post.store');
 Route::get('/dashboard/{post}/edit', [PostController::class, 'edit'])->middleware(['auth', 'verified', 'role:pengguna|admin'])->name('post.edit');
 Route::put('/dashboard/{post}/update', [PostController::class, 'update'])->middleware(['auth', 'verified', 'role:pengguna|admin'])->name('post.update');
 Route::delete('/dashboard/{post}/destroy', [PostController::class, 'destroy'])->middleware(['auth', 'verified', 'role:pengguna|admin'])->name('post.destroy');
 
 Route::post('/', [JawabanController::class, 'store'])->middleware(['auth', 'verified', 'role:pengguna|admin'])->name('jawaban_store');
+Route::post('/verifikasi-jawaban/{id}', [JawabanController::class, 'verifikasi'])->middleware(['auth', 'verified', 'role:pengguna|admin'])->name('verifikasi.jawaban');
+Route::post('/batal-verifikasi-jawaban/{id}', [JawabanController::class, 'batal_verifikasi'])->middleware(['auth', 'verified', 'role:pengguna|admin'])->name('batal.verifikasi.jawaban');
 Route::put('/jawaban/{jawaban}/edit', [JawabanController::class, 'update'])->middleware(['auth', 'verified', 'role:pengguna|admin'])->name('jawaban.update');
 Route::delete('/jawaban/{jawaban}/destroy', [JawabanController::class, 'destroy'])->middleware(['auth', 'verified', 'role:pengguna|admin'])->name('jawaban.destroy');
 
-Route::get('/dashboard-admin', [AppController::class, 'dashboard_admin'])->middleware(['auth', 'verified', 'role:admin'])->name('dashboard.admin');
-Route::get('/dashboard-kategori', [AppController::class, 'dashboard_kategori'])->middleware(['auth', 'verified', 'role:admin'])->name('dashboard.kategori');
+Route::get('/dashboard/admin', [AppController::class, 'dashboard_admin'])->middleware(['auth', 'verified', 'role:admin'])->name('dashboard.admin');
+Route::get('/dashboard/kategori', [AppController::class, 'dashboard_kategori'])->middleware(['auth', 'verified', 'role:admin'])->name('dashboard.kategori');
 
-Route::get('/dashboard-admin/add-kategori', [KategoriController::class, 'create'])->middleware(['auth', 'verified', 'role:admin'])->name('post.kategori');
 Route::post('/dashboard-kategori', [KategoriController::class, 'store'])->middleware(['auth', 'verified', 'role:admin'])->name('kategori.store');
 Route::get('/kategori/{kategori}/edit', [KategoriController::class, 'edit'])->middleware(['auth', 'verified', 'role:admin'])->name('kategori.edit');
 Route::put('/kategori/{kategori}/update', [KategoriController::class, 'update'])->middleware(['auth', 'verified', 'role:admin'])->name('kategori.update');
@@ -48,9 +50,9 @@ Route::get('/?kategori={kategori}', [KategoriController::class, 'kategori_detail
 
 Route::get('/jawab', [AppController::class, 'jawab_view'])->name('jawab');
 
-Route::post('/ckeditor/upload', [PostController::class, 'upload'])->name('ckeditor.upload');
+Route::post('/ckeditor/upload', [JawabanController::class, 'upload'])->name('ckeditor.upload');
 
-Route::get('/post/{post:slug}', [AppController::class, 'detail_post'])->name('detail_post');
+Route::get('/post/{post:slug}', [AppController::class, 'detail_post'])->middleware('status')->name('detail_post');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

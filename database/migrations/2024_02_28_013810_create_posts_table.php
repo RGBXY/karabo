@@ -15,11 +15,13 @@ return new class extends Migration
             $table->id();
             $table->longText('judul_post');
             $table->string('slug')->unique();
+            $table->integer('status')->nullable();
             $table->string('image')->nullable();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('kategori_id');
+            $table->foreignId('kategori_id')->nullable()->nullOnDelete(); // Menggunakan 'kategoris' sebagai nama tabel
             $table->timestamps();
         });
+        
     }
 
     /**
