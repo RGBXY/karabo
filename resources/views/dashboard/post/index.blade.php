@@ -43,6 +43,8 @@
                 </div>
             </div>
 
+            {{$posts->links()}}
+
 
             <!-- Dropdown menu -->
             <div id="dropdown-{{$post->id}}" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-lg border w-44 dark:bg-gray-700">
@@ -117,7 +119,7 @@
                             <div class="flex flex-col gap-5 p-5">
                                 <div>
                                     <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Pertanyaan</label>
-                                    <textarea id="editor4" name="judul_post" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg focus:shadow border-gray-300 focus:ring-0 focus:border-slate-300" placeholder="Tulis pertanyaan">{!!$post->judul_post!!}</textarea>
+                                    <textarea id="editor4" required name="judul_post" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg focus:shadow border-gray-300 focus:ring-0 focus:border-slate-300" placeholder="Tulis pertanyaan">{!!$post->judul_post!!}</textarea>
                                 </div>
                                 <div class="flex items-end gap-5">
                                     <div class="">
@@ -150,20 +152,4 @@
             @include('components.side-content')
         </div>
     </div>
-
-    <script>
-        ClassicEditor
-            .create(document.querySelector('#editor2'), {
-                ckfinder: {
-                    uploadUrl: "{{ isset($post) ? route('ckeditor.upload', ['post' => $post->slug]) : route('ckeditor.upload') }}"
-                    , headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    }
-                }
-            })
-            .catch(error => {
-                console.error(error);
-            });
-
-    </script>
 </x-app-layout>

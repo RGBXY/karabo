@@ -10,7 +10,14 @@ use App\Models\Post;
 
 class PostController extends Controller
 {
-    // Fungsi Ban
+    // Suspend View
+    public function suspend_view($slug){
+        return view('post.suspend', [
+            'post' => Post::where('slug', $slug)->first()
+        ]);
+    }
+
+    // Fungsi Suspend
     public function suspend($id){
         $post = Post::findOrFail($id);
         $post->update(['status' => '1']);
@@ -18,13 +25,28 @@ class PostController extends Controller
         return redirect()->back()->with('success', 'Post Berhasil di Suspend.');
     }
 
+    public function unsuspend($id){
+        $post = Post::findOrFail($id);
+        $post->update(['status' => '0']);
+
+        return redirect()->back()->with('success', 'Post Berhasil di Unsuspend.');
+    }
+
     // Fungsi Store
     public function store(Request $request){
         $data = $request->validate([
-            'judul_post' => 'required',
-            'image' => 'image',
+            'judul_post' => 'required|max:250',
+            'image' => 'max:3000|mimes:jpg,jpeg,png,webp',
             'kategori_id' => 'required',        
         ]);  
+
+        $messages = [
+            'judul_post.required' => 'Judul wajib diisi!',
+            'image' => 'Foto maksimal 3mb dan berformat jpg,jpeg,png,webp',
+            'kategori.required' => 'Kategori wajib diisi!',
+        ];
+
+        $this->validate($request, $messages);
 
         $data['slug'] = Str::slug($request->judul_post);
         $data['status'] = 0;

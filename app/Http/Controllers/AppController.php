@@ -25,7 +25,7 @@ class AppController extends Controller
 
     }
 
-    public function index(Request $request){
+    public function index(){
         $jawabanPerPost = $this->jawabanPerPost();
 
         $kategoris = Kategori::orderBy('id', 'desc')->get();
@@ -37,12 +37,16 @@ class AppController extends Controller
         $title = "";
         if(request('kategori')){
             $kategori = Kategori::firstWhere('slug', request('kategori'));
-            $title = "Topik " . $kategori->nama_kategori;
+            if($kategori){
+                $title = "Topik " . $kategori->nama_kategori;
+            } else {
+                $title = "Kategori tidak ditemukan";
+            }
         }
 
         return view('home', [
             'title' => $title,
-            'posts' => Post::latest()->filter(request(['search', 'kategori']))->get(),
+            'posts' => Post::latest()->filter(request(['search', 'kategori']))->paginate(30),
             'jawabanPerPost' => $jawabanPerPost,
             'kategoris' => $kategoris,
             'user_top' => $user_top,
@@ -51,11 +55,10 @@ class AppController extends Controller
     }
 
     public function dashboard_post(){
-
         $user_top = User::withCount('jawaban')->orderByDesc('jawaban_count')->get(5);
         $kategori_top = Kategori::withCount('post')->orderByDesc('post_count')->limit(7)->get(); 
         return view('dashboard.post.index', [
-            'posts' => Post::where('user_id', auth()->user()->id)->get(),
+            'posts' => Post::where('user_id', auth()->user()->id)->paginate(15),
             'user_top' => $user_top,
             'kategori_top' => $kategori_top,
             'kategoris' => Kategori::orderBy('id', 'desc')->get(),
@@ -70,13 +73,13 @@ class AppController extends Controller
         $userId = auth()->id();
 
         $postsWithAnswers = Post::whereHas('jawaban', function ($query) use ($userId) {
-            $query->whereNotNull('jawaban_konten') // Memastikan jawaban memiliki konten
-                  ->where('user_id', $userId); // Memeriksa jawaban yang dibuat oleh pengguna saat ini
+            $query->whereNotNull('jawaban_konten') 
+                  ->where('user_id', $userId); 
         })->get();
 
         return view('dashboard.post.jawaban', [
             'posts' => Post::where('user_id', auth()->user()->id)->get(),
-            'jawabans' => Jawaban::where('user_id', auth()->user()->id)->where('parent', 0)->get(),
+            'jawabans' => Jawaban::where('user_id', auth()->user()->id)->where('parent', 0)->paginate(10),
             'kategoris' => Kategori::orderBy('id', 'desc')->get(),
             'user_top' => $user_top,
             'kategori_top' => $kategori_top,
@@ -92,7 +95,7 @@ class AppController extends Controller
     
         $kategoris = Kategori::orderBy('id', 'desc')->get();
 
-         $jawab = Post::doesntHave('jawaban')->get();
+        $jawab = Post::where('status', 0)->doesntHave('jawaban')->paginate(30);
         
         return view('post.jawab', compact('jawab'), [
             'jawabanPerPost' => $jawabanPerPost,
@@ -124,17 +127,16 @@ class AppController extends Controller
     
     // Admin
     public function dashboard_admin(){
-        
         $kategoris = Kategori::orderBy('id', 'desc')->get();
         return view('admin.index', [
-            'posts' => Post::latest()->filter(request(['search', 'kategori']))->get(),
+            'posts' => Post::latest()->filter(request(['search', 'kategori']))->paginate(50),
             'kategoris' => $kategoris,
         ]);
     }
 
     public function dashboard_kategori(){
         return view('admin.kategori', [
-            'kategoris' => Kategori::latest()->filter(request(['search', 'kategori']))->get(),
+            'kategoris' => Kategori::latest()->filter(request(['search', 'kategori']))->paginate(50),
             'jumlahPostKategori' => Kategori::withCount('post')->orderByDesc('post_count')->get(),
         ]);
     }

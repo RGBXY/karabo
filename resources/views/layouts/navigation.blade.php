@@ -126,12 +126,6 @@
                     </button>
                 </div>
             </div>
-
-
-            <!-- Settings Dropdown -->
-
-
-
         </div>
     </div>
 
@@ -231,5 +225,6 @@
             statusIcon.alt = "Buka";
         }
     }
-
 </script>
+
+

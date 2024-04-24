@@ -45,6 +45,8 @@
 
             </div>
 
+            {{$jawabans->links()}}   
+
 
             <!-- Dropdown menu -->
             <div id="dropdown-{{$jawaban->id}}" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-lg w-44 dark:bg-gray-700">
@@ -114,7 +116,7 @@
                             <div class="flex flex-col gap-5 p-5">
                                 <div>
                                     <label for="editor-{{$jawaban->id}}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jawaban</label>
-                                    <textarea id="editor-{{$jawaban->id}}" name="jawaban_konten" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">{!!$jawaban->jawaban_konten!!}</textarea>
+                                    <textarea id="editor-{{$jawaban->id}}" required name="jawaban_konten" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">{!!$jawaban->jawaban_konten!!}</textarea>
                                 </div>
                                 <button type="submit" class="text-white inline items-center font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-slate-800 hover:bg-slate-700">
                                     Update

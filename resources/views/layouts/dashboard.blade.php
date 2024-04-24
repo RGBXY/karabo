@@ -13,6 +13,7 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    
     <script src="https://cdn.ckeditor.com/ckeditor5/41.2.1/classic/ckeditor.js"></script>
 
     <style>
@@ -46,8 +47,13 @@
             </div>
 
             <div class="flex pt-20 h-screen">
-                <div class="w-[25%] h-full border-r border-black bg-[#EEF6FF] ">
-                    <h1 class="p-4 border-b border-black  font-extrabold text-xl">Content</h1>
+                <div id="content" class="w-[50%] lg:w-[25%] h-full border-r border-black bg-[#EEF6FF] hidden lg:block">
+                    <div class="p-4 border-b border-black flex justify-between">
+                        <h1 class="font-extrabold text-xl">Content</h1>
+                        <button class="lg:hidden" id="hideButton">
+                            <img src="{{asset('assets/img/x.svg')}}" alt="">
+                        </button>
+                    </div>
                     <div class="mt-2 px-2">
                         <a href="/dashboard/admin" class="{{ Request::is('dashboard/admin*') ? 'bg-slate-500 text-slate-200' : '' }} flex justify-between px-2 py-3 rounded-lg">
                             <span class="font-bold">Post</span>
@@ -71,5 +77,32 @@
 
     </div>
 
+    <script>
+    document.getElementById('showButton').addEventListener('click', function() {
+       var content = document.getElementById('content');
+       content.classList.remove('hidden');
+       content.classList.add('fixed');
+    });
+
+    document.getElementById('hideButton').addEventListener('click', function() {
+       var content = document.getElementById('content');
+       content.classList.add('hidden');
+       content.classList.remove('fixed');
+    });
+
+    function toggleComponent() {
+        const component = document.getElementById('searchBar');
+        const statusIcon = document.getElementById('searchToggle');
+        if (component.style.display === 'none') {
+            component.style.display = 'block';
+            statusIcon.src = "{{ asset('assets/img/x.svg') }}";
+            statusIcon.alt = "Tutup";
+        } else {
+            component.style.display = 'none';
+            statusIcon.src = "{{ asset('assets/img/search.svg') }}";
+            statusIcon.alt = "Buka";
+        }
+    }
+    </script>
 </body>
 </html>

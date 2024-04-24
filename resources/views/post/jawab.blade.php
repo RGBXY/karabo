@@ -5,6 +5,7 @@
             @foreach ($jawab as $post)
             @include('components.post-card')
             @endforeach
+            {{ $jawab->links() }}
         </div>
     </div>
 </x-app-layout>

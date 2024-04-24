@@ -20,23 +20,19 @@
                 <div class="flex flex-col gap-5 p-5">
                     <div class="">
                         <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Pertanyaan</label>
-                        <textarea id="editor4" name="judul_post" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg focus:shadow border-gray-300 focus:ring-0 focus:border-slate-300" placeholder="Tulis pertanyaan"></textarea>
+                        <textarea id="editor4" maxlength="250" required name="judul_post" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg focus:shadow border-gray-300 focus:ring-0 focus:border-slate-300" placeholder="Tulis pertanyaan" oninput=countCharacters(this)></textarea>
+                        <span id="charCount">250</span> karakter tersisa.
                     </div>
                     <div class="flex items-end gap-5">
                         <div class="">
                             <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
-                            <select id="category" name="kategori_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                            <select id="category" name="kategori_id" required class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                                 @foreach ($kategoris as $kategori)
                                 <option value="{{$kategori->id}}" selected>{{$kategori->nama_kategori}}</option>
                                 @endforeach
                             </select>
-
-                            {{-- <label for="">Topik</label>
-                            <input type="text" name="kategori_id" id="kategori" placeholder="topik">
-                            <div id="topik_list">
-                            </div> --}}
                         </div>
-                        <input type="file" class="rounded-xl border" name="image">
+                        <input type="file" class="rounded-xl border" name="image" accept="image/png, image/jpeg, image/webp, image/jpg">
                     </div>
                     <button type="submit" class="text-white inline items-center font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-slate-800 hover:bg-slate-700">
                         Buat pertanyaan
@@ -48,3 +44,13 @@
     </div>
 </div>
 
+<script>
+   function countCharacters() {
+    let maxLength = 250;
+    let currentLength = document.getElementById('editor4').value.length;
+    let remaining = maxLength - currentLength;
+    
+    document.getElementById('charCount').textContent = remaining;
+}
+
+</script>

@@ -10,6 +10,7 @@ use App\Models\Post;
 
 class KategoriController extends Controller
 {
+    // Fungsi Kategori
     public function kategori(Request $request){
         $posts = Post::orderBy('id', 'desc')->take(2)->get();
         
@@ -27,6 +28,7 @@ class KategoriController extends Controller
         ]);
     }
 
+    // Fungsi Kategori Detail
     public function kategori_detail (Kategori $kategori){
         $posts = Post::orderBy('id', 'desc')->get();
         
@@ -43,11 +45,7 @@ class KategoriController extends Controller
             'kategoris' => Kategori::all(),
             'posts' => $kategori->post,
         ]);
-    }
-
-    public function create(){
-        return view('admin.kategori.add_kategori');
-    }    
+    }  
 
     public function store(Request $request){
         $data = $request->validate([
@@ -58,11 +56,7 @@ class KategoriController extends Controller
 
          $newPost = Kategori::create($data);
         
-         return redirect('/dashboard-kategori');
-    }
-
-    public function edit(Kategori $kategori){
-        return view('admin.kategori.edit', ['kategori' => $kategori]);
+         return redirect('/dashboard-kategori')->with('success', 'Kategori Berhasil di Buat.');
     }
 
     public function update(Kategori $kategori, Request $request){
@@ -72,12 +66,12 @@ class KategoriController extends Controller
 
         $kategori->update($data);
 
-        return redirect(route('dashboard.kategori'));
+        return redirect(route('dashboard.kategori'))->with('success', 'Kategori Berhasil di Edit.');
 
     }
 
     public function destroy(Kategori $kategori){
         $kategori->delete();
-        return redirect()->route('dashboard.kategori');
+        return redirect()->route('dashboard.kategori')->with('success', 'Kategori Berhasil di Hapus.');
     }
 }

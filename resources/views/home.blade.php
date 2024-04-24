@@ -6,11 +6,22 @@
             @if($title)
             <h1 class="text-3xl font-extrabold text-title py-5 pl-3 border-b">{{$title}}</h1>
             @endif
+
+            @if($posts->count())
+
             @foreach ($posts as $post)
             @include('components.post-card')
             @endforeach
 
+            @else
+            <div class="flex justify-center items-center">
+                <p class="text-3xl font-bold pt-5">No Post Found</p>
+            </div>
+            @endif
+
             @include('components.create-modal')
+
+            {{ $posts->links() }}
         </div>
 
         {{-- Side-Content-Container --}}

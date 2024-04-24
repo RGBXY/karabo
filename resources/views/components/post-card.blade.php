@@ -1,4 +1,13 @@
-<div class="w-[100%] h-auto p-3 border-b border-slate-200 pt-5 pb-10 ">
+@if($post->status == 1)
+<div class="w-[100%] h-auto p-3 border-b border-slate-200 min-h-[10rem] flex justify-center items-center gap-3">
+    <img class="w-14" src="{{asset('assets/img/info.svg')}}" alt="">
+    <div>
+        <h1 class="text-2xl font-bold">Post di blokir</h1>
+        <p>Post ini di nonaktifkan oleh admin karena berisi konten yang tidak baik</p>
+    </div>
+</div>
+@else
+<div class="w-[100%] h-auto p-3 border-b border-slate-200 pt-5 pb-10">
     <div class="">
         <div class="flex items-center gap-2 mb-3">
             @if($post->user->profile_image)
@@ -40,9 +49,8 @@
         </div>
 
     </div>
-
-    <!-- Modal toggle -->
-    @include('components.create-modal')
-
-
 </div>
+@endif
+
+<!-- Modal toggle -->
+@include('components.create-modal')

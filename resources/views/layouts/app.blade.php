@@ -31,6 +31,7 @@
 </head>
 <body class="font-sans antialiased">
     <div class="h-screen w-full flex flex-col justify-between">
+        
         @include('layouts.navigation')
 
         <!-- Page Heading -->
@@ -47,7 +48,7 @@
             {{ $slot }}
         </main>
 
-        <footer class="bg-slate-200 shadow border-t border-slate-400 dark:bg-gray-900">
+        <footer class="bg-slate-200 shadow border-t border-slate-400">
             <div class="">
                 <div class=" w-full max-w-screen-lg mx-auto p-4 md:py-8">
                     <div class="sm:flex sm:items-center sm:justify-between">
@@ -56,16 +57,13 @@
                         </a>
                         <ul class="flex flex-wrap items-center mb-6 text-sm font-medium text-black sm:mb-0 dark:text-gray-400">
                             <li>
-                                <a href="#" class="hover:underline me-4 md:me-6">About</a>
+                                <a href="{{'/'}}" class="hover:underline me-4 md:me-6">Home</a>
                             </li>
                             <li>
-                                <a href="#" class="hover:underline me-4 md:me-6">Privacy Policy</a>
+                                <a href="{{route('jawab')}}" class="hover:underline me-4 md:me-6">Jawab Pertanyaan</a>
                             </li>
                             <li>
-                                <a href="#" class="hover:underline me-4 md:me-6">Licensing</a>
-                            </li>
-                            <li>
-                                <a href="#" class="hover:underline">Contact</a>
+                                <a href="{{route('kategoris')}}" class="hover:underline me-4 md:me-6">Topik</a>
                             </li>
                         </ul>
                     </div>
@@ -77,5 +75,6 @@
 
 
     </div>
+
 </body>
 </html>

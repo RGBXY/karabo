@@ -41,7 +41,7 @@
                 </div>
 
                 <div class="flex justify-between w-full mb-10 border-t border-b border-slate-200 py-3 px-1">
-                   
+
                     {{-- Jika Post MEmiliki Jawaban --}}
                     @if($post->hasAnswer())
                     <div class="w-full flex flex-col md:flex-row">
@@ -184,7 +184,7 @@
                                 <div class="flex flex-col gap-5 p-5">
                                     <div>
                                         <label for="editor-{{$post->id}}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Pertanyaan</label>
-                                        <textarea id="editor4" name="judul_post" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg focus:shadow border-gray-300 focus:ring-0 focus:border-slate-300" placeholder="Tulis pertanyaan">{!!$post->judul_post!!}</textarea>
+                                        <textarea id="editor4" name="judul_post" required rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg focus:shadow border-gray-300 focus:ring-0 focus:border-slate-300" placeholder="Tulis pertanyaan">{!!$post->judul_post!!}</textarea>
                                     </div>
                                     <div class="flex items-end gap-5">
                                         <div class="">
@@ -196,7 +196,9 @@
                                             </select>
                                         </div>
                                         <input class="border rounded-xl" type="file" name="image">
+                                        @if($post->image)
                                         <img width="30px" src="{{asset('storage/' . $post->image)}}" alt="{{$post->kategori->nama_kategori}}">
+                                        @endif
                                     </div>
                                     <button type="submit" class="text-white inline items-center bg-slate-800 hover:bg-slate-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
                                         Update
@@ -234,23 +236,22 @@
             <div id="jawaban" class="bg-white border border-slate-200 mt-5 lg:w-[670px] w-full mx-auto">
                 <div class="border-b p-4 flex justify-between">
                     <p class="font-bold text-xl font-title">Jawaban 📖</p>
-
                     <div class="flex gap-3">
                         @if(auth()->check() && $jawaban->user_id === auth()->user()->id)
                         <button id="dropdownDefaultButtons-{{$jawaban->id}}" data-dropdown-toggle="dropdowns-{{$jawaban->id}}" class="text-white" type="button">
                             <span class="text-black">•••</span>
                         </button>
                         @endif
-                        
+
                         @if($jawaban->verified == 1)
-                            <img class="w-8" src="{{asset('assets/img/verified.png')}}" alt="">
+                        <img class="w-8" src="{{asset('assets/img/verified.png')}}" alt="">
                         @else
                         @if(auth()->check() && $jawaban->post->user_id === auth()->user()->id)
                         <form action="{{ route('verifikasi.jawaban', ['id' => $jawaban->id]) }}" method="POST">
                             @csrf
                             @method('POST')
-                            <button class="bg-[#1a8917] py-1 px-2 rounded-3xl text-white font-bold text-sm" type="submit">Verifikasi</button>   
-                        </form>    
+                            <button class="bg-[#1a8917] py-1 px-2 rounded-3xl text-white font-bold text-sm" type="submit">Verifikasi</button>
+                        </form>
                         @endif
                         @endif
                     </div>
@@ -322,7 +323,7 @@
                                     <div class="flex flex-col gap-5 p-5">
                                         <div>
                                             <label for="editor-jawaban-{{$jawaban->id}}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jawaban</label>
-                                            <textarea id="editor-jawaban-{{$jawaban->id}}" name="jawaban_konten" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">{!!$jawaban->jawaban_konten!!}</textarea>
+                                            <textarea id="editor-jawaban-{{$jawaban->id}}" required name="jawaban_konten" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">{!!$jawaban->jawaban_konten!!}</textarea>
                                         </div>
                                         <button type="submit" class="text-white inline items-center bg-black font-medium rounded-lg text-sm px-5 py-2.5 text-center">
                                             Update
@@ -362,7 +363,7 @@
                             <input type="hidden" name="post_id" value="{{ $post->id }}">
                             <input type="hidden" name="parent" value="{{ $jawaban->id }}">
                             <div class="flex justify-between items-center">
-                                <textarea name="jawaban_konten" id="editor" class="p-3 w-[87%] min-h-4 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-0 focus:border-slate-300" placeholder="Komen"></textarea>
+                                <textarea name="jawaban_konten" id="editor" required class="p-3 w-[87%] min-h-4 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-0 focus:border-slate-300" placeholder="Komen"></textarea>
                                 <button type="submit" class="bg-[#1a8917] py-2 px-4 max-h-12 text-white rounded-3xl">
                                     Kirim
                                 </button>
