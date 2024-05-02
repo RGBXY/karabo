@@ -44,6 +44,9 @@ Route::get('/post/{post:slug}', [AppController::class, 'detail_post'])->middlewa
 // Post Tanpa Jawaban (Tanpa Auth)
 Route::get('/jawab', [AppController::class, 'jawab_view'])->name('jawab');
 
+// Ban Explanation
+Route::get('/ban', [AppController::class, 'ban_exp']);
+
 // Jawaban CRUD
 Route::post('/', [JawabanController::class, 'store'])->middleware(['auth', 'verified', 'role:pengguna|admin'])->name('jawaban_store');
 Route::post('/batal-verifikasi-jawaban/{id}', [JawabanController::class, 'batal_verifikasi'])->middleware(['auth', 'verified', 'role:pengguna|admin'])->name('batal.verifikasi.jawaban');
@@ -62,8 +65,8 @@ Route::put('/kategori/{kategori}/update', [KategoriController::class, 'update'])
 Route::delete('/kategori/{kategori}/destroy', [KategoriController::class, 'destroy'])->middleware(['auth', 'verified', 'role:admin'])->name('kategori.destroy');
 
 // Kategori View (Tanpa Auth)
-Route::get('/kategori', [KategoriController::class, 'kategori'])->name('kategoris');
-Route::get('/?kategori={kategori}', [KategoriController::class, 'kategori_detail']);
+Route::get('/kategori', [AppController::class, 'kategori'])->name('kategoris');
+Route::get('/?kategori={kategori}', [AppController::class, 'kategori_detail']);
 
 // Fungsi Ckeditor
 Route::post('/ckeditor/upload', [JawabanController::class, 'upload'])->name('ckeditor.upload');

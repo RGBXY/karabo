@@ -11,41 +11,7 @@ use App\Models\Post;
 class KategoriController extends Controller
 {
     // Fungsi Kategori
-    public function kategori(Request $request){
-        $posts = Post::orderBy('id', 'desc')->take(2)->get();
-        
-        // Inisialisasi array untuk menyimpan jumlah jawaban berdasarkan post ID
-        $jawabanPerPost = [];
-    
-        // Menghitung jumlah jawaban untuk setiap post
-        foreach ($posts as $post) {
-            $jawabanPerPost[$post->id] = $post->jawaban()->where('parent', 0)->count();;
-        }
-
-        return view('kategori.kategori',[
-            'kategoris' => Kategori::all(),
-            'posts' => $posts,
-        ]);
-    }
-
-    // Fungsi Kategori Detail
-    public function kategori_detail (Kategori $kategori){
-        $posts = Post::orderBy('id', 'desc')->get();
-        
-        // Inisialisasi array untuk menyimpan jumlah jawaban berdasarkan post ID
-        $jawabanPerPost = [];
-    
-        // Menghitung jumlah jawaban untuk setiap post
-        foreach ($posts as $post) {
-            $jawabanPerPost[$post->id] = $post->jawaban()->where('parent', 0)->count();;
-        }
-
-        return view('kategori.kategori_detail',[
-            'jawabanPerPost' => $jawabanPerPost,
-            'kategoris' => Kategori::all(),
-            'posts' => $kategori->post,
-        ]);
-    }  
+     
 
     public function store(Request $request){
         $data = $request->validate([

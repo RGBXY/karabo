@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Jawaban;
 use App\Models\Kategori;
-use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use App\Models\Post;
 use App\Models\User;
 
@@ -12,6 +12,8 @@ class AppController extends Controller
 {
 
     // User
+
+    // Fungsi Jawaban Perpos
     public function jawabanPerPost(){
     $jawabanPerPost = [];
     
@@ -22,9 +24,9 @@ class AppController extends Controller
     }
 
     return $jawabanPerPost;
-
     }
 
+    // Fungsi Home
     public function index(){
         $jawabanPerPost = $this->jawabanPerPost();
 
@@ -54,6 +56,7 @@ class AppController extends Controller
         ]);
     }
 
+    // Fungsi Dashboard Pertanyaan User
     public function dashboard_post(){
         $user_top = User::withCount('jawaban')->orderByDesc('jawaban_count')->get(5);
         $kategori_top = Kategori::withCount('post')->orderByDesc('post_count')->limit(7)->get(); 
@@ -65,6 +68,7 @@ class AppController extends Controller
         ]);
     }
 
+    // Fungsi Dashboard Jawaban (User)
     public function dashboard_jawaban(){
 
         $user_top = User::withCount('jawaban')->orderByDesc('jawaban_count')->get(5);
@@ -78,7 +82,7 @@ class AppController extends Controller
         })->get();
 
         return view('dashboard.post.jawaban', [
-            'posts' => Post::where('user_id', auth()->user()->id)->get(),
+            'post' => Post::where('user_id', auth()->user()->id)->get(),
             'jawabans' => Jawaban::where('user_id', auth()->user()->id)->where('parent', 0)->paginate(10),
             'kategoris' => Kategori::orderBy('id', 'desc')->get(),
             'user_top' => $user_top,
@@ -86,7 +90,12 @@ class AppController extends Controller
             'postsWithAnswers' => $postsWithAnswers,
         ]);
     }
+    
+    public function ban_exp(){
+        return view('post.ban_explanation');
+    }
 
+    // Fungsi Pertanyaan Tanpa Jawaban
     public function jawab_view()
     {
         $posts = Post::orderBy('id', 'desc')->get();
@@ -104,6 +113,7 @@ class AppController extends Controller
         ]);
     }
 
+    // Fungsi Detail Post 
     public function detail_post($slug){
         
         $post = Post::where('slug', $slug)->first();
@@ -125,7 +135,7 @@ class AppController extends Controller
         ]);        
     }
     
-    // Admin
+    // Funsi Dashboard (Admin)
     public function dashboard_admin(){
         $kategoris = Kategori::orderBy('id', 'desc')->get();
         return view('admin.index', [
@@ -134,12 +144,50 @@ class AppController extends Controller
         ]);
     }
 
+    // Fungsi Dashboard Kategori (Admin)
     public function dashboard_kategori(){
         return view('admin.kategori', [
             'kategoris' => Kategori::latest()->filter(request(['search', 'kategori']))->paginate(50),
             'jumlahPostKategori' => Kategori::withCount('post')->orderByDesc('post_count')->get(),
         ]);
     }
+
+    // Fungsi Kategori 
+    public function kategori(){
+        $posts = Post::orderBy('id', 'desc')->take(2)->get();
+        
+        // Inisialisasi array untuk menyimpan jumlah jawaban berdasarkan post ID
+        $jawabanPerPost = [];
+    
+        // Menghitung jumlah jawaban untuk setiap post
+        foreach ($posts as $post) {
+            $jawabanPerPost[$post->id] = $post->jawaban()->where('parent', 0)->count();;
+        }
+
+        return view('kategori.kategori',[
+            'kategoris' => Kategori::all(),
+            'posts' => $posts,
+        ]);
+    }
+
+    // Fungsi Kategori Detail
+    public function kategori_detail (Kategori $kategori){
+        $posts = Post::orderBy('id', 'desc')->get();
+        
+        // Inisialisasi array untuk menyimpan jumlah jawaban berdasarkan post ID
+        $jawabanPerPost = [];
+    
+        // Menghitung jumlah jawaban untuk setiap post
+        foreach ($posts as $post) {
+            $jawabanPerPost[$post->id] = $post->jawaban()->where('parent', 0)->count();;
+        }
+
+        return view('kategori.kategori_detail',[
+            'jawabanPerPost' => $jawabanPerPost,
+            'kategoris' => Kategori::all(),
+            'posts' => $kategori->post,
+        ]);
+    } 
 
 
 }

@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Jawaban;
-use App\Models\Kategori;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\Post;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -39,14 +38,6 @@ class PostController extends Controller
             'image' => 'max:3000|mimes:jpg,jpeg,png,webp',
             'kategori_id' => 'required',        
         ]);  
-
-        $messages = [
-            'judul_post.required' => 'Judul wajib diisi!',
-            'image' => 'Foto maksimal 3mb dan berformat jpg,jpeg,png,webp',
-            'kategori.required' => 'Kategori wajib diisi!',
-        ];
-
-        $this->validate($request, $messages);
 
         $data['slug'] = Str::slug($request->judul_post);
         $data['status'] = 0;
@@ -81,6 +72,6 @@ class PostController extends Controller
     // FUngsi Delete
     public function destroy(Post $post){
         $post->delete();
-        return redirect(route('dashboard'))->with('success', 'Pertanyaan berhasil di hapus');
+        return Auth::user()->hasRole('admin') ? redirect(route('dashboard.admin')) : redirect(route('dashboard')) ->with('success', 'Pertanyaan berhasil di hapus');
     }
 }

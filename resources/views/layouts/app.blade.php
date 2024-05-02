@@ -18,6 +18,12 @@
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
+
     <script src="https://cdn.ckeditor.com/ckeditor5/41.2.1/classic/ckeditor.js"></script>
 
     <style>
@@ -55,7 +61,7 @@
                         <a href="{{route('home')}}" class="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse">
                             <x-application-logo class="block w-20 lg:w-28 fill-current text-gray-800" />
                         </a>
-                        <ul class="flex flex-wrap items-center mb-6 text-sm font-medium text-black sm:mb-0 dark:text-gray-400">
+                        <ul class="flex flex-wrap items-center mb-6 text-sm font-medium text-black sm:mb-0">
                             <li>
                                 <a href="{{'/'}}" class="hover:underline me-4 md:me-6">Home</a>
                             </li>
@@ -67,14 +73,16 @@
                             </li>
                         </ul>
                     </div>
-                    <hr class="my-6 border-slate-400 sm:mx-auto dark:border-gray-700 lg:my-8" />
-                    <span class="block text-sm text-black sm:text-center dark:text-gray-400">© 2023 <a href="#" class="hover:underline">Karabo™ </a>. All Rights Reserved.</span>
+                    <hr class="my-6 border-slate-900 sm:mx-auto lg:my-8" />
+                    <span class="block text-sm text-black sm:text-center">© 2023 <a href="#" class="hover:underline">Karabo™ </a>. All Rights Reserved.</span>
                 </div>
             </div>
         </footer>
 
 
     </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
 
 </body>
 </html>

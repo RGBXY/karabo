@@ -11,7 +11,7 @@
         <div class="w-[700px] pt-28 px-6 h-full">
             <div class="flex justify-between items-center w-full">
                 <h1 class="font-extrabold font-title text-2xl md:text-4xl">Jawaban</h1>
-                <button data-modal-target="crud-modal" data-modal-toggle="crud-modal" class="py-2 px-3 gap-0.5 bg-[#1a8917] rounded-3xl" type="button">
+                <button data-modal-target="crud-modal" data-modal-toggle="crud-modal" class="py-2 px-3 gap-0.5 bg-[#1a8917] rounded-3xl hidden md:block" type="button">
                     <span class="text-white font-title text-sm">Tambah Pertanyaan</span>
                 </button>
             </div>
@@ -28,7 +28,7 @@
                     <img class="w-11 h-11 rounded-full border-2 border-white object-cover" src="{{ asset('assets/img/default-profile.png') }}" alt="{{$jawaban->post->kategori->nama_kategori}}">
                     @endif
                     <div class="items-center gap-3">
-                        <p><span class="font-bold">Kamu</span> menjawab <a class="font-bold hover:underline" href="/post/{{$jawaban->post->slug}}">{{$jawaban->post->judul_post}}</a></p>
+                        <p><span class="font-bold">Kamu</span> menjawab <a class="font-bold break-all hover:underline" href="/post/{{$jawaban->post->slug}}">{{ Illuminate\Support\Str::words($jawaban->post->judul_post, 10, '...') }}</a></p>
                         <div class="flex items-center justify-between">
                             <div class="flex items-center gap-1 text-slate-700">
                                 <p class="text-sm">{{$jawaban->created_at->format('d M Y')}} ·</p>
@@ -42,22 +42,22 @@
                 </div>
 
                 <h1 class="font-title font-semibold mt-3">{!!$jawaban->jawaban_konten!!}</h1>
-
+    
             </div>
 
             {{$jawabans->links()}}   
 
 
             <!-- Dropdown menu -->
-            <div id="dropdown-{{$jawaban->id}}" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-lg w-44 dark:bg-gray-700">
-                <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton-{{$jawaban->id}}">
+            <div id="dropdown-{{$jawaban->id}}" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-lg w-44">
+                <ul class="py-2 text-sm text-gray-700" aria-labelledby="dropdownDefaultButton-{{$jawaban->id}}">
                     <li>
-                        <button data-modal-target="edit-modal-{{$jawaban->id}}" data-modal-toggle="edit-modal-{{$jawaban->id}}" class="w-full text-start font-bold px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 " type="button">
+                        <button data-modal-target="edit-modals-{{$jawaban->id}}" data-modal-toggle="edit-modals-{{$jawaban->id}}" class="w-full text-start font-bold px-4 py-2 hover:bg-gray-100  " type="button">
                             Edit
                         </button>
                     </li>
                     <li>
-                        <button data-modal-target="popup-modal-{{$jawaban->id}}" data-modal-toggle="popup-modal-{{$jawaban->id}}" class="w-full text-start text-red-500 font-bold px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600" type="button">
+                        <button data-modal-target="popup-modals-{{$jawaban->id}}" data-modal-toggle="popup-modals-{{$jawaban->id}}" class="w-full text-start text-red-500 font-bold px-4 py-2 hover:bg-gray-100 " type="button">
                             Delete
                         </button>
                     </li>
@@ -65,68 +65,10 @@
             </div>
 
             <!-- Modal Delete -->
-            <div id="popup-modal-{{$jawaban->id}}" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-                <div class="relative p-4 w-full max-w-md max-h-full">
-                    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                        <button type="button" class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="popup-modal-{{$jawaban->id}}">
-                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                            </svg>
-                            <span class="sr-only">Close modal</span>
-                        </button>
-                        <div class="p-4 md:p-5 text-center">
-                            <svg class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                            </svg>
-                            <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to delete this product?</h3>
-                            <div class="flex justify-center w-full">
-                                <form method="post" action="{{ route('jawaban.destroy', ['jawaban' => $jawaban]) }}">
-                                    @csrf
-                                    @method('delete')
-                                    <button type="submit" data-modal-hide="popup-modal-{{$jawaban->id}}" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">Delete</button>
-                                </form>
-                                <button data-modal-hide="popup-modal-{{$jawaban->id}}" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">No, cancel</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            @include('components.delete-jawaban-modal')
 
             <!-- Modal Edit Jawaban -->
-            <div id="edit-modal-{{$jawaban->id}}" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto fixed overflow-x-hidden top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-                <div class="relative p-4 w-full lg:w-[50rem] md:max-w-[80rem] max-h-full">
-                    <!-- Modal content -->
-                    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                        <!-- Modal header -->
-                        <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                                Edit Pertanyaan
-                            </h3>
-                            <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="edit-modal-{{$jawaban->id}}">
-                                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                                </svg>
-                                <span class="sr-only">Close modal</span>
-                            </button>
-                        </div>
-                        <!-- Modal body -->
-                        <form action="{{route('jawaban.update', ['jawaban' => $jawaban])}}" method="post" enctype="multipart/form-data">
-                            @csrf
-                            @method('put')
-                            <div class="flex flex-col gap-5 p-5">
-                                <div>
-                                    <label for="editor-{{$jawaban->id}}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jawaban</label>
-                                    <textarea id="editor-{{$jawaban->id}}" required name="jawaban_konten" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">{!!$jawaban->jawaban_konten!!}</textarea>
-                                </div>
-                                <button type="submit" class="text-white inline items-center font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-slate-800 hover:bg-slate-700">
-                                    Update
-                                </button>
-                            </div>
-                        </form>
-
-                    </div>
-                </div>
-            </div>
+            @include('components.edit-jawaban-modal')
 
             @endforeach
 
@@ -143,7 +85,7 @@
     @foreach ($jawabans as $jawaban)
      <script>
         ClassicEditor
-            .create(document.querySelector('#editor-{{$jawaban->id}}'), {
+            .create(document.querySelector('#editor-jawaban-{{$jawaban->id}}'), {
                 ckfinder: {
                     uploadUrl: '{{ route('ckeditor.upload') }}?_token={{ csrf_token() }}'
                 }
