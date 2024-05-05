@@ -11,7 +11,7 @@
         <div class="w-[700px] pt-28 px-6 h-full">
             <div class="flex justify-between items-center w-full">
                 <h1 class="font-extrabold font-title text-2xl md:text-4xl">Jawaban</h1>
-                <button data-modal-target="crud-modal" data-modal-toggle="crud-modal" class="py-2 px-3 gap-0.5 bg-[#1a8917] rounded-3xl hidden md:block" type="button">
+                <button data-modal-target="crud-modal" data-modal-toggle="crud-modal" class="py-2 px-3 gap-0.5 bg-[#1a8917] rounded-3xl hidden md:block">
                     <span class="text-white font-title text-sm">Tambah Pertanyaan</span>
                 </button>
             </div>

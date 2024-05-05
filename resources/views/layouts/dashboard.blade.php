@@ -34,11 +34,11 @@
         </header>
         @endif
 
-        <!-- Page Content -->
+        <!-- Page Content -->  
         <div class="h-full">
             <div class="w-full h-20 bg-[#008EDA] fixed flex justify-between items-center px-5">
-                <a href="{{route('home')}}" class="flex items-center gap-2 text-slate-900"><img width="19px" src="{{asset('assets/img/back.svg')}}" alt=""><span class="font-bold text-lg">Home</span></a>
-                <h1 class="font-extrabold font-title text-2xl uppercase text-slate-900">Dashboard Admin</h1>
+                <a href="{{route('home')}}" class="flex items-center gap-2 text-slate-900"><img class="w-5" src="{{asset('assets/img/back.svg')}}" alt=""><span class="font-bold text-base">Home</span></a>
+                <h1 class="font-extrabold font-title text-xl uppercase text-slate-900">Dashboard Admin</h1>
                 @if(auth()->user()->profile_image)
                 <img class="w-9 h-9 rounded-full border-2 border-white object-cover" src="{{ asset('storage/' . auth()->user()->profile_image) }}" alt="{{auth()->user()->name}}">
                 @else

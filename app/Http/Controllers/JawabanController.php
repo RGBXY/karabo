@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Jawaban;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class JawabanController extends Controller
 {
@@ -18,12 +19,31 @@ class JawabanController extends Controller
             $extension = $request->file('upload')->getClientOriginalExtension();
             $fileName = $fileName . '_' . time() . '.' . $extension;
       
-            $request->file('upload')->move(public_path('media'), $fileName);
-      
-            $url = '/media/' . $fileName;
+            $path = $request->file('upload')->storeAs(
+                'media', $fileName, 'public'
+            );
+    
+            $url = Storage::url($path);
   
             return response()->json(['fileName' => $fileName, 'uploaded'=> 1, 'url' => $url]);
         }
+    }
+
+    // Verifikasi Jawaban
+    public function ban_jawaban($id)
+    {
+        $jawaban = Jawaban::findOrFail($id);
+        $jawaban->update(['status' => '1']);
+
+        return redirect()->back()->with('success', 'Jawaban berhasil ban.');
+    }
+
+    public function batal_ban_jawaban($id)
+    {
+        $jawaban = Jawaban::findOrFail($id);
+        $jawaban->update(['status' => '0']);
+
+        return redirect()->back()->with('success', 'Jawaban berhasil batal ban.');
     }
 
     // Verifikasi Jawaban

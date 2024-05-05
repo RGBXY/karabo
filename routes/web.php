@@ -39,7 +39,7 @@ Route::post('/unsuspend/post/{id}', [PostController::class, 'unsuspend'])->middl
 Route::get('/suspend/{post:slug}', [PostController::class, 'suspend_view'])->name('suspend');
 
 // Detail Post
-Route::get('/post/{post:slug}', [AppController::class, 'detail_post'])->middleware('status')->name('detail_post');
+Route::get('/post/{post:slug}', [AppController::class, 'detail_post'])->middleware('auth', 'verified', 'role:pengguna|admin', 'status')->name('detail_post');
 
 // Post Tanpa Jawaban (Tanpa Auth)
 Route::get('/jawab', [AppController::class, 'jawab_view'])->name('jawab');
@@ -49,10 +49,12 @@ Route::get('/ban', [AppController::class, 'ban_exp']);
 
 // Jawaban CRUD
 Route::post('/', [JawabanController::class, 'store'])->middleware(['auth', 'verified', 'role:pengguna|admin'])->name('jawaban_store');
-Route::post('/batal-verifikasi-jawaban/{id}', [JawabanController::class, 'batal_verifikasi'])->middleware(['auth', 'verified', 'role:pengguna|admin'])->name('batal.verifikasi.jawaban');
 Route::put('/jawaban/{jawaban}/edit', [JawabanController::class, 'update'])->middleware(['auth', 'verified', 'role:pengguna|admin'])->name('jawaban.update');
 Route::delete('/jawaban/{jawaban}/destroy', [JawabanController::class, 'destroy'])->middleware(['auth', 'verified', 'role:pengguna|admin'])->name('jawaban.destroy');
 Route::post('/verifikasi-jawaban/{id}', [JawabanController::class, 'verifikasi'])->middleware(['auth', 'verified', 'role:pengguna|admin'])->name('verifikasi.jawaban');
+Route::post('/batal-verifikasi-jawaban/{id}', [JawabanController::class, 'batal_verifikasi'])->middleware(['auth', 'verified', 'role:pengguna|admin'])->name('batal.verifikasi.jawaban');
+Route::post('/ban-jawaban/{id}', [JawabanController::class, 'ban_jawaban'])->middleware(['auth', 'verified', 'role:admin'])->name('ban.jawaban');
+Route::post('/batal-ban-jawaban/{id}', [JawabanController::class, 'batal_ban_jawaban'])->middleware(['auth', 'verified', 'role:admin'])->name('batal.ban.jawaban');
 
 // Dashboard Admin View
 Route::get('/dashboard/admin', [AppController::class, 'dashboard_admin'])->middleware(['auth', 'verified', 'role:admin'])->name('dashboard.admin');

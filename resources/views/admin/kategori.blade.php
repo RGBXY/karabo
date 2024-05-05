@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="border- w-[75%] right-0 h-full">
+<div class="w-full lg:w-[75%] right-0 h-full">
     @if(session()->has('success'))
     <div id="alert-3" class="flex items-center p-4 text-green-800 rounded-lg bg-green-200 dark:bg-gray-800 dark:text-green-400" role="alert">
         <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
@@ -22,7 +22,12 @@
     @endif
 
     <div class="p-4 border-b border-black flex justify-between items-center">
+        <div class="flex gap-4">
+            <button id="showButton">
+                <img class="lg:hidden" src="{{asset('assets/img/hamburger.svg')}}" alt="">
+            </button>
         <h1 class="font-extrabold text-xl lg:hidden ">Kategori</h1>
+         </div>
 
         <form action="/dashboard/kategori" class="hidden md:w-[40%]">
             @if(request('kategori'))

@@ -11,10 +11,11 @@ class Jawaban extends Model
 
     protected $fillable = [
         'jawaban_konten',
+        'status',
         'verified',
         'user_id',
         'post_id',
-        'parent',
+        'parent'
     ];
 
     public function user(){

@@ -24,6 +24,7 @@ class PostController extends Controller
         return redirect()->back()->with('success', 'Post Berhasil di Suspend.');
     }
 
+    // Fungsi Diaktifkan kembali
     public function unsuspend($id){
         $post = Post::findOrFail($id);
         $post->update(['status' => '0']);
