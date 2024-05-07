@@ -25,15 +25,24 @@
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="lg:flex gap-10 items-center hidden">
-                    <a href="{{route('home')}}">
-                        <img class="w-7" src="{{asset('assets/img/home.svg')}}" alt="">
+                <div class="lg:flex gap-10 items-center h-full hidden">
+                    <a class="h-full" href="{{route('home')}}">
+                        <div class="px-3 flex items-center relative h-full">
+                            <img class="w-7" src="{{asset('assets/img/home.svg')}}" alt="">
+                            <div class="{{ Request::is('/*') ? ' border-b-[3px] border-black  ' : '' }}absolute right-0 bottom-0 rounded-t-xl w-full"></div>
+                        </div>
                     </a>
-                    <a href="{{route('jawab')}}">
-                        <img class="w-7" src="{{asset('assets/img/jawab.svg')}}" alt="">
+                    <a class="h-full" href="{{route('jawab')}}">
+                        <div class="px-3 flex items-center relative h-full">
+                            <img class="w-7" src="{{asset('assets/img/jawab.svg')}}" alt="">
+                            <div class="{{ Request::is('jawab*') ? ' border-b-[3px] border-black  ' : '' }}absolute right-0 bottom-0 rounded-t-xl w-full"></div>
+                        </div>
                     </a>
-                    <a href="{{route('kategoris')}}">
-                        <img class="w-7" src="{{asset('assets/img/kategori.svg')}}" alt="">
+                    <a class="h-full" href="{{route('kategoris')}}">
+                        <div class="px-3 flex items-center relative h-full">
+                            <img class="w-7" src="{{asset('assets/img/kategori.svg')}}" alt="">
+                            <div class="{{ Request::is('kategori*') ? ' border-b-[3px] border-black  ' : '' }}absolute right-0 bottom-0 rounded-t-xl w-full"></div>
+                        </div>
                     </a>
                 </div>
 
@@ -225,5 +234,5 @@
             statusIcon.alt = "Buka";
         }
     }
-</script>
 
+</script>

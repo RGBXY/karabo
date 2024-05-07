@@ -46,6 +46,18 @@
                     {{-- Jika Post Memiliki Jawaban --}}
                     @if($post->hasAnswer())
                     <div class="w-full flex flex-col md:flex-row">
+                        @if(auth()->check() && $post->user_id === auth()->user()->id)
+                        <div class="flex items-center justify-between me-1 w-full">
+                            <a href="#jawaban">
+                                <div class="py-2 px-3 bg-black text-sm rounded-3xl font-extrabold flex justify-center lg:inline-block">
+                                    <p class="text-white">Lihat Jawaban <span class="bg-white text-black py-0.5 rounded-full px-2">{{$jawabanPerPost[$post->id]}}</span></p>
+                                </div>
+                            </a>
+                            <button id="dropdownDefaultButton-{{$post->id}}" data-dropdown-toggle="dropdown-{{$post->id}}" class="" type="button">
+                                <span class="text-black">•••</span>
+                            </button>
+                        </div>
+                        @else
                         <div class="flex flex-col w-full md:flex-row lg:items-center gap-3">
                             <div class="py-2 px-3 bg-black text-sm rounded-3xl font-extrabold flex justify-center lg:inline-block">
                                 <p class="text-white">Lihat Jawaban <span class="bg-white text-black py-0.5 rounded-full px-2">{{$jawabanPerPost[$post->id]}}</span></p>
@@ -57,37 +69,33 @@
                                 </button>
                             </div>
                         </div>
-
-                        <div class="flex items-center justify-end me-1">
-                            @if(auth()->check() && $post->user_id === auth()->user()->id)
-                            <button id="dropdownDefaultButton-{{$post->id}}" data-dropdown-toggle="dropdown-{{$post->id}}" class="" type="button">
-                                <span class="text-black ">•••</span>
-                            </button>
-                            @endif
-                        </div>
+                        @endif
                     </div>
 
+                    {{-- Jika Post Belum Memiliki Jawaban --}}
                     @else
 
-                    {{-- Jika Post Belum Memiliki Jawaban --}}
+                    {{-- Jika Mengakses Post nya sendiri --}}
+                    @if(auth()->check() && $post->user_id === auth()->user()->id)
+                    <div class="flex items-center justify-between me-1 w-full">
+                        <a href="{{route('jawab')}}" class=" flex items-center py-1.5 px-3 bg-black text-white rounded-3xl font-bold gap-1 transition-all">
+                            <p>Jawab Pertanyaan</p>
+                        </a>
+                        <button id="dropdownDefaultButton-{{$post->id}}" data-dropdown-toggle="dropdown-{{$post->id}}" class="" type="button">
+                            <span class="text-black">•••</span>
+                        </button>
+                    </div>
+                    @else
                     <div class="flex items-center justify-between">
                         <button data-modal-target="crud-modal-{{$post->id}}" data-modal-toggle="crud-modal-{{$post->id}}" class=" flex items-center py-1.5 px-3 bg-black text-white rounded-3xl font-bold gap-1 transition-all" type="button">
                             <img class="w-5" src="{{asset('assets/img/tambah.svg')}}" alt="">
                             <p>Tambahkan Jawaban</p>
                         </button>
                     </div>
-
-
-                    <div class="flex items-center justify-end me-1 ">
-                        @if(auth()->check() && $post->user_id === auth()->user()->id)
-                        <button id="dropdownDefaultButton-{{$post->id}}" data-dropdown-toggle="dropdown-{{$post->id}}" class="" type="button">
-                            <span class="text-black">•••</span>
-                        </button>
-                        @endif
-                    </div>
-
                     @endif
 
+                    {{-- Jika Post Memiliki Jawaban Endif --}}
+                    @endif
                 </div>
 
                 @if($post->image)
@@ -157,28 +165,30 @@
                 </div>
 
                 @include('components.create-modal')
-
             </div>
 
             {{-- Jawaban --}}
             @if($post->hasAnswer())
             <div class="px-4 py-2 text-lg font-bold">Jawaban Terkait ({{$jawabanPerPost[$post->id]}})</div>
             @foreach($post->jawaban()->where('parent', 0)->orderBy('created_at', 'desc')->get() as $jawaban)
-            
+
+            {{-- Jika Jawaban Terban --}}
             @if($jawaban->status == 1)
-          
             <div id="jawaban" class="flex justify-center items-center gap-3 bg-white border border-slate-200 mt-5 h-40 lg:w-[670px] w-full mx-auto">
                 <img class="w-16" src="{{asset('assets/img/info.svg')}}" alt="">
                 <div>
                     <h1 class="text-xl font-bold">Jawaban Telah Di Nonaktifkan</h1>
-                    <a href="#"><p class="text-blue-500 hover:text-blue-600 underline mb-2">Pelajari Lebih Lanjut</p></a>
+                    <a href="#">
+                        <p class="text-blue-500 hover:text-blue-600 underline mb-2">Pelajari Lebih Lanjut</p>
+                    </a>
                     @if(Auth::user()->hasRole('admin'))
-                        <button data-modal-target="unban-modals-{{$jawaban->id}}" data-modal-toggle="unban-modals-{{$jawaban->id}}" class="px-2 py-1 bg-blue-500 hover:bg-blue-700 text-white hover:text-gray-300 rounded-lg text-start font-semibold" type="button">
-                            Buka Ban
-                        </button>
+                    <button data-modal-target="unban-modals-{{$jawaban->id}}" data-modal-toggle="unban-modals-{{$jawaban->id}}" class="px-2 py-1 bg-blue-500 hover:bg-blue-700 text-white hover:text-gray-300 rounded-lg text-start font-semibold" type="button">
+                        Buka Ban
+                    </button>
                     @endif
                 </div>
 
+                {{-- Unban Modal --}}
                 <div id="unban-modals-{{$jawaban->id}}" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
                     <div class="relative p-4 w-full max-w-md max-h-full">
                         <div class="relative bg-white rounded-lg shadow">
@@ -205,39 +215,65 @@
                         </div>
                     </div>
                 </div>
+            </div>
 
-            </div>    
-
+            {{-- Jawaban Biasa (Tidak di Ban) --}}
             @else
 
             <div id="jawaban" class="bg-white border border-slate-200 mt-5 lg:w-[670px] w-full mx-auto">
                 <div class="border-b p-4 flex justify-between">
                     <p class="font-bold text-xl font-title">Jawaban 📖</p>
-                    <div class="flex gap-3">
-
+                    <div class="flex gap-3 items-center">
                         @if(auth()->check() && $jawaban->user_id === auth()->user()->id)
                         <button id="dropdownDefaultButtons-{{$jawaban->id}}" data-dropdown-toggle="dropdowns-{{$jawaban->id}}" class="text-white" type="button">
                             <span class="text-black">•••</span>
                         </button>
-                        @endif
-
-                        @if(Auth::user()->hasRole('admin'))
-                        <button data-modal-target="ban-modals-{{$jawaban->id}}" data-modal-toggle="ban-modals-{{$jawaban->id}}" class="py-1 px-2 rounded-3xl text-white font-bold text-sm hover:text-gray-300 bg-red-500 hover:bg-red-600" type="button">
-                            Ban
+                        @elseif(auth()->user()->hasRole('admin'))
+                        <button id="dropdownDefaultButtons-{{$jawaban->id}}" data-dropdown-toggle="admin-{{$jawaban->id}}" class="text-white" type="button">
+                            <span class="text-black">•••</span>
                         </button>
                         @endif
 
-                        @if($jawaban->verified == 1)
-                        <img class="w-8" src="{{asset('assets/img/verified.png')}}" alt="">
-                        @else
-                        @if(auth()->check() && $jawaban->post->user_id === auth()->user()->id)
+                        @if($jawaban->verified == 0)
                         <form action="{{ route('verifikasi.jawaban', ['id' => $jawaban->id]) }}" method="POST">
                             @csrf
                             @method('POST')
-                            <button class="bg-[#1a8917] py-1 px-2 rounded-3xl text-white font-bold text-sm hover:bg-[#1b5019] hover:text-gray-300" type="submit">Verifikasi</button>
+                            <button class="bg-[#1a8917] py-1 px-2 rounded-3xl text-white font-bold text-sm hover:bg-[#1b5019] hover:text-gray-300" type="submit">Verifikasi Jawaban</button>
+                        </form>
+                        @else
+                        <img class="w-8 " src="{{asset('assets/img/verified.png')}}" alt="">
+                        <form action="{{ route('batal.verifikasi.jawaban', ['id' => $jawaban->id]) }}" method="POST">
+                            @csrf
+                            @method('POST')
+                            <button class="bg-red-600 py-1 px-2 rounded-3xl text-white font-bold text-sm hover:bg-red-700 hover:text-gray-300" type="submit">Batal Verifikasi</button>
                         </form>
                         @endif
-                        @endif
+                    </div>
+
+
+                    <div id="admin-{{$jawaban->id}}" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-lg w-44">
+                        <ul class="py-2 text-sm text-gray-700" aria-labelledby="dropdownDefaultButtons-{{$jawaban->id}}">
+                            <li>
+                                <button data-modal-target="ban-modals-{{$jawaban->id}}" data-modal-toggle="ban-modals-{{$jawaban->id}}" class="w-full text-start text-red-600 font-bold px-4 py-2 hover:bg-gray-100 hover:text-red-700" type="button">
+                                    Ban
+                                </button>
+                            </li>
+                            <li>
+                                @if($jawaban->verified == 0)
+                                <form action="{{ route('verifikasi.jawaban', ['id' => $jawaban->id]) }}" method="POST">
+                                    @csrf
+                                    @method('POST')
+                                    <button class="w-full text-start font-bold px-4 py-2 hover:bg-gray-100 text-[#1a8917] hover:text-[#1b5019]" type="submit">Verifikasi Jawaban</button>
+                                </form>
+                                @else
+                                <form action="{{ route('batal.verifikasi.jawaban', ['id' => $jawaban->id]) }}" method="POST">
+                                    @csrf
+                                    @method('POST')
+                                    <button class="w-full text-start font-bold px-4 py-2 hover:bg-gray-100 text-red-600 hover:text-red-700" type="submit">Batal Verifikasi</button>
+                                </form>
+                                @endif
+                            </li>
+                        </ul>
                     </div>
 
                     <div id="dropdowns-{{$jawaban->id}}" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-lg w-44">
@@ -251,6 +287,31 @@
                                 <button data-modal-target="popup-modals-{{$jawaban->id}}" data-modal-toggle="popup-modals-{{$jawaban->id}}" class="w-full text-start text-red-500 font-bold px-4 py-2 hover:bg-gray-100" type="button">
                                     Delete
                                 </button>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div id="admin-{{$jawaban->id}}" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-lg w-44">
+                        <ul class="py-2 text-sm text-gray-700" aria-labelledby="admin-{{$jawaban->id}}">
+                            <li>
+                                <button data-modal-target="ban-modals-{{$jawaban->id}}" data-modal-toggle="ban-modals-{{$jawaban->id}}" class="w-full text-start font-bold px-4 py-2 hover:bg-gray-100 hover:text-gray-300" type="button">
+                                    Ban
+                                </button>
+                            </li>
+                            <li>
+                                @if($jawaban->verified == 0)
+                                <form action="{{ route('verifikasi.jawaban', ['id' => $jawaban->id]) }}" method="POST">
+                                    @csrf
+                                    @method('POST')
+                                    <button class="bg-[#1a8917] py-1 px-2 rounded-3xl text-white font-bold text-sm hover:bg-[#1b5019] hover:text-gray-300" type="submit">Verifikasi Jawaban</button>
+                                </form>
+                                @else
+                                <form action="{{ route('batal.verifikasi.jawaban', ['id' => $jawaban->id]) }}" method="POST">
+                                    @csrf
+                                    @method('POST')
+                                    <button class="bg-red-600 py-1 px-2 rounded-3xl text-white font-bold text-sm hover:bg-red-700 hover:text-gray-300" type="submit">Batal Verifikasi</button>
+                                </form>
+                                @endif
                             </li>
                         </ul>
                     </div>
@@ -282,7 +343,7 @@
                                             @method('POST')
                                             <button type="submit" data-modal-hide="popup-modal-{{$jawaban->id}}" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">Inactive</button>
                                         </form>
-                                        <button data-modal-hide="popup-modal-{{$jawaban->id}}" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 ">No, cancel</button>
+                                        <button data-modal-hide="popup-modal-{{$jawaban->id}}" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 focus:z-10 focus:ring-4 focus:ring-gray-100 ">No, cancel</button>
                                     </div>
                                 </div>
                             </div>
@@ -389,11 +450,25 @@
                 </div>
             </div>
 
+            {{-- Jawaban Ban Endif --}}
             @endif
             @endforeach
 
+            {{-- Post Tanpa Jawaban --}}
             @else
 
+            @if(auth()->check() && $post->user_id === auth()->user()->id)
+            <div class="lg:w-[670px] w-full mx-auto px-4 rounded-xl mt-5 lg:bg-slate-100">
+                <div class="flex justify-center items-center flex-col text-center gap-4 py-10 bg-slate-100 lg:bg-none">
+                    <h1 class="font-bold font-title text-2xl md:text-3xl">Sambil menunggu, bantu yang lainnya yuk</h1>
+                    <div class="flex items-center justify-between">
+                        <a href="{{route('jawab')}}" class=" flex items-center py-1.5 px-3 bg-black text-white rounded-3xl font-bold gap-1 transition-all">
+                            <p>JAWAB PERTANYAAN</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            @else
             <div class="lg:w-[670px] w-full mx-auto px-4 rounded-xl mt-5 lg:bg-slate-100">
                 <div class="flex justify-center items-center flex-col text-center gap-4 pb-10 bg-slate-100 lg:bg-none">
                     <img class="w-[300px] lg:w-[350px] object-cover" src="{{ asset('assets/img/no_answer.svg') }}" alt="Image">
@@ -407,7 +482,9 @@
                     </div>
                 </div>
             </div>
+            @endif
 
+            {{-- Post Dengan atau Tanpa Jawaban Endif --}}
             @endif
 
         </div>

@@ -43,7 +43,7 @@ class JawabanController extends Controller
         $jawaban = Jawaban::findOrFail($id);
         $jawaban->update(['status' => '0']);
 
-        return redirect()->back()->with('success', 'Jawaban berhasil batal ban.');
+        return redirect()->back()->with('success', 'Berhasil dibatalkan.');
     }
 
     // Verifikasi Jawaban
@@ -60,7 +60,7 @@ class JawabanController extends Controller
         $jawaban = Jawaban::findOrFail($id);
         $jawaban->update(['verified' => '0']);
 
-        return redirect()->back()->with('success', 'Jawaban berhasil');
+        return redirect()->back()->with('success', 'Berhasil dibatalkan');
     }
 
     // Jawaban dan Komentar
