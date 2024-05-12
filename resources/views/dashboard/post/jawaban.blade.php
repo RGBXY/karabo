@@ -42,10 +42,10 @@
                 </div>
 
                 <h1 class="font-title font-semibold mt-3">{!!$jawaban->jawaban_konten!!}</h1>
-    
+
             </div>
 
-            {{$jawabans->links()}}   
+            {{$jawabans->links()}}
 
 
             <!-- Dropdown menu -->
@@ -83,7 +83,7 @@
     </div>
 
     @foreach ($jawabans as $jawaban)
-     <script>
+    <script>
         ClassicEditor
             .create(document.querySelector('#editor-jawaban-{{$jawaban->id}}'), {
                 ckfinder: {

@@ -32,25 +32,42 @@ class PostController extends Controller
         return redirect()->back()->with('success', 'Post Berhasil di Unsuspend.');
     }
 
-    // Fungsi Store
+    // Store
     public function store(Request $request){
-        $data = $request->validate([
-            'judul_post' => 'required|max:250',
+        $validatedData = $request->validate([
+            'judul_post' => 'required|max:250|min:10',
             'image' => 'max:3000|mimes:jpg,jpeg,png,webp',
             'kategori_id' => 'required',        
-        ]);  
-
-        $data['slug'] = Str::slug($request->judul_post);
-        $data['status'] = 0;
-        $data['user_id'] = auth()->user()->id;
+        ], [
+            // Pesan kesalahan khusus untuk setiap aturan validasi
+            'judul_post.required' => 'Kolom pertanyaan harus diisi.',
+            'judul_post.max' => 'Pertanyaan tidak boleh lebih dari 250 karakter.',
+            'judul_post.min' => 'Pertanyaan posting tidak boleh kurang dari 10 karakter',
+            'image.max' => 'Gambar tidak boleh lebih dari 3mb.',
+            'image.mimes' => 'Gambar harus berupa file dengan tipe JPG, JPEG, PNG, atau WEBP.',
+            'kategori_id.required' => 'Kategori harus dipilih.',
+        ] 
+    );
+    
+        $validatedData['slug'] = Str::slug($request->judul_post);
+        $validatedData['status'] = 0;
+        $validatedData['user_id'] = auth()->user()->id;
         
-        if($request->file('image')){
-            $data['image'] = $request->file('image')->store('post-img');
+        $judulPost = $request->judul_post;
+        $postExists = Post::where('judul_post', $judulPost)->exists();
+    
+        if ($postExists) {
+            return redirect()->back()->withInput()->withErrors(['judul_post' => 'Pertanyaan sudah ada.']);
         }
 
-        $newPost = Post::create($data);
+        if($request->file('image')){
+            $validatedData['image'] = $request->file('image')->store('post-img');
+        }
+    
+        $newPost = Post::create($validatedData);
         
         return redirect('/post/' . $newPost->slug)->with('success', 'Pertanyaan berhasil diunggah');
+
     }
 
     // Fungsi Update

@@ -103,6 +103,7 @@
                     <img class="max-h-[500px] mx-auto object-contain" src="{{asset('storage/' . $post->image)}}" alt="{{$post->kategori->nama_kategori}}">
                 </div>
                 @endif
+                {{-- Pertanyaan End --}}
 
                 <!-- Jawaban modal -->
                 <div id="crud-modal-{{$post->id}}" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
@@ -114,7 +115,7 @@
                                 <h3 class="text-lg font-semibold text-gray-900 ">
                                     Jawaban
                                 </h3>
-                                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center" data-modal-toggle="crud-modal-{{$post->id}}">
+                                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center" data-modal-hide="crud-modal-{{$post->id}}">
                                     <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
                                     </svg>
@@ -133,6 +134,17 @@
                                         <textarea name="jawaban_konten" id="editor" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Jawaban Anda"></textarea>
                                     </div>
                                 </div>
+                                @if ($errors->any() && $errors->has('jawaban_konten'))
+                                <div class="alert-danger-jawaban mb-3 flex gap-2 text-red-500 font-semibold bg-red-200 p-2 rounded-lg">
+                                    <img src="{{asset('assets/img/info.svg')}}" alt="">
+                                    <ul>
+                                        @foreach ($errors->get('jawaban_konten') as $error)
+                                        <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                                @endif
+
                                 <button type="submit" class="text-white inline-flex items-center gap-2 bg-slate-800 hover:bg-slate-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
                                     <img class="w-5" src="{{asset('assets/img/send.svg')}}" alt="">
                                     <span>Kirim</span>
@@ -228,12 +240,17 @@
                         <button id="dropdownDefaultButtons-{{$jawaban->id}}" data-dropdown-toggle="dropdowns-{{$jawaban->id}}" class="text-white" type="button">
                             <span class="text-black">•••</span>
                         </button>
-                        @elseif(auth()->user()->hasRole('admin'))
+                        @elseif(auth()->check() && auth()->user()->hasRole('admin'))
                         <button id="dropdownDefaultButtons-{{$jawaban->id}}" data-dropdown-toggle="admin-{{$jawaban->id}}" class="text-white" type="button">
                             <span class="text-black">•••</span>
                         </button>
                         @endif
 
+                        @if($jawaban->verified == 1)
+                        <img class="w-8" src="{{asset('assets/img/verified.png')}}" alt="">
+                        @endif
+
+                        @if(auth()->check() && $post->user_id === auth()->user()->id)
                         @if($jawaban->verified == 0)
                         <form action="{{ route('verifikasi.jawaban', ['id' => $jawaban->id]) }}" method="POST">
                             @csrf
@@ -241,16 +258,16 @@
                             <button class="bg-[#1a8917] py-1 px-2 rounded-3xl text-white font-bold text-sm hover:bg-[#1b5019] hover:text-gray-300" type="submit">Verifikasi Jawaban</button>
                         </form>
                         @else
-                        <img class="w-8 " src="{{asset('assets/img/verified.png')}}" alt="">
                         <form action="{{ route('batal.verifikasi.jawaban', ['id' => $jawaban->id]) }}" method="POST">
                             @csrf
                             @method('POST')
                             <button class="bg-red-600 py-1 px-2 rounded-3xl text-white font-bold text-sm hover:bg-red-700 hover:text-gray-300" type="submit">Batal Verifikasi</button>
                         </form>
                         @endif
+                        @endif
                     </div>
 
-
+                    {{-- Admin Dropdown --}}
                     <div id="admin-{{$jawaban->id}}" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-lg w-44">
                         <ul class="py-2 text-sm text-gray-700" aria-labelledby="dropdownDefaultButtons-{{$jawaban->id}}">
                             <li>
@@ -276,6 +293,7 @@
                         </ul>
                     </div>
 
+                    {{-- User Post Dropdown --}}
                     <div id="dropdowns-{{$jawaban->id}}" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-lg w-44">
                         <ul class="py-2 text-sm text-gray-700" aria-labelledby="dropdownDefaultButtons-{{$jawaban->id}}">
                             <li>
@@ -287,31 +305,6 @@
                                 <button data-modal-target="popup-modals-{{$jawaban->id}}" data-modal-toggle="popup-modals-{{$jawaban->id}}" class="w-full text-start text-red-500 font-bold px-4 py-2 hover:bg-gray-100" type="button">
                                     Delete
                                 </button>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div id="admin-{{$jawaban->id}}" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-lg w-44">
-                        <ul class="py-2 text-sm text-gray-700" aria-labelledby="admin-{{$jawaban->id}}">
-                            <li>
-                                <button data-modal-target="ban-modals-{{$jawaban->id}}" data-modal-toggle="ban-modals-{{$jawaban->id}}" class="w-full text-start font-bold px-4 py-2 hover:bg-gray-100 hover:text-gray-300" type="button">
-                                    Ban
-                                </button>
-                            </li>
-                            <li>
-                                @if($jawaban->verified == 0)
-                                <form action="{{ route('verifikasi.jawaban', ['id' => $jawaban->id]) }}" method="POST">
-                                    @csrf
-                                    @method('POST')
-                                    <button class="bg-[#1a8917] py-1 px-2 rounded-3xl text-white font-bold text-sm hover:bg-[#1b5019] hover:text-gray-300" type="submit">Verifikasi Jawaban</button>
-                                </form>
-                                @else
-                                <form action="{{ route('batal.verifikasi.jawaban', ['id' => $jawaban->id]) }}" method="POST">
-                                    @csrf
-                                    @method('POST')
-                                    <button class="bg-red-600 py-1 px-2 rounded-3xl text-white font-bold text-sm hover:bg-red-700 hover:text-gray-300" type="submit">Batal Verifikasi</button>
-                                </form>
-                                @endif
                             </li>
                         </ul>
                     </div>
@@ -341,9 +334,9 @@
                                         <form action="{{ route('ban.jawaban', ['id' => $jawaban->id]) }}" method="POST">
                                             @csrf
                                             @method('POST')
-                                            <button type="submit" data-modal-hide="popup-modal-{{$jawaban->id}}" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">Inactive</button>
+                                            <button type="submit" data-modal-hide="ban-modals-{{$jawaban->id}}" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">Inactive</button>
                                         </form>
-                                        <button data-modal-hide="popup-modal-{{$jawaban->id}}" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 focus:z-10 focus:ring-4 focus:ring-gray-100 ">No, cancel</button>
+                                        <button data-modal-hide="ban-modals-{{$jawaban->id}}" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 focus:z-10 focus:ring-4 focus:ring-gray-100 ">No, cancel</button>
                                     </div>
                                 </div>
                             </div>
@@ -369,11 +362,12 @@
                         <p class="text-base">{!! $jawaban->jawaban_konten !!}</p>
                     </div>
 
+                    {{-- Komentar --}}
                     <button onclick="toggleKomentarView({{$jawaban->id}})" class="komentar flex items-center gap-1 pb-2">
                         <img class="w-5 h-5" src="{{asset("assets/img/komen.svg")}}" alt=""><span>Komentar</span>
                     </button>
 
-                    <div class="hidden " id="komentar_view-{{$jawaban->id}}">
+                    <div class="hidden" id="komentar_view-{{$jawaban->id}}">
                         <form action="{{route('jawaban_store')}}" method="post" class="pt-4 pb-2 border-t">
                             @csrf
                             <input type="hidden" name="post_id" value="{{ $post->id }}">
@@ -463,7 +457,7 @@
                     <h1 class="font-bold font-title text-2xl md:text-3xl">Sambil menunggu, bantu yang lainnya yuk</h1>
                     <div class="flex items-center justify-between">
                         <a href="{{route('jawab')}}" class=" flex items-center py-1.5 px-3 bg-black text-white rounded-3xl font-bold gap-1 transition-all">
-                            <p>JAWAB PERTANYAAN</p>
+                            <p>Jawab Pertanyaan</p>
                         </a>
                     </div>
                 </div>
@@ -501,6 +495,21 @@
         </div>
 
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Temukan pesan kesalahan dalam modal
+            let errorAlert = document.querySelector('#crud-modal-{{$post->id}} .alert-danger-jawaban');
+
+            // Jika ada pesan kesalahan, buka modal
+            if (errorAlert) {
+                let modal = document.getElementById('crud-modal-{{$post->id}}');
+                modal.classList.remove('hidden');
+                modal.classList.add('flex', 'justify-center', 'h-[100vh]', 'items-center', 'bg-gray-900/90');
+            }
+        });
+
+    </script>
 
     <script>
         function toggleKomentarView(jawaban_id) {

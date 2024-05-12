@@ -56,6 +56,13 @@ class AppController extends Controller
         ]);
     }
 
+    // Fungsi Create
+    public function create_post(){
+        return view('dashboard.post.create', [
+            'kategoris' => Kategori::orderBy('id', 'desc')->get(),
+        ]);
+    }
+
     // Fungsi Dashboard Pertanyaan User
     public function dashboard_post(){
         $user_top = User::withCount('jawaban')->orderByDesc('jawaban_count')->get(5);

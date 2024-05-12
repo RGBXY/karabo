@@ -6,6 +6,7 @@ use App\Models\Jawaban;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class JawabanController extends Controller
 {
@@ -65,13 +66,18 @@ class JawabanController extends Controller
 
     // Jawaban dan Komentar
     public function post_jawaban(Request $request){
-        // Validasi data yang dikirimkan
-        $request->validate([
-            'jawaban_konten' => 'required|longText|max:255',
+        // Lakukan validasi data yang dikirimkan
+        $validator = Validator::make($request->all(), [
+            'jawaban_konten' => 'required|string',
             'post_id' => 'required|exists:posts,id',
             'parent' => 'required'
         ]);
-
+    
+        // Jika validasi gagal, kembalikan dengan pesan kesalahan
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+    
         // Simpan komentar ke dalam database
         Jawaban::create([
             'post_id' => $request->post_id,
@@ -79,20 +85,35 @@ class JawabanController extends Controller
             'jawaban_konten' => $request->jawaban_konten,
             'parent' => $request->parent
         ]);
-
+    
         // Redirect kembali ke halaman sebelumnya dengan pesan sukses
         return back()->with('success', 'Komentar berhasil ditambahkan.');
-    }
-
-    // Fungsi Store
+    }  
+    
     public function store(Request $request){
-        $request->request->add(['user_id' => auth()->user()->id]);
+            // Lakukan validasi data yang dikirimkan
+        $validator = Validator::make($request->all(), [
+            'jawaban_konten' => 'required|string',
+            'post_id' => 'required|exists:posts,id',
+            'parent' => 'required'
+        ]);
+        
+        // Jika validasi gagal, kembalikan dengan pesan kesalahan
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+        
+        // Tambahkan user_id ke dalam request
+        $request->merge(['user_id' => auth()->user()->id]);
+        
+        // Simpan jawaban ke dalam database
         $jawaban = Jawaban::create($request->all());
-        
+            
+        // Dapatkan slug dari post yang terkait dengan jawaban
         $postSlug = $jawaban->post->slug;
-        
+            
+        // Redirect ke halaman detail post dengan slug yang sesuai
         return redirect()->route('detail_post', ['post' => $postSlug]);
-
     }
 
     // Fungsi Update 

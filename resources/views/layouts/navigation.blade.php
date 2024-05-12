@@ -130,6 +130,10 @@
                     @endif
                     @endauth
 
+                    {{-- <a href="{{route('post.create')}}" data-modal-target="crud-modal" data-modal-toggle="crud-modal" type="button" class="hidden md:block hover:bg-slate-300 transition-all py-1.5 px-2 rounded-3xl">
+                    <span class="text-sm">Tambah Pertanyaan</span>
+                    </a> --}}
+
                     <button data-modal-target="crud-modal" data-modal-toggle="crud-modal" type="button" class="hidden md:block hover:bg-slate-300 transition-all py-1.5 px-2 rounded-3xl">
                         <span class="text-sm">Tambah Pertanyaan</span>
                     </button>

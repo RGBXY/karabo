@@ -28,6 +28,7 @@ Route::get('/dashboard/pertanyaan', [AppController::class, 'dashboard_post'])->m
 Route::get('/dashboard/jawaban', [AppController::class, 'dashboard_jawaban'])->middleware(['auth', 'verified', 'role:pengguna'])->name('dashboard_jawaban');
 
 // Post CRUD
+Route::get('/create', [AppController::class, 'create_post'])->middleware(['auth', 'verified', 'role:pengguna|admin'])->name('post.create');
 Route::post('/index', [PostController::class, 'store'])->middleware(['auth', 'verified', 'role:pengguna|admin'])->name('post.store');
 Route::get('/dashboard/{post}/edit', [PostController::class, 'edit'])->middleware(['auth', 'verified', 'role:pengguna|admin'])->name('post.edit');
 Route::put('/dashboard/{post}/update', [PostController::class, 'update'])->middleware(['auth', 'verified', 'role:pengguna|admin'])->name('post.update');
@@ -39,7 +40,7 @@ Route::post('/unsuspend/post/{id}', [PostController::class, 'unsuspend'])->middl
 Route::get('/suspend/{post:slug}', [PostController::class, 'suspend_view'])->name('suspend');
 
 // Detail Post
-Route::get('/post/{post:slug}', [AppController::class, 'detail_post'])->middleware('auth', 'verified', 'role:pengguna|admin', 'status')->name('detail_post');
+Route::get('/post/{post:slug}', [AppController::class, 'detail_post'])->name('detail_post');
 
 // Post Tanpa Jawaban (Tanpa Auth)
 Route::get('/jawab', [AppController::class, 'jawab_view'])->name('jawab');
