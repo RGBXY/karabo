@@ -189,13 +189,13 @@
             <div id="jawaban" class="flex justify-center items-center gap-3 bg-white border border-slate-200 mt-5 h-40 lg:w-[670px] w-full mx-auto">
                 <img class="w-16" src="{{asset('assets/img/info.svg')}}" alt="">
                 <div>
-                    <h1 class="text-xl font-bold">Jawaban Telah Di Nonaktifkan</h1>
+                    <h1 class="text-xl font-bold">Jawaban Telah Di Suspend</h1>
                     <a href="#">
                         <p class="text-blue-500 hover:text-blue-600 underline mb-2">Pelajari Lebih Lanjut</p>
                     </a>
                     @if(Auth::user()->hasRole('admin'))
                     <button data-modal-target="unban-modals-{{$jawaban->id}}" data-modal-toggle="unban-modals-{{$jawaban->id}}" class="px-2 py-1 bg-blue-500 hover:bg-blue-700 text-white hover:text-gray-300 rounded-lg text-start font-semibold" type="button">
-                        Buka Ban
+                        Buka Suspend
                     </button>
                     @endif
                 </div>
@@ -272,7 +272,7 @@
                         <ul class="py-2 text-sm text-gray-700" aria-labelledby="dropdownDefaultButtons-{{$jawaban->id}}">
                             <li>
                                 <button data-modal-target="ban-modals-{{$jawaban->id}}" data-modal-toggle="ban-modals-{{$jawaban->id}}" class="w-full text-start text-red-600 font-bold px-4 py-2 hover:bg-gray-100 hover:text-red-700" type="button">
-                                    Ban
+                                    Suspend
                                 </button>
                             </li>
                             <li>
@@ -400,7 +400,7 @@
                                     <p class="font-bold text-sm">{{ $child->user->name }}</p>
                                     <p class="text-sm">{{ $child->created_at->diffForHumans()}}</p>
                                 </div>
-                                @if(Auth::user()->hasRole('admin'))
+                                @if(auth()->check() && Auth::user()->hasRole('admin'))
                                 <button data-modal-target="ban-kom-modals-{{$child->id}}" data-modal-toggle="ban-kom-modals-{{$child->id}}" class="py-1 px-2 rounded-3xl text-white font-bold text-sm hover:text-gray-300 bg-red-500 hover:bg-red-600" type="button">
                                     Ban
                                 </button>
@@ -418,12 +418,12 @@
                                                 <svg class="mx-auto mb-4 text-gray-400 w-12 h-12" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                                 </svg>
-                                                <h3 class="mb-5 text-lg font-normal text-black">Yakin mau {{$child->jawaban_konten}} <span class="text-red-500">menonaktifkan</span> jawaban ini?</h3>
+                                                <h3 class="mb-5 text-lg font-normal text-black">Yakin mau <span class="text-red-500">men suspend</span> jawaban ini?</h3>
                                                 <div class="flex justify-center w-full">
                                                     <form action="{{ route('ban.jawaban', ['id' => $child->id]) }}" method="POST">
                                                         @csrf
                                                         @method('POST')
-                                                        <button type="submit" data-modal-hide="ban-kom-modals-{{$child->id}}" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">Inactive</button>
+                                                        <button type="submit" data-modal-hide="ban-kom-modals-{{$child->id}}" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">Suspend</button>
                                                     </form>
                                                     <button data-modal-hide="ban-kom-modals-{{$child->id}}" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 ">No, cancel</button>
                                                 </div>

@@ -2,8 +2,8 @@
 <div class="w-full h-auto p-3 border-b border-slate-200 min-h-[10rem] flex justify-center items-center gap-3">
     <img class="w-20 md:w-14" src="{{asset('assets/img/info.svg')}}" alt="">
     <div>
-        <h1 class="text-xl md:text-2xl font-bold hidden md:block">Post di blokir</h1>
-        <p class="text-sm md:text-base font-bold md:font-normal">Pertanyaan ini di nonaktifkan karena berisi konten yang tidak baik.</p>
+        <h1 class="text-xl md:text-2xl font-bold hidden md:block">Post ini di suspend</h1>
+        <p class="text-sm md:text-base font-bold md:font-normal">Pertanyaan ini di suspend karena memancing opini yang tidak baik.</p>
         <a href="#" class="text-blue-600 hover:text-blue-700 underline text-sm">Pelajari lebih lanjut</a>
     </div>
 </div>
