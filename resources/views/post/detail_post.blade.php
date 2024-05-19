@@ -227,6 +227,7 @@
                         </div>
                     </div>
                 </div>
+
             </div>
 
             {{-- Jawaban Biasa (Tidak di Ban) --}}
@@ -250,7 +251,7 @@
                         <img class="w-8" src="{{asset('assets/img/verified.png')}}" alt="">
                         @endif
 
-                        @if(auth()->check() && $post->user_id === auth()->user()->id)
+                        @if(auth()->check() && $post->user_id === auth()->user()->id && !$post->user->hasRole('admin'))
                         @if($jawaban->verified == 0)
                         <form action="{{ route('verifikasi.jawaban', ['id' => $jawaban->id]) }}" method="POST">
                             @csrf

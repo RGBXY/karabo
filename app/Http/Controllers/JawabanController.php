@@ -36,7 +36,7 @@ class JawabanController extends Controller
         $jawaban = Jawaban::findOrFail($id);
         $jawaban->update(['status' => '1']);
 
-        return redirect()->back()->with('success', 'Jawaban berhasil ban.');
+        return redirect()->back()->with('success', 'Jawaban berhasil Suspend.');
     }
 
     public function batal_ban_jawaban($id)
@@ -128,9 +128,31 @@ class JawabanController extends Controller
     }
 
     // Fungsi Hapus
-    public function destroy(Jawaban $jawaban){
-        $jawaban->delete();
-        return redirect()->back()->with('success', 'Jawaban berhasil dihapus.');
+    public function destroy(Jawaban $jawaban)
+{
+    // Ambil konten jawaban
+    $content = $jawaban->jawaban_konten;
+
+    // Temukan semua tag gambar dalam konten jawaban
+    preg_match_all('/<img[^>]+src="([^"]+)"[^>]*>/i', $content, $matches);
+
+    // Jika ada gambar dalam konten jawaban
+    if (!empty($matches[1])) {
+        // Loop melalui setiap gambar
+        foreach ($matches[1] as $imageSrc) {
+            // Ekstrak nama file gambar
+            $imageName = pathinfo($imageSrc, PATHINFO_FILENAME);
+
+            // Hapus gambar terkait
+            Storage::disk('public')->delete('media/' . $imageName);
+        }
     }
+
+    // Hapus jawaban
+    $jawaban->delete();
+
+    return redirect()->back()->with('success', 'Jawaban berhasil dihapus.');
+}
+
 
 }

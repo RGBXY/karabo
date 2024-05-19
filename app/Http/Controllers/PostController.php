@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -29,7 +30,7 @@ class PostController extends Controller
         $post = Post::findOrFail($id);
         $post->update(['status' => '0']);
 
-        return redirect()->back()->with('success', 'Post Berhasil di Unsuspend.');
+        return redirect()->back()->with('success', 'Post Berhasil di Aktifkan.');
     }
 
     // Store
@@ -78,17 +79,29 @@ class PostController extends Controller
             'kategori_id' => 'required',
         ]);  
 
+        $previousImage = $post->image;
+
         if($request->file('image')){
             $data['image'] = $request->file('image')->store('post-img');
         }
 
          $post->update($data);
+
+         if ($previousImage) {
+            Storage::delete($previousImage);
+         }
         
          return redirect('/post/' . $post->slug)->with('success', 'Pertanyaan berhasil di edit');
     }
 
     // FUngsi Delete
     public function destroy(Post $post){
+        $post_image = $post->image;
+
+        if ($post_image) {
+            Storage::delete($post_image);
+        }
+
         $post->delete();
         return Auth::user()->hasRole('admin') ? redirect(route('dashboard.admin')) : redirect(route('dashboard')) ->with('success', 'Pertanyaan berhasil di hapus');
     }

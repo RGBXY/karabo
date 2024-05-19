@@ -36,6 +36,5 @@
             let remaining = maxLength - currentLength;
             document.getElementById('charCount').textContent = remaining;
         }
-
     </script>
 </x-app-layout>

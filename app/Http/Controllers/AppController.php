@@ -32,8 +32,10 @@ class AppController extends Controller
 
         $kategoris = Kategori::orderBy('id', 'desc')->get();
 
-        $user_top = User::withCount('jawaban')-> orderByDesc('jawaban_count')->limit(5)->get();
-
+        $user_top = User::withCount(['jawaban' => function ($query) {
+            $query->where('status', 0);
+        }])->orderByDesc('jawaban_count')->limit(5)->get();
+        
         $kategori_top = Kategori::withCount('post')->orderByDesc('post_count')->limit(7)->get(); 
     
         $title = "";
@@ -98,8 +100,12 @@ class AppController extends Controller
         ]);
     }
     
-    public function ban_exp(){
-        return view('post.ban_explanation');
+    public function suspend_exp(){
+        return view('post.suspend');
+    }
+
+    public function pedoman(){
+        return view('post.pedoman');
     }
 
     // Fungsi Pertanyaan Tanpa Jawaban

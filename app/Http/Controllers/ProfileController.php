@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class ProfileController extends Controller
@@ -36,15 +37,30 @@ class ProfileController extends Controller
         }
 
         $request->validate([
-            'profile_image' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // sesuaikan validasi sesuai kebutuhan Anda
+            'profile_image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
     
         if ($request->hasFile('profile_image')) {
+            // Ambil user yang sedang login
+            $user = $request->user();
+        
+            // Simpan nama file foto sebelumnya
+            $previousImage = $user->profile_image;
+        
+            // Upload foto baru
             $image = $request->file('profile_image');
-            $imageName =  $image->store('profile_images');
-
-            $request->user()->profile_image = $imageName; // Menyimpan nama file ke atribut profile_image
-        };
+            $imageName = $image->store('profile_images');
+        
+            // Update nama file di database
+                $user->profile_image = $imageName;
+                $user->save();
+        
+            // Hapus foto sebelumnya dari storage jika ada
+            if ($previousImage) {
+                Storage::delete($previousImage);
+            }
+        }
+        
 
         $request->user()->save();
         

@@ -29,7 +29,7 @@ class PostStatus
 
     // Kalau Sudah Login dan Post di Suspend
     if ($user && !$user->hasRole('admin') && $post->status == 1) {
-    return redirect()->route('suspend', ['post' => $post->slug])->with('error', 'Post telah di-suspend.');
+    return redirect()->route('home')->with('error', 'Post telah di-suspend.');
     }
 
     return $next($request);

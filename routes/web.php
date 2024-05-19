@@ -40,13 +40,16 @@ Route::post('/unsuspend/post/{id}', [PostController::class, 'unsuspend'])->middl
 Route::get('/suspend/{post:slug}', [PostController::class, 'suspend_view'])->name('suspend');
 
 // Detail Post
-Route::get('/post/{post:slug}', [AppController::class, 'detail_post'])->name('detail_post');
+Route::get('/post/{post:slug}', [AppController::class, 'detail_post'])->middleware(['status'])->name('detail_post');
 
 // Post Tanpa Jawaban (Tanpa Auth)
 Route::get('/jawab', [AppController::class, 'jawab_view'])->name('jawab');
 
+// Pedoman Komunitas
+Route::get('/pedoman-komunitas', [AppController::class, 'pedoman']);
+
 // Ban Explanation
-Route::get('/ban', [AppController::class, 'ban_exp']);
+Route::get('/suspend', [AppController::class, 'suspend_exp']);
 
 // Jawaban CRUD
 Route::post('/', [JawabanController::class, 'store'])->middleware(['auth', 'verified', 'role:pengguna|admin'])->name('jawaban_store');
