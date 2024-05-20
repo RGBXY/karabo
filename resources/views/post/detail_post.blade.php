@@ -248,7 +248,10 @@
                         @endif
 
                         @if($jawaban->verified == 1)
-                        <img class="w-8" src="{{asset('assets/img/verified.png')}}" alt="">
+                        <div class="relative group text-center">
+                            <img class="w-8" src="{{asset('assets/img/verified.png')}}" alt="">
+                            <p class="hidden bg-white shadow-lg p-3 font-bold rounded-lg right-0 lg:-right-20 mt-1 lg:w-[200px] text-[#1a8917] group-hover:inline group-hover:absolute">Jawaban Terverifikasi</p>
+                        </div>
                         @endif
 
                         @if(auth()->check() && $post->user_id === auth()->user()->id && !$post->user->hasRole('admin'))

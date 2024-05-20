@@ -18,12 +18,14 @@
         @method('patch')
         <div>
             <x-input-label for="profile_image" :value="__('Profile Image')" />
-            @if(auth()->user()->profile_image)
-            <img class="w-14 h-14 rounded-full border border-slate-400 object-cover my-5" src="{{ asset('storage/' . auth()->user()->profile_image) }}" alt="Profil">
-            @else
-            <img class="w-14 h-14 rounded-full border border-slate-400 object-cover my-5" src="{{ asset('assets/img/default-profile.png') }}" alt="Profile">
-            @endif
-            <x-text-input id="profile_image" name="profile_image" type="file" class="mt-1 block w-full border" :value="old('image', $user->profile_image)" />
+            <div class="my-5">
+                @if(auth()->user()->profile_image)
+                <img id="profileImagePreview" class="w-14 h-14 rounded-full border border-slate-400 object-cover" src="{{ asset('storage/' . auth()->user()->profile_image) }}" alt="Profil">
+                @else
+                <img id="profileImagePreview" class="w-14 h-14 rounded-full border border-slate-400 object-cover" src="{{ asset('assets/img/default-profile.png') }}" alt="Profile">
+                @endif
+            </div>
+            <x-text-input id="profile_image" name="profile_image" type="file" class="mt-1 block w-full border" :value="old('image', $user->profile_image)" onchange="previewImage(event)" />
         </div>
         <div>
             <x-input-label for="name" :value="__('Name')" />
@@ -63,4 +65,17 @@
             @endif
         </div>
     </form>
+
 </section>
+
+<script>
+    function previewImage(event) {
+        const reader = new FileReader();
+        reader.onload = function() {
+            const output = document.getElementById('profileImagePreview');
+            output.src = reader.result;
+        }
+        reader.readAsDataURL(event.target.files[0]);
+    }
+
+</script>

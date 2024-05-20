@@ -32,7 +32,18 @@
                 <a class="absolute left-28" href="{{route('dashboard_jawaban')}}">Jawaban</a>
             </div>
             @foreach($posts->reverse() as $post)
-            <div class="pb-7 mt-5 border-b">
+            <div class="pb-7 mt-5 border-b {{ $post->status == 1 ? ' bg-red-300 p-5 rounded-lg ' : '' }}">
+                @if($post->status == 1)
+                <div class="flex gap-2 mb-1 bg-red-400 text-red-900 rounded-lg p-2">
+                    <img class="w-12" src="{{asset('assets/img/info-error.svg')}}" alt="">
+                    <div>
+                        <p class="font-bold text-lg">Post mu di suspend</p>
+                        <a href="{{route('suspend')}}" class="underline">
+                            <p>pelajari lebih lanjut</p>
+                        </a>
+                    </div>
+                </div>
+                @endif
                 <h1 class="font-title font-bold text-lg break-all">{!!$post->judul_post!!}</h1>
                 <p class="text-slate-600 mb-1">{{$post->kategori->nama_kategori}}</p>
                 <div class="flex items-center gap-3">

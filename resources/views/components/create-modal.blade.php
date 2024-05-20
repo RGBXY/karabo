@@ -74,8 +74,6 @@
 
 </script>
 
-
-
 <script>
     function countCharacters() {
         let maxLength = 250;

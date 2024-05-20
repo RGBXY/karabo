@@ -32,9 +32,9 @@
                                 @endforeach
                             </select>
                         </div>
-                        <input class="rounded-xl border" type="file" name="image">
+                        <input class="rounded-xl border" type="file" name="image" onchange="previewImage(event)">
                         @if($post->image)
-                            <img width="30px" src="{{asset('storage/' . $post->image)}}" alt="{{$post->kategori->nama_kategori}}">
+                        <img id="profileImagePreview" width="50px" src="{{asset('storage/' . $post->image)}}" alt="{{$post->kategori->nama_kategori}}">
                         @endif
                     </div>
                     <button type="submit" class="text-white inline items-center bg-slate-800 hover:bg-slate-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
@@ -46,3 +46,15 @@
         </div>
     </div>
 </div>
+
+<script>
+    function previewImage(event) {
+        const reader = new FileReader();
+        reader.onload = function() {
+            const output = document.getElementById('profileImagePreview');
+            output.src = reader.result;
+        }
+        reader.readAsDataURL(event.target.files[0]);
+    }
+
+</script>

@@ -46,10 +46,10 @@ Route::get('/post/{post:slug}', [AppController::class, 'detail_post'])->middlewa
 Route::get('/jawab', [AppController::class, 'jawab_view'])->name('jawab');
 
 // Pedoman Komunitas
-Route::get('/pedoman-komunitas', [AppController::class, 'pedoman']);
+Route::get('/pedoman-komunitas', [AppController::class, 'pedoman'])->name('pedoman');
 
 // Ban Explanation
-Route::get('/suspend', [AppController::class, 'suspend_exp']);
+Route::get('/suspend', [AppController::class, 'suspend_exp'])->name('suspend');
 
 // Jawaban CRUD
 Route::post('/', [JawabanController::class, 'store'])->middleware(['auth', 'verified', 'role:pengguna|admin'])->name('jawaban_store');

@@ -50,7 +50,7 @@ class AppController extends Controller
 
         return view('home', [
             'title' => $title,
-            'posts' => Post::latest()->filter(request(['search', 'kategori']))->paginate(30),
+            'posts' => Post::filter(request(['search', 'kategori']))->inRandomOrder()->paginate(30),
             'jawabanPerPost' => $jawabanPerPost,
             'kategoris' => $kategoris,
             'user_top' => $user_top,
