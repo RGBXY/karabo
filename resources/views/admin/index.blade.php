@@ -45,7 +45,7 @@
                     <img id="searchToggle" class="w-6" src="{{asset('assets/img/search.svg')}}" alt="">
                 </button>
 
-                <button data-modal-target="crud-modal" data-modal-toggle="crud-modal" class="border-2 md:flex items-center p-1 gap-0.5 border-black rounded-lg hidden" type="button">
+                <button data-modal-target="crud-modal" data-modal-toggle="crud-modal" class="shadow-md md:flex items-center p-2 gap-0.5 rounded-lg hidden" type="button">
                     <img width="20px" src="{{asset('assets/img/tambah-black.svg')}}" alt="">
                     <span>add post</span>
                 </button>

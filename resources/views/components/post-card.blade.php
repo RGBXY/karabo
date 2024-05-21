@@ -80,7 +80,7 @@
                         @endif
 
                         @if($post->status == 1)
-                        <p class="bg-red-600 py-1 text-white text-sm px-4 rounded-3xl font-bold">Aktifkan Post</p>
+                        <p class="bg-red-600 py-1 text-white text-sm px-4 rounded-3xl font-bold">Post di suspen</p>
                         @endif
                     </div>
                 </div>

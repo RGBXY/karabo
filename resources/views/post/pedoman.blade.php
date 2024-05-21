@@ -2,6 +2,9 @@
     <div class="pt-20 pb-10 mx-5 lg:mx-56 flex flex-col gap-3">
         <h1 class="text-3xl font-bold font-title pb-3 border-b-2 border-black w-full">Pedoman Komunitas</h1>
         <p class="text-base leading-relaxed text-black">
+            Selamat datang di Karabo! Kami bangga memiliki Anda sebagai bagian dari komunitas kami. Untuk memastikan bahwa Karabo tetap menjadi tempat yang aman, ramah, dan bermanfaat bagi semua pengguna, kami telah menetapkan pedoman komunitas yang harus diikuti oleh semua anggota. Dengan mengikuti pedoman ini, Anda membantu menciptakan lingkungan yang positif dan menyenangkan bagi semua orang.
+            <br><br>
+
             <span class="text-black font-bold">1. Hormati Sesama Anggota</span><br>
             Bersikap Sopan dan Ramah: Selalu berinteraksi dengan hormat dan sopan terhadap sesama anggota. Hindari kata-kata kasar, penghinaan, atau perilaku yang dapat dianggap ofensif.
             Perbedaan Pendapat: Hormati perbedaan pendapat dan pandangan. Diskusi sehat dan debat yang konstruktif sangat dianjurkan, tetapi serangan pribadi tidak akan ditoleransi.

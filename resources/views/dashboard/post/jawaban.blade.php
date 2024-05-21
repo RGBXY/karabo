@@ -20,8 +20,10 @@
                 <a class="absolute left-28 font-bold border-b border-black pb-4" href="{{route('dashboard_jawaban')}}">Jawaban</a>
             </div>
             @foreach($jawabans->reverse() as $jawaban)
-            <div class="pb-7 mt-5 border-b">
+            <div class="pb-7 mt-5 border-b {{ $jawaban->status == 1 ? ' bg-red-300 p-5 rounded-lg ' : '' }}">
+
                 <div class="flex items-center gap-2">
+
                     @if($jawaban->user->profile_image)
                     <img class="w-11 h-11 rounded-full border-2 border-white object-cover" src="{{ asset('storage/' . $jawaban->user->profile_image) }}" alt="{{$jawaban->post->kategori->nama_kategori}}">
                     @else
@@ -43,6 +45,17 @@
 
                 <h1 class="font-title font-semibold mt-3">{!!$jawaban->jawaban_konten!!}</h1>
 
+                @if($jawaban->status == 1)
+                <div class="flex gap-2 mt-2 bg-red-400 text-red-900 rounded-lg p-2">
+                    <img class="w-12" src="{{asset('assets/img/info-error.svg')}}" alt="">
+                    <div>
+                        <p class="font-bold text-lg">Jawaban mu di suspend</p>
+                        <a href="{{route('suspend')}}" class="underline">
+                            <p>pelajari lebih lanjut</p>
+                        </a>
+                    </div>
+                </div>
+                @endif
             </div>
 
             {{$jawabans->links()}}
@@ -87,7 +100,7 @@
         ClassicEditor
             .create(document.querySelector('#editor-jawaban-{{$jawaban->id}}'), {
                 ckfinder: {
-                    uploadUrl: '{{ route('ckeditor.upload') }}?_token={{ csrf_token() }}'
+                    uploadUrl: "{{ url('/ckeditor/upload') }}?_token={{ csrf_token() }}"
                 }
             })
             .catch(error => {

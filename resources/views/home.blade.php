@@ -1,3 +1,5 @@
+@if(Route::has('login'))
+@auth
 <x-app-layout>
     <div class="flex items-start justify-evenly w-full lg:w-[1200px] min-h-screen pt-16 mx-auto">
 
@@ -52,3 +54,34 @@
 
 
 </x-app-layout>
+@else
+
+@extends('layouts.landing_page')
+
+@section('content')
+<div class="h-[100vh] bg-center bg-cover bg-no-repeat" style="background-image: url({{asset('assets/img/bg-lp.png')}})">
+    <nav class="h-20 mx-10 fixed top-0 left-0 right-0 flex items-center justify-between">
+        <x-application-logo class=" block w-20 lg:w-28 fill-current text-gray-800" />
+        <a href="/login">
+            <p class="flex items-center gap-2 font-bold">Login <img class="w-3" src="{{asset('assets/img/arrow-tail.svg')}}" alt=""></p>
+        </a>
+    </nav>
+    <div class="h-full flex flex-col items-center justify-center">
+        <p class="text-5xl mb-4">Welcome to <span class="font-extrabold">KARABO</span></p>
+        <p class="text-xl font-bold mb-3">Takon siji, Jawabe rame.</p>
+        <p class=" text-slate-600 mb-10">Tanya satu, yang menjawab banyak.</p>
+        <div class="flex items-center gap-5">
+            <a href="/register">
+                <p class="py-1 px-4 bg-[#3284FF] text-white rounded-md">Get started</p>
+            </a>
+            <a href="/pedoman-komunitas">
+                <p class="flex gap-2 font-bold">Learn more <img src="{{asset('assets/img/arrow-tail.svg')}}" alt=""></p>
+            </a>
+        </div>
+    </div>
+</div>
+
+@endsection
+
+@endauth
+@endif
