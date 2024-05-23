@@ -31,6 +31,22 @@ class JawabanController extends Controller
     }
 
     // Verifikasi Jawaban
+    public function report_jawaban($id)
+    {
+        $jawaban = Jawaban::findOrFail($id);
+        $jawaban->update(['report' => '1']);
+
+        return redirect()->back()->with('success', 'Jawaban berhasil Laporkan.');
+    }
+
+    public function batal_report_jawaban($id)
+    {
+        $jawaban = Jawaban::findOrFail($id);
+        $jawaban->update(['report' => '0']);
+
+        return redirect()->back()->with('success', 'Laporan telah di hapus.');
+    }
+
     public function ban_jawaban($id)
     {
         $jawaban = Jawaban::findOrFail($id);

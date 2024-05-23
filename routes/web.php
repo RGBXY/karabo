@@ -7,6 +7,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Models\Kategori;
 use App\Models\Post;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,6 +20,15 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+
+
+// Fungsi Profile (Breeze)
+Route::middleware('auth', 'verified')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
 
 // Tanpa Auth
 Route::get('/', [AppController::class, 'index'])->name('home');
@@ -59,6 +69,8 @@ Route::post('/verifikasi-jawaban/{id}', [JawabanController::class, 'verifikasi']
 Route::post('/batal-verifikasi-jawaban/{id}', [JawabanController::class, 'batal_verifikasi'])->middleware(['auth', 'verified', 'role:pengguna|admin'])->name('batal.verifikasi.jawaban');
 Route::post('/ban-jawaban/{id}', [JawabanController::class, 'ban_jawaban'])->middleware(['auth', 'verified', 'role:admin'])->name('ban.jawaban');
 Route::post('/batal-ban-jawaban/{id}', [JawabanController::class, 'batal_ban_jawaban'])->middleware(['auth', 'verified', 'role:admin'])->name('batal.ban.jawaban');
+Route::post('/report-jawaban/{id}', [JawabanController::class, 'report_jawaban'])->middleware(['auth', 'verified', 'role:admin'])->name('report.jawaban');
+Route::post('/batal-report-jawaban/{id}', [JawabanController::class, 'batal_report_jawaban'])->middleware(['auth', 'verified', 'role:admin'])->name('batal.report.jawaban');
 
 // Dashboard Admin View
 Route::get('/dashboard/admin', [AppController::class, 'dashboard_admin'])->middleware(['auth', 'verified', 'role:admin'])->name('dashboard.admin');
@@ -77,12 +89,6 @@ Route::get('/?kategori={kategori}', [AppController::class, 'kategori_detail']);
 // Fungsi Ckeditor
 Route::post('/ckeditor/upload', [JawabanController::class, 'upload'])->name('ckeditor.upload');
 
-// Fungsi Profile (Breeze)
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
 
 
 require __DIR__.'/auth.php';

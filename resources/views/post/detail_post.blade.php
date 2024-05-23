@@ -250,7 +250,7 @@
                         @if($jawaban->verified == 1)
                         <div class="relative group text-center">
                             <img class="w-8" src="{{asset('assets/img/verified.png')}}" alt="">
-                            <p class="hidden bg-white shadow-lg p-3 font-bold rounded-lg right-0 lg:-right-20 mt-1 lg:w-[200px] text-[#1a8917] group-hover:inline group-hover:absolute">Jawaban Terverifikasi</p>
+                            <p class="hidden bg-white shadow-lg p-3 font-bold rounded-lg right-0 lg:-right-20 mt-3 border lg:w-[200px] text-[#1a8917] group-hover:inline group-hover:absolute">Jawaban Terverifikasi</p>
                         </div>
                         @endif
 
@@ -268,6 +268,13 @@
                             <button class="bg-red-600 py-1 px-2 rounded-3xl text-white font-bold text-sm hover:bg-red-700 hover:text-gray-300" type="submit">Batal Verifikasi</button>
                         </form>
                         @endif
+                        @endif
+
+                        @if(auth()->check() && $post->user_id !== auth()->user()->id)
+                        <button data-modal-target="report-modal-{{$post->id}}" data-modal-toggle="report-modal-{{$post->id}}" class="group block relative text-white font-medium rounded-lg text-sm px-3 text-center " type="button">
+                            <img class="w-5" src="{{asset("assets/img/report.svg")}}" alt="">
+                            <p class="hidden bg-white shadow-lg p-3 font-bold rounded-lg right-0 lg:-right-4 border mt-3 lg:w-[80px] text-red-500 group-hover:inline group-hover:absolute">Report</p>
+                        </button>
                         @endif
                     </div>
 
@@ -336,6 +343,34 @@
                                     <h3 class="mb-5 text-lg font-normal text-black">Yakin mau <span class="text-red-500">menonaktifkan</span> jawaban ini?</h3>
                                     <div class="flex justify-center w-full">
                                         <form action="{{ route('ban.jawaban', ['id' => $jawaban->id]) }}" method="POST">
+                                            @csrf
+                                            @method('POST')
+                                            <button type="submit" data-modal-hide="ban-modals-{{$jawaban->id}}" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">Inactive</button>
+                                        </form>
+                                        <button data-modal-hide="ban-modals-{{$jawaban->id}}" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 focus:z-10 focus:ring-4 focus:ring-gray-100 ">No, cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Modal Report Jawaban --}}
+                    <div id="report-modal-{{$post->id}}" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                        <div class="relative p-4 w-full max-w-md max-h-full">
+                            <div class="relative bg-white rounded-lg shadow">
+                                <button type="button" class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center" data-modal-hide="report-modal-{{$post->id}}">
+                                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                                    </svg>
+                                    <span class="sr-only">Close modal</span>
+                                </button>
+                                <div class="p-4 md:p-5 text-center">
+                                    <svg class="mx-auto mb-4 text-gray-400 w-12 h-12" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                    </svg>
+                                    <h3 class="mb-5 text-lg font-normal text-black">Yakin mau <span class="text-red-500">melaporkan</span> jawaban ini?</h3>
+                                    <div class="flex justify-center w-full">
+                                        <form action="{{ route('report.jawaban', ['id' => $jawaban->id]) }}" method="POST">
                                             @csrf
                                             @method('POST')
                                             <button type="submit" data-modal-hide="ban-modals-{{$jawaban->id}}" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">Inactive</button>

@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -32,7 +33,7 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
@@ -42,12 +43,31 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        // Tambahkan peran jika menggunakan spatie/laravel-permission
         $user->assignRole('pengguna');
 
         event(new Registered($user));
 
         Auth::login($user);
 
-        return redirect(route('home'));
+        return redirect()->route('verification.notice');
+    }
+
+    /**
+     * Handle the post-registration logic.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    protected function registered(Request $request, $user)
+    {
+        if ($user instanceof MustVerifyEmail && !$user->hasVerifiedEmail()) {
+            Auth::logout();
+
+            return redirect()->route('verification.notice');
+        }
+
+        return redirect(RouteServiceProvider::HOME);
     }
 }

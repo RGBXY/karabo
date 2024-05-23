@@ -16,6 +16,7 @@ return new class extends Migration
             $table->longText('jawaban_konten');
             $table->integer('status');
             $table->integer('verified')->nullable();
+            $table->integer('report')->nullable();
             $table->integer('parent');
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('post_id')->constrained()->cascadeOnDelete();

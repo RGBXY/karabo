@@ -32,7 +32,7 @@
 
 </head>
 <body class="font-sans antialiased">
-    <div class="h-screen w-full flex flex-col justify-between">
+    <div class="">
         <!-- Page Content -->
         <main>
             @yield('content')

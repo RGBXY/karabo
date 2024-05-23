@@ -1,5 +1,5 @@
-@if(Route::has('login'))
 @auth
+@if(auth()->user()->hasVerifiedEmail() || auth()->user()->hasRole('admin'))
 <x-app-layout>
     <div class="flex items-start justify-evenly w-full lg:w-[1200px] min-h-screen pt-16 mx-auto">
 
@@ -51,9 +51,12 @@
         </div>
 
     </div>
-
-
 </x-app-layout>
+
+@else
+@include('auth.verify-email')
+@endif
+
 @else
 
 @extends('layouts.landing_page')
@@ -84,4 +87,3 @@
 @endsection
 
 @endauth
-@endif
