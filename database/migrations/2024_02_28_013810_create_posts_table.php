@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->integer('status')->nullable();
             $table->string('image')->nullable();
+            $table->integer('report')->nullable();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('kategori_id')->nullable()->nullOnDelete(); // Menggunakan 'kategoris' sebagai nama tabel
             $table->timestamps();

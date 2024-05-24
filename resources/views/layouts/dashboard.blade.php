@@ -47,7 +47,7 @@
             </div>
 
             <div class="flex pt-20 h-screen">
-                <div id="content" class="w-[50%] border-r border-black lg:w-[25%] h-full hidden lg:block">
+                <div id="content" class="w-[50%] border-r border-black lg:w-[25%] h-full z-50 bg-white hidden lg:block">
                     <div class="p-4 border-b border-black flex justify-between">
                         <h1 class="font-extrabold text-xl">Content</h1>
                         <button class="lg:hidden" id="hideButton">
@@ -64,6 +64,13 @@
                     <div class="mt-2 px-2">
                         <a href="/dashboard/kategori" class="{{ Request::is('dashboard/kategori*') ? 'bg-[#e5e5e7] text-black' : '' }} shadow-md flex justify-between px-2 py-3 rounded-lg">
                             <span class="font-bold">Kategori</span>
+                            <img src="{{ asset('assets/img/arrow.svg') }}" alt="">
+                        </a>
+                    </div>
+
+                    <div class="mt-2 px-2">
+                        <a href="/dashboard/laporan" class="{{ Request::is('dashboard/laporan*') ? 'bg-[#e5e5e7] text-black' : '' }} shadow-md flex justify-between px-2 py-3 rounded-lg">
+                            <span class="font-bold">Laporan</span>
                             <img src="{{ asset('assets/img/arrow.svg') }}" alt="">
                         </a>
                     </div>

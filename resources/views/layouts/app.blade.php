@@ -78,5 +78,19 @@
 
     </div>
 
+    {{-- <script>
+        // Ambil semua tombol di dokumen
+        var buttons = document.getElementsByTagName("button");
+
+        // Tambahkan event listener untuk setiap tombol
+        Array.from(buttons).forEach(function(button) {
+            button.addEventListener("click", function(event) {
+                // Tambahkan kelas disabled pada tombol yang diklik
+                event.target.classList.add("disabled: (eg. disabled:border-red-500 ) ");
+            });
+        });
+
+    </script> --}}
+
 </body>
 </html>

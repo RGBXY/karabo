@@ -15,6 +15,7 @@ class Post extends Model
         'kategori_id',
         'slug',
         'status',
+        'report',
         'user_id',
     ];
     

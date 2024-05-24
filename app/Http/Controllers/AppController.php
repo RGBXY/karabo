@@ -157,6 +157,35 @@ class AppController extends Controller
         ]);
     }
 
+    public function dashboard_laporan(){
+        $kategoris = Kategori::orderBy('id', 'desc')->get();
+        return view('admin.laporan', [
+            'posts' => Post::latest()
+            ->filter(request(['search', 'kategori']))
+            ->where('report', 1)
+            ->paginate(50),           
+            'kategoris' => $kategoris,
+        ]);
+    }
+
+    public function dashboard_laporan_jawaban(){
+        return view('admin.laporan_jawaban', [
+            'jawabans' => Jawaban::latest()
+            ->where('report', 1)
+            ->where('parent', 0)
+            ->paginate(50),           
+        ]);
+    }
+    
+    public function dashboard_laporan_komentar(){
+        return view('admin.laporan_komentar', [
+            'jawabans' => Jawaban::latest()
+                ->where('komentar', 1)
+                ->where('report', 1)
+                ->paginate(50),           
+        ]);
+    }
+    
     // Fungsi Dashboard Kategori (Admin)
     public function dashboard_kategori(){
         return view('admin.kategori', [

@@ -17,6 +17,21 @@ class PostController extends Controller
         ]);
     }
 
+    // Fungsi Report
+    public function report($id){
+        $post = Post::findOrFail($id);
+        $post->update(['report' => '1']);
+
+        return redirect()->back()->with('success', 'Post Berhasil di Dilaporkan.');
+    }
+
+    public function batal_report($id){
+        $post = Post::findOrFail($id);
+        $post->update(['report' => '0']);
+
+        return redirect()->back()->with('success', 'Laporan Berhasil dihapus.');
+    }
+
     // Fungsi Suspend
     public function suspend($id){
         $post = Post::findOrFail($id);
@@ -52,6 +67,7 @@ class PostController extends Controller
     
         $validatedData['slug'] = Str::slug($request->judul_post);
         $validatedData['status'] = 0;
+        $validatedData['report'] = 0;
         $validatedData['user_id'] = auth()->user()->id;
         
         $judulPost = $request->judul_post;

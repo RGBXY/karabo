@@ -26,8 +26,8 @@
             <button id="showButton">
                 <img class="lg:hidden" src="{{asset('assets/img/hamburger.svg')}}" alt="">
             </button>
-        <h1 class="font-extrabold text-xl lg:hidden ">Kategori</h1>
-         </div>
+            <h1 class="font-extrabold text-xl lg:hidden ">Kategori</h1>
+        </div>
 
         <form action="/dashboard/kategori" class="hidden md:w-[40%]">
             @if(request('kategori'))
@@ -40,7 +40,7 @@
         </form>
 
         <!-- Crud modal toggle -->
-        <button data-modal-target="crud-modal" data-modal-toggle="crud-modal" class="border-2 flex items-center p-1 gap-0.5 border-black rounded-lg" type="button">
+        <button data-modal-target="crud-modal" data-modal-toggle="crud-modal" class="border flex items-center p-2 gap-0.5 border-slate-300 shadow-md rounded-lg" type="button">
             <img width="20px" src="{{asset('assets/img/tambah-black.svg')}}" alt="">
             <span>add kategori</span>
         </button>
@@ -73,15 +73,15 @@
                     </th>
                     <td class="px-6 py-4">
                         @foreach($jumlahPostKategori as $jpKategori)
-                            @if($jpKategori->id == $kategori->id)
-                                <p>{{ $jpKategori->post_count }}</p>
-                            @endif
+                        @if($jpKategori->id == $kategori->id)
+                        <p>{{ $jpKategori->post_count }}</p>
+                        @endif
                         @endforeach
                     </td>
                     <td class="px-6 py-4">
                         {{$kategori->updated_at}}
                     </td>
-                    <td class="px-6 py-4 flex items-center gap-2">
+                    <td class=" py-4 flex items-center gap-2">
 
                         <!-- Edit modal toggle -->
                         <button data-modal-target="edit-modal-{{$kategori->id}}" data-modal-toggle="edit-modal-{{$kategori->id}}" class="bg-[#008EDA] p-2 rounded-lg" type="button">

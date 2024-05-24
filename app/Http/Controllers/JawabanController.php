@@ -36,7 +36,7 @@ class JawabanController extends Controller
         $jawaban = Jawaban::findOrFail($id);
         $jawaban->update(['report' => '1']);
 
-        return redirect()->back()->with('success', 'Jawaban berhasil Laporkan.');
+        return redirect()->back()->with('success', 'Berhasil Laporkan.');
     }
 
     public function batal_report_jawaban($id)

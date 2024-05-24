@@ -49,6 +49,11 @@ Route::post('/suspend/post/{id}', [PostController::class, 'suspend'])->middlewar
 Route::post('/unsuspend/post/{id}', [PostController::class, 'unsuspend'])->middleware(['auth', 'verified', 'role:admin'])->name('unsuspend.post');
 Route::get('/suspend/{post:slug}', [PostController::class, 'suspend_view'])->name('suspend');
 
+// Report Post
+Route::post('/report/post/{id}', [PostController::class, 'report'])->middleware(['auth', 'verified', 'role:admin|pengguna'])->name('report.post');
+Route::post('/batal-report/post/{id}', [PostController::class, 'batal_report'])->middleware(['auth', 'verified', 'role:admin'])->name('batal-report.post');
+
+
 // Detail Post
 Route::get('/post/{post:slug}', [AppController::class, 'detail_post'])->middleware(['status'])->name('detail_post');
 
@@ -69,12 +74,15 @@ Route::post('/verifikasi-jawaban/{id}', [JawabanController::class, 'verifikasi']
 Route::post('/batal-verifikasi-jawaban/{id}', [JawabanController::class, 'batal_verifikasi'])->middleware(['auth', 'verified', 'role:pengguna|admin'])->name('batal.verifikasi.jawaban');
 Route::post('/ban-jawaban/{id}', [JawabanController::class, 'ban_jawaban'])->middleware(['auth', 'verified', 'role:admin'])->name('ban.jawaban');
 Route::post('/batal-ban-jawaban/{id}', [JawabanController::class, 'batal_ban_jawaban'])->middleware(['auth', 'verified', 'role:admin'])->name('batal.ban.jawaban');
-Route::post('/report-jawaban/{id}', [JawabanController::class, 'report_jawaban'])->middleware(['auth', 'verified', 'role:admin'])->name('report.jawaban');
+Route::post('/report-jawaban/{id}', [JawabanController::class, 'report_jawaban'])->middleware(['auth', 'verified', 'role:admin|pengguna'])->name('report.jawaban');
 Route::post('/batal-report-jawaban/{id}', [JawabanController::class, 'batal_report_jawaban'])->middleware(['auth', 'verified', 'role:admin'])->name('batal.report.jawaban');
 
 // Dashboard Admin View
 Route::get('/dashboard/admin', [AppController::class, 'dashboard_admin'])->middleware(['auth', 'verified', 'role:admin'])->name('dashboard.admin');
 Route::get('/dashboard/kategori', [AppController::class, 'dashboard_kategori'])->middleware(['auth', 'verified', 'role:admin'])->name('dashboard.kategori');
+Route::get('/dashboard/laporan', [AppController::class, 'dashboard_laporan'])->middleware(['auth', 'verified', 'role:admin'])->name('dashboard.laporan');
+Route::get('/dashboard/laporan/jawaban', [AppController::class, 'dashboard_laporan_jawaban'])->middleware(['auth', 'verified', 'role:admin'])->name('dashboard.laporan.jawaban');
+Route::get('/dashboard/laporan/komentar ', [AppController::class, 'dashboard_laporan_komentar'])->middleware(['auth', 'verified', 'role:admin'])->name('dashboard.laporan.komentar');
 
 // Kategori CRUD
 Route::post('/dashboard/kategori/create', [KategoriController::class, 'store'])->middleware(['auth', 'verified', 'role:admin'])->name('kategori.store');

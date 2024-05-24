@@ -13,6 +13,8 @@ class Jawaban extends Model
         'jawaban_konten',
         'status',
         'verified',
+        'report',
+        'komentar',
         'user_id',
         'post_id',
         'parent'
