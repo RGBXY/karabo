@@ -112,5 +112,23 @@
         }
 
     </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Select all forms on the page
+            const forms = document.querySelectorAll('form');
+
+            forms.forEach(form => {
+                form.addEventListener('submit', function(event) {
+                    // Select the submit button within the form
+                    const submitButton = form.querySelector('button[type="submit"]');
+
+                    // Disable the submit button
+                    submitButton.disabled = true;
+                });
+            });
+        });
+
+    </script>
 </body>
 </html>

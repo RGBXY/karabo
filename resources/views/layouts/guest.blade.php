@@ -16,6 +16,12 @@
 
     <script src="https://cdn.tailwindcss.com"></script>
 
+    <style>
+        button:disabled {
+            cursor: not-allowed;
+        }
+
+    </style>
 </head>
 <body class="font-sans text-gray-900 antialiased">
     <div class="min-h-screen flex flex-col justify-center items-center sm:pt-0 bg-gray-100">
@@ -26,5 +32,22 @@
             {{ $slot }}
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            const forms = document.querySelectorAll('form');
+
+            forms.forEach(form => {
+                form.addEventListener('submit', function(event) {
+
+                    const submitButton = form.querySelector('button[type="submit"]');
+
+                    submitButton.disabled = true;
+                });
+            });
+        });
+
+    </script>
 </body>
 </html>

@@ -27,6 +27,10 @@
             min-height: 200px;
         }
 
+        button:disabled {
+            cursor: not-allowed;
+        }
+
     </style>
 
 
@@ -78,19 +82,23 @@
 
     </div>
 
-    {{-- <script>
-        // Ambil semua tombol di dokumen
-        var buttons = document.getElementsByTagName("button");
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Select all forms on the page
+            const forms = document.querySelectorAll('form');
 
-        // Tambahkan event listener untuk setiap tombol
-        Array.from(buttons).forEach(function(button) {
-            button.addEventListener("click", function(event) {
-                // Tambahkan kelas disabled pada tombol yang diklik
-                event.target.classList.add("disabled: (eg. disabled:border-red-500 ) ");
+            forms.forEach(form => {
+                form.addEventListener('submit', function(event) {
+                    // Select the submit button within the form
+                    const submitButton = form.querySelector('button[type="submit"]');
+
+                    // Disable the submit button
+                    submitButton.disabled = true;
+                });
             });
         });
 
-    </script> --}}
+    </script>
 
 </body>
 </html>
