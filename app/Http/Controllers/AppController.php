@@ -50,7 +50,7 @@ class AppController extends Controller
 
         return view('home', [
             'title' => $title,
-            'posts' => Post::filter(request(['search', 'kategori']))->inRandomOrder()->paginate(30),
+            'posts' => Post::filter(request(['search', 'kategori']))->inRandomOrder()->paginate(20),
             'jawabanPerPost' => $jawabanPerPost,
             'kategoris' => $kategoris,
             'user_top' => $user_top,
@@ -117,7 +117,7 @@ class AppController extends Controller
     
         $kategoris = Kategori::orderBy('id', 'desc')->get();
 
-        $jawab = Post::where('status', 0)->doesntHave('jawaban')->paginate(30);
+        $jawab = Post::where('status', 0)->doesntHave('jawaban')->paginate(20);
         
         return view('post.jawab', compact('jawab'), [
             'jawabanPerPost' => $jawabanPerPost,

@@ -47,7 +47,7 @@
             </div>
 
             <div class="flex pt-20 h-screen">
-                <div id="content" class="w-[50%] border-r border-black lg:w-[25%] h-full z-50 bg-white hidden lg:block">
+                <div id="content" class="w-[50%] border-r border-black lg:w-[25%] h-full z-20 bg-white hidden lg:block">
                     <div class="p-4 border-b border-black flex justify-between">
                         <h1 class="font-extrabold text-xl">Content</h1>
                         <button class="lg:hidden" id="hideButton">

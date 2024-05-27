@@ -103,7 +103,7 @@ class PostController extends Controller
 
          $post->update($data);
 
-         if ($previousImage) {
+         if($request->file('image') && $previousImage) {
             Storage::delete($previousImage);
          }
         
