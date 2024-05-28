@@ -69,7 +69,7 @@
         if (errorAlert) {
             let modal = document.getElementById('crud-modal');
             modal.classList.remove('hidden');
-            modal.classList.add('flex', 'justify-center', 'h-[100000vh]', 'items-center', 'bg-gray-900/90');
+            modal.classList.add('flex', 'justify-center', 'h-[1000vh]', 'items-center', 'bg-gray-900/90');
         }
     });
 

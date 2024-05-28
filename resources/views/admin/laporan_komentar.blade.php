@@ -97,7 +97,7 @@
                     {!! Illuminate\Support\Str::words($jawaban->jawaban_konten, 10, '...') !!}
                 </th>
                 <td class="px-6 py-4">
-                    {{$jawaban->updated_at}}
+                    {{ \Carbon\Carbon::parse($jawaban->created_at)->translatedFormat('H:i, d F Y') }}
                 </td>
                 <td class="py-4 flex items-center gap-2">
                     <!-- Delete modal toggle -->

@@ -216,6 +216,8 @@
                 </div>
 
                 @include('components.create-modal')
+                @include('components.notification')
+
             </div>
 
             {{-- Jawaban --}}
@@ -387,6 +389,9 @@
                         </ul>
                     </div>
 
+                    {{-- Notif --}}
+
+
                     <!-- Modal Delete Jawaban -->
                     @include('components.delete-jawaban-modal')
 
@@ -420,8 +425,6 @@
                             </div>
                         </div>
                     </div>
-
-
 
                 </div>
 
@@ -672,5 +675,5 @@
     </script>
     @endif
 
-
+   
 </x-app-layout>

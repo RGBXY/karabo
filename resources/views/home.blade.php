@@ -28,6 +28,9 @@
             <h1 class="text-3xl font-extrabold text-title py-5 pl-3 border-b">{{$title}}</h1>
             @endif
 
+            @include('components.notification')
+
+
             @if($posts->count())
 
             @foreach ($posts as $post)

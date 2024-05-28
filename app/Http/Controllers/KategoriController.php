@@ -22,7 +22,7 @@ class KategoriController extends Controller
 
          $newPost = Kategori::create($data);
         
-         return redirect('/dashboard-kategori')->with('success', 'Kategori Berhasil di Buat.');
+         return redirect(route('dashboard.kategori'))->with('success', 'Kategori Berhasil di Buat.');
     }
 
     public function update(Kategori $kategori, Request $request){

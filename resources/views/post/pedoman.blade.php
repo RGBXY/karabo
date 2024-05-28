@@ -38,4 +38,9 @@
             Selamat berpartisipasi dan semoga Anda menikmati pengalaman di Karabo!
         </p>
     </div>
+
+     {{-- Component --}}
+     @include('components.notification')
+     @include('components.create-modal')
+     
 </x-app-layout>

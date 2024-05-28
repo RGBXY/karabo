@@ -28,7 +28,9 @@
                             <label for="category" class="block mb-2 text-sm font-medium text-gray-900">Topik</label>
                             <select id="category" name="kategori_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 ">
                                 @foreach ($kategoris as $kategori)
-                                <option value="{{$kategori->id}}" selected>{{$kategori->nama_kategori}}</option>
+                                <option value="{{$kategori->id}}" @if($kategori->id == $post->kategori_id) selected @endif>
+                                    {{$kategori->nama_kategori}}
+                                </option>
                                 @endforeach
                             </select>
                         </div>

@@ -5,7 +5,7 @@
             <div class="flex flex-wrap gap-5 justify-between mx-auto my-7">
                 @foreach ($kategoris as $kategori)
                 <a href="/?kategori={{$kategori->slug}}" class="md:w-[320px] w-full h-36 flex mx-auto bg-slate-200 justify-center rounded-xl overflow-hidden">
-                    @foreach($kategori->post->take(1) as $item)
+                    @foreach($kategori->post->shuffle()->take(1) as $item)
                     @if($item->image)
                     <div class="w-[40%]">
                         <img class="w-full h-full object-cover" src="{{asset('storage/' . $item->image)}}" alt="halo">
@@ -19,6 +19,7 @@
                 @endforeach
 
                 @include('components.create-modal')
+                @include('components.notification')
 
             </div>
         </div>

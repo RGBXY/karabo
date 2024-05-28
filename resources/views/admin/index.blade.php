@@ -103,7 +103,7 @@
                         {{$post->kategori->nama_kategori}}
                     </td>
                     <td class="px-6 py-4">
-                        {{$post->updated_at}}
+                        {{ \Carbon\Carbon::parse($post->created_at)->translatedFormat('h:i, d F Y') }}
                     </td>
                     <td class="py-4 flex items-center gap-2">
                         <!-- Delete modal toggle -->

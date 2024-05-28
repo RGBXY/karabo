@@ -58,4 +58,9 @@
         <p>Suspensi adalah alat penting untuk menjaga integritas dan kesehatan komunitas di platform tanya jawab. Dengan menerapkan kebijakan suspensi yang adil dan transparan, platform dapat memastikan bahwa lingkungan tetap aman, ramah, dan produktif bagi semua anggotanya.</p>
         </p>
     </div>
+
+    {{-- Component --}}
+    @include('components.notification')
+    @include('components.create-modal')
+    
 </x-app-layout>

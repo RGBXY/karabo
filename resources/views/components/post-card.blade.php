@@ -54,7 +54,7 @@
             @endif
             <div class="flex gap-1 items-center">
                 <p class="font-medium font-title">{{$post->user->name}} · </p>
-                <p class=" text-sm text-slate-600">{{$post->created_at->format('d M Y')}}</p>
+                <p class=" text-sm text-slate-600">{{ \Carbon\Carbon::parse($post->created_at)->translatedFormat('d F Y') }}</p>
             </div>
         </div>
 

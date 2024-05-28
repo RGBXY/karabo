@@ -31,7 +31,7 @@
                 <a class="absolute pb-4 font-bold border-b border-black" href="{{route('dashboard')}}">Pertanyaan</a>
                 <a class="absolute left-28" href="{{route('dashboard_jawaban')}}">Jawaban</a>
             </div>
-            @foreach($posts->reverse() as $post)
+            @foreach($posts as $post)
             <div class="pb-7 mt-5 border-b {{ $post->status == 1 ? ' bg-red-300 p-5 rounded-lg ' : '' }}">
                 @if($post->status == 1)
                 <div class="flex gap-2 mb-1 bg-red-400 text-red-900 rounded-lg p-2">
@@ -85,6 +85,10 @@
             @include('components.edit-post-modal')
 
             @endforeach
+
+            {{-- Notif --}}
+            @include('components.notification')
+
             <!-- Modal Create -->
             @include('components.create-modal')
 
