@@ -2,6 +2,7 @@
 
 namespace App\View\Components;
 
+use App\Models\Post;
 use Illuminate\View\Component;
 use Illuminate\View\View;
 

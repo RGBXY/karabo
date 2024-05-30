@@ -15,6 +15,7 @@ class Jawaban extends Model
         'verified',
         'report',
         'komentar',
+        'has_open',
         'user_id',
         'post_id',
         'parent'

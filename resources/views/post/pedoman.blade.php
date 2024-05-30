@@ -39,8 +39,10 @@
         </p>
     </div>
 
-     {{-- Component --}}
-     @include('components.notification')
-     @include('components.create-modal')
-     
+    {{-- Component --}}
+    @if(auth()->check())
+    @include('components.notification')
+    @endif
+    @include('components.create-modal')
+
 </x-app-layout>

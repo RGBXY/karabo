@@ -60,7 +60,9 @@
     </div>
 
     {{-- Component --}}
+    @if(auth()->check())
     @include('components.notification')
+    @endif
     @include('components.create-modal')
-    
+
 </x-app-layout>

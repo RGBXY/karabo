@@ -97,4 +97,6 @@ Route::get('/?kategori={kategori}', [AppController::class, 'kategori_detail']);
 // Fungsi Ckeditor
 Route::post('/ckeditor/upload', [JawabanController::class, 'upload'])->name('ckeditor.upload');
 
+
+
 require __DIR__.'/auth.php';

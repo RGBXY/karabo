@@ -19,7 +19,9 @@
                 @endforeach
 
                 @include('components.create-modal')
+                @if(auth()->check())
                 @include('components.notification')
+                @endif
 
             </div>
         </div>

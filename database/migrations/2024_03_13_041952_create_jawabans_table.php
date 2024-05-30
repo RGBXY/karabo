@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('verified')->nullable();
             $table->integer('report')->nullable();
             $table->integer('parent');
+            $table->integer('has_open')->default(0);
             $table->integer('komentar')->nullable();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('post_id')->constrained()->cascadeOnDelete();

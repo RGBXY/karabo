@@ -37,7 +37,7 @@ class AppController extends Controller
         }])->orderByDesc('jawaban_count')->limit(5)->get();
         
         $kategori_top = Kategori::withCount('post')->orderByDesc('post_count')->limit(7)->get(); 
-    
+        
         $jawaban = Jawaban::orderBy('id', 'desc')->get();
 
         $title = "";

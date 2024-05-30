@@ -28,7 +28,9 @@
             <h1 class="text-3xl font-extrabold text-title py-5 pl-3 border-b">{{$title}}</h1>
             @endif
 
+            @if(auth()->check())
             @include('components.notification')
+            @endif
 
 
             @if($posts->count())
@@ -72,8 +74,8 @@
             <p class="flex items-center gap-2 font-bold">Login <img class="w-3" src="{{asset('assets/img/arrow-tail.svg')}}" alt=""></p>
         </a>
     </nav>
-    <div class="h-full flex flex-col items-center justify-center">
-        <p class="text-5xl mb-4">Welcome to <span class="font-extrabold">KARABO</span></p>
+    <div class="h-full flex flex-col items-center justify-center text-center">
+        <p class="text-4xl md:text-5xl mb-4">Welcome to <span class="font-extrabold">KARABO</span></p>
         <p class="text-xl font-bold mb-3">Takon siji, Jawabe rame.</p>
         <p class=" text-slate-600 mb-10">Tanya satu, yang menjawab banyak.</p>
         <div class="flex items-center gap-5">
